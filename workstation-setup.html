@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workstation Setup - FLUX Robotics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="doc-page">
+        <nav><a href="index.html">&larr; Back to Home</a></nav>
+
+        <h1>Workstation Setup</h1>
+        <p class="page-subtitle">Required software for FRC Team 10413 development laptops</p>
+
+        <h2>Required Software</h2>
+
+        <table>
+            <tr><th>Software</th><th>Purpose</th><th>Download Link</th></tr>
+            <tr>
+                <td><strong>WPILib 2025</strong></td>
+                <td>FRC development tools, libraries, and VS Code</td>
+                <td><a href="https://github.com/wpilibsuite/allwpilib/releases/latest" target="_blank">github.com/wpilibsuite/allwpilib/releases</a><br>Download: <code>WPILib_Windows-2025.x.x.iso</code></td>
+            </tr>
+            <tr>
+                <td><strong>FRC Game Tools</strong></td>
+                <td>Driver Station, roboRIO imaging, diagnostics</td>
+                <td><a href="https://www.ni.com/en/support/downloads/drivers/download.frc-game-tools.html" target="_blank">ni.com/en/support/downloads/drivers/download.frc-game-tools.html</a></td>
+            </tr>
+            <tr>
+                <td><strong>Git for Windows</strong></td>
+                <td>Version control, required for team collaboration</td>
+                <td><a href="https://git-scm.com/download/win" target="_blank">git-scm.com/download/win</a><br>Download: <code>64-bit Git for Windows Setup</code></td>
+            </tr>
+            <tr>
+                <td><strong>REV Hardware Client</strong></td>
+                <td>Configure SparkMax motors, update firmware</td>
+                <td><a href="https://docs.revrobotics.com/rev-hardware-client/getting-started/installation" target="_blank">docs.revrobotics.com/rev-hardware-client</a><br>Download: <code>REV Hardware Client Setup.exe</code></td>
+            </tr>
+            <tr>
+                <td><strong>Phoenix Tuner X</strong></td>
+                <td>Configure TalonFX motors, CANcoders, Pigeon IMU</td>
+                <td><a href="https://apps.microsoft.com/detail/9NVV4PWDW27Z" target="_blank">Microsoft Store: Phoenix Tuner X</a><br>Or search "Phoenix Tuner X" in Microsoft Store</td>
+            </tr>
+        </table>
+
+        <p><strong>Note:</strong> VS Code is included with WPILib installation. Do not install VS Code separately.</p>
+
+        <h2>Installation Order</h2>
+        <ol>
+            <li><strong>Git for Windows</strong> - Install first for version control</li>
+            <li><strong>WPILib</strong> - Includes VS Code and Java</li>
+            <li><strong>FRC Game Tools</strong> - Includes Driver Station and roboRIO imaging tool</li>
+            <li><strong>Phoenix Tuner X</strong> - For CTRE devices (drivetrain motors)</li>
+            <li><strong>REV Hardware Client</strong> - For REV devices (mechanism motors)</li>
+        </ol>
+
+        <h2>Git Installation</h2>
+        <ol>
+            <li>Download <code>64-bit Git for Windows Setup</code> from <a href="https://git-scm.com/download/win" target="_blank">git-scm.com/download/win</a></li>
+            <li>Run the installer</li>
+            <li>Accept all default options (click Next through all screens)</li>
+            <li>Complete installation</li>
+        </ol>
+        <p><strong>Verify:</strong> Open Command Prompt and type <code>git --version</code>. Should show version number.</p>
+
+        <h2>WPILib Installation</h2>
+        <ol>
+            <li>Download <code>WPILib_Windows-2025.x.x.iso</code> from <a href="https://github.com/wpilibsuite/allwpilib/releases/latest" target="_blank">GitHub releases</a></li>
+            <li>Double-click the .iso file to mount it (Windows 10/11 opens it automatically)</li>
+            <li>Run <code>WPILibInstaller.exe</code></li>
+            <li>Select "Install for this User" (recommended) or "Install for all Users"</li>
+            <li>Select "Download VS Code" when prompted</li>
+            <li>Wait for installation to complete</li>
+        </ol>
+        <p><strong>Verify:</strong> Open "WPILib VS Code" from Start menu. Type <code>Ctrl+Shift+P</code> and search "WPILib" - you should see WPILib commands.</p>
+
+        <h2>FRC Game Tools (Driver Station)</h2>
+        <ol>
+            <li>Download NI FRC Game Tools from <a href="https://www.ni.com/en/support/downloads/drivers/download.frc-game-tools.html" target="_blank">NI Downloads</a></li>
+            <li>Run installer as Administrator</li>
+            <li>Accept license agreements</li>
+            <li>Restart when prompted</li>
+        </ol>
+        <p><strong>Verify:</strong> Open "FRC Driver Station" from Start menu. Status lights should appear (will show "No Robot Communication" until connected).</p>
+
+        <h2>Phoenix Tuner X</h2>
+        <ol>
+            <li>Download from CTRE website or Microsoft Store</li>
+            <li>Install and open Phoenix Tuner X</li>
+            <li>Connect to robot via USB or WiFi (10.104.13.2)</li>
+        </ol>
+        <p><strong>Verify:</strong> With robot powered on and connected, devices should appear in the device list.</p>
+
+        <h2>REV Hardware Client</h2>
+        <ol>
+            <li>Download from REV Robotics website</li>
+            <li>Run installer</li>
+            <li>Connect SparkMax via USB-C to configure</li>
+        </ol>
+        <p><strong>Verify:</strong> Connect a SparkMax via USB. Device should appear in the client.</p>
+
+        <h2>Verification Checklist</h2>
+        <ul class="checklist">
+            <li>Git installed (<code>git --version</code> works in Command Prompt)</li>
+            <li>WPILib VS Code opens and shows WPILib commands</li>
+            <li>Can create a new WPILib project (Ctrl+Shift+P > "Create a new project")</li>
+            <li>Driver Station opens and shows interface</li>
+            <li>Phoenix Tuner X installed and opens</li>
+            <li>REV Hardware Client installed and opens</li>
+        </ul>
+
+        <h2>Optional Software</h2>
+        <table>
+            <tr><th>Software</th><th>Purpose</th><th>Download</th></tr>
+            <tr>
+                <td>GitHub Desktop</td>
+                <td>Git GUI for easier version control</td>
+                <td><a href="https://desktop.github.com/" target="_blank">desktop.github.com</a></td>
+            </tr>
+            <tr>
+                <td>AdvantageScope</td>
+                <td>Log viewer and analysis</td>
+                <td><a href="https://github.com/Mechanical-Advantage/AdvantageScope/releases" target="_blank">GitHub releases</a></td>
+            </tr>
+            <tr>
+                <td>PhotonVision</td>
+                <td>Vision processing (if using vision)</td>
+                <td><a href="https://photonvision.org/" target="_blank">photonvision.org</a></td>
+            </tr>
+        </table>
+
+        <h2>Troubleshooting</h2>
+
+        <h3>WPILib VS Code won't open</h3>
+        <ul>
+            <li>Reinstall WPILib using the installer</li>
+            <li>Make sure you're opening "WPILib VS Code", not regular VS Code</li>
+        </ul>
+
+        <h3>Driver Station shows "No Robot Communication"</h3>
+        <ul>
+            <li>Connect to robot WiFi (10.104.13.X network)</li>
+            <li>Or connect via USB to roboRIO</li>
+            <li>Check that robot is powered on</li>
+        </ul>
+
+        <h3>Phoenix Tuner can't find devices</h3>
+        <ul>
+            <li>Verify connection to robot network</li>
+            <li>Check that robot is powered and CAN bus is connected</li>
+            <li>Try connecting via USB to roboRIO</li>
+        </ul>
+    </div>
+    <footer>
+        FRC Team 10413 FLUX Robotics - 2026 Season | Last updated: January 25, 2026
+    </footer>
+</body>
+</html>

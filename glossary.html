@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRC Glossary - FLUX Robotics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="doc-page">
+        <nav><a href="index.html">&larr; Back to Home</a></nav>
+
+        <h1>FRC Glossary</h1>
+        <p class="page-subtitle">Common terms explained for new team members</p>
+
+        <h2>Driving & Controls</h2>
+
+        <table>
+            <tr><th>Term</th><th>What It Means</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>Field-Centric</strong></td>
+                <td>"Forward" always means toward the opposing alliance wall, regardless of which way the robot is facing.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html" target="_blank">WPILib Coordinates</a></td>
+            </tr>
+            <tr>
+                <td><strong>Robot-Centric</strong></td>
+                <td>"Forward" means the direction the robot's front is pointing. If the robot is sideways, pushing forward moves it sideways from your view.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html" target="_blank">WPILib Coordinates</a></td>
+            </tr>
+            <tr>
+                <td><strong>Strafe</strong></td>
+                <td>Moving sideways without rotating. Only swerve and mecanum drivetrains can do this.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html" target="_blank">WPILib Drive Classes</a></td>
+            </tr>
+            <tr>
+                <td><strong>Deadband</strong></td>
+                <td>A small zone around the joystick center that's ignored. Prevents drift when you're not touching the stick.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/basic-programming/joystick.html" target="_blank">WPILib Joysticks</a></td>
+            </tr>
+            <tr>
+                <td><strong>Teleop</strong></td>
+                <td>The part of a match where drivers control the robot. Short for "teleoperated."</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/vscode-overview/creating-robot-program.html" target="_blank">WPILib Robot Program</a></td>
+            </tr>
+            <tr>
+                <td><strong>Autonomous</strong></td>
+                <td>The first 15 seconds of a match where the robot runs pre-programmed actions with no driver input.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/what-is-command-based.html" target="_blank">WPILib Command-Based</a></td>
+            </tr>
+        </table>
+
+        <h2>Drivetrain Types</h2>
+
+        <table>
+            <tr><th>Term</th><th>What It Means</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>Swerve Drive</strong></td>
+                <td>Each wheel can spin AND rotate independently. Allows the robot to drive in any direction while facing any direction.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/kinematics-and-odometry/swerve-drive-kinematics.html" target="_blank">WPILib Swerve</a></td>
+            </tr>
+            <tr>
+                <td><strong>Tank Drive</strong></td>
+                <td>Wheels on left and right sides. Turn by running sides at different speeds. Simple but can't strafe.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html#differential-drive" target="_blank">WPILib Differential</a></td>
+            </tr>
+            <tr>
+                <td><strong>Mecanum Drive</strong></td>
+                <td>Special angled rollers on wheels allow strafing. Simpler than swerve but less pushing power.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html#mecanum-drive" target="_blank">WPILib Mecanum</a></td>
+            </tr>
+            <tr>
+                <td><strong>Swerve Module</strong></td>
+                <td>One corner of a swerve drivetrain. Contains a drive motor (spins wheel) and steer motor (rotates wheel direction).</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/kinematics-and-odometry/swerve-drive-kinematics.html" target="_blank">WPILib Swerve</a></td>
+            </tr>
+        </table>
+
+        <h2>Hardware Components</h2>
+
+        <table>
+            <tr><th>Term</th><th>What It Means</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>RoboRIO</strong></td>
+                <td>The robot's brain. A small computer from NI that runs your code and connects to all motors and sensors.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-introduction.html" target="_blank">WPILib RoboRIO</a></td>
+            </tr>
+            <tr>
+                <td><strong>Motor Controller</strong></td>
+                <td>Electronics between the RoboRIO and a motor. Takes commands and delivers the right power.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/using-motor-controllers.html" target="_blank">WPILib Motors</a></td>
+            </tr>
+            <tr>
+                <td><strong>TalonFX</strong></td>
+                <td>A motor controller from CTRE built into Falcon 500 and Kraken motors. Used in our drivetrain.</td>
+                <td><a href="https://v6.docs.ctr-electronics.com/en/stable/docs/hardware-reference/talonfx/index.html" target="_blank">CTRE TalonFX</a></td>
+            </tr>
+            <tr>
+                <td><strong>SparkMax</strong></td>
+                <td>A motor controller from REV Robotics. Used with NEO motors. We use these for mechanisms.</td>
+                <td><a href="https://docs.revrobotics.com/brushless/spark-max/overview" target="_blank">REV SparkMax</a></td>
+            </tr>
+            <tr>
+                <td><strong>CAN Bus</strong></td>
+                <td>A single wire connecting all motor controllers and sensors in a chain. Devices share the wire and take turns talking.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/hardware/hardware-basics/can-wiring-basics.html" target="_blank">WPILib CAN Wiring</a></td>
+            </tr>
+            <tr>
+                <td><strong>CAN ID</strong></td>
+                <td>A unique number (0-62) assigned to each device on the CAN bus. Like a mailing address for the RoboRIO.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/hardware/hardware-basics/can-wiring-basics.html" target="_blank">WPILib CAN Wiring</a></td>
+            </tr>
+            <tr>
+                <td><strong>CANcoder</strong></td>
+                <td>A sensor from CTRE that measures absolute rotation. Knows swerve wheel direction even after power off.</td>
+                <td><a href="https://v6.docs.ctr-electronics.com/en/stable/docs/hardware-reference/cancoder/index.html" target="_blank">CTRE CANcoder</a></td>
+            </tr>
+            <tr>
+                <td><strong>Pigeon 2</strong></td>
+                <td>An IMU (motion sensor) from CTRE. Measures which way the robot is facing. Required for field-centric driving.</td>
+                <td><a href="https://v6.docs.ctr-electronics.com/en/stable/docs/hardware-reference/pigeon2/index.html" target="_blank">CTRE Pigeon 2</a></td>
+            </tr>
+            <tr>
+                <td><strong>IMU</strong></td>
+                <td>Inertial Measurement Unit. A sensor that detects rotation and acceleration to tell which way the robot is pointing.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/gyros-software.html" target="_blank">WPILib Gyros</a></td>
+            </tr>
+            <tr>
+                <td><strong>Encoder</strong></td>
+                <td>A sensor that counts rotations. Used to measure motor position or wheel distance traveled.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/encoders-software.html" target="_blank">WPILib Encoders</a></td>
+            </tr>
+            <tr>
+                <td><strong>Solenoid</strong></td>
+                <td>An electrically-controlled valve that lets air through. Used to extend/retract pneumatic cylinders.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/pneumatics/pneumatics.html" target="_blank">WPILib Pneumatics</a></td>
+            </tr>
+            <tr>
+                <td><strong>Pneumatics</strong></td>
+                <td>Systems using compressed air to move things. Good for fast, strong motions like opening an intake arm.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/pneumatics/pneumatics.html" target="_blank">WPILib Pneumatics</a></td>
+            </tr>
+        </table>
+
+        <h2>Software Concepts</h2>
+
+        <table>
+            <tr><th>Term</th><th>What It Means</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>Subsystem</strong></td>
+                <td>Code that controls one part of the robot (drivetrain, elevator). Only one command can use a subsystem at a time.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/subsystems.html" target="_blank">WPILib Subsystems</a></td>
+            </tr>
+            <tr>
+                <td><strong>Command</strong></td>
+                <td>An action the robot can perform (drive forward, raise elevator). Commands use subsystems to do work.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html" target="_blank">WPILib Commands</a></td>
+            </tr>
+            <tr>
+                <td><strong>PID</strong></td>
+                <td>Proportional-Integral-Derivative. A formula that smoothly moves a motor to a target position.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/introduction-to-pid.html" target="_blank">WPILib PID Intro</a></td>
+            </tr>
+            <tr>
+                <td><strong>kP, kI, kD</strong></td>
+                <td>PID tuning values. kP = push toward target. kI = fix steady errors. kD = slow when approaching.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-pid-controller.html" target="_blank">WPILib PID Tuning</a></td>
+            </tr>
+            <tr>
+                <td><strong>Feedforward</strong></td>
+                <td>Telling the motor roughly how much power it needs before PID kicks in. Makes control smoother.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/introduction-to-feedforward.html" target="_blank">WPILib Feedforward</a></td>
+            </tr>
+            <tr>
+                <td><strong>kS, kV, kA</strong></td>
+                <td>Feedforward values. kS = overcome friction. kV = power per velocity. kA = power per acceleration.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/introduction-to-feedforward.html" target="_blank">WPILib Feedforward</a></td>
+            </tr>
+            <tr>
+                <td><strong>Gear Ratio</strong></td>
+                <td>How many motor rotations per wheel rotation. Higher ratio = more torque, slower speed.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/encoders-software.html#encoder-distance-per-pulse" target="_blank">WPILib Encoders</a></td>
+            </tr>
+            <tr>
+                <td><strong>Current Limit</strong></td>
+                <td>Maximum amps a motor can draw. Protects motors from overheating and prevents brownouts.</td>
+                <td><a href="https://v6.docs.ctr-electronics.com/en/stable/docs/hardware-reference/talonfx/improving-performance-with-current-limits.html" target="_blank">CTRE Current Limits</a></td>
+            </tr>
+            <tr>
+                <td><strong>Brownout</strong></td>
+                <td>When battery voltage drops too low. The RoboRIO may disable motors to protect itself.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-brownouts.html" target="_blank">WPILib Brownouts</a></td>
+            </tr>
+        </table>
+
+        <h2>Tools & Software</h2>
+
+        <table>
+            <tr><th>Term</th><th>What It Means</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>WPILib</strong></td>
+                <td>The official FRC programming library. Provides code for motors, sensors, and robot structure.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/introduction.html" target="_blank">WPILib Zero to Robot</a></td>
+            </tr>
+            <tr>
+                <td><strong>Driver Station</strong></td>
+                <td>Laptop software that connects to and enables the robot. Required at competitions.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/driverstation/driver-station.html" target="_blank">WPILib Driver Station</a></td>
+            </tr>
+            <tr>
+                <td><strong>Phoenix Tuner X</strong></td>
+                <td>Software to configure CTRE devices (TalonFX, CANcoder, Pigeon). Set CAN IDs and test motors.</td>
+                <td><a href="https://v6.docs.ctr-electronics.com/en/stable/docs/tuner/index.html" target="_blank">CTRE Tuner X</a></td>
+            </tr>
+            <tr>
+                <td><strong>REV Hardware Client</strong></td>
+                <td>Software to configure REV devices (SparkMax). Set CAN IDs, current limits, update firmware.</td>
+                <td><a href="https://docs.revrobotics.com/rev-hardware-client" target="_blank">REV Hardware Client</a></td>
+            </tr>
+            <tr>
+                <td><strong>Deploy</strong></td>
+                <td>Uploading code from laptop to RoboRIO. The robot runs whatever was last deployed.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/vscode-overview/deploying-robot-code.html" target="_blank">WPILib Deploying</a></td>
+            </tr>
+            <tr>
+                <td><strong>Simulation</strong></td>
+                <td>Running robot code on your laptop without a real robot. Good for testing logic first.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/introduction.html" target="_blank">WPILib Simulation</a></td>
+            </tr>
+        </table>
+
+        <h2>Vision</h2>
+
+        <table>
+            <tr><th>Term</th><th>What It Means</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>AprilTag</strong></td>
+                <td>A black and white barcode on the field. Robots detect them with cameras to know their position.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/vision-processing/apriltag/apriltag-intro.html" target="_blank">WPILib AprilTag</a></td>
+            </tr>
+            <tr>
+                <td><strong>PhotonVision</strong></td>
+                <td>Free software on a coprocessor that detects AprilTags and game pieces for the robot.</td>
+                <td><a href="https://docs.photonvision.org/en/latest/" target="_blank">PhotonVision Docs</a></td>
+            </tr>
+            <tr>
+                <td><strong>Pose Estimation</strong></td>
+                <td>Using AprilTags to calculate exactly where the robot is on the field. Helps autonomous accuracy.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-pose-estimators.html" target="_blank">WPILib Pose Estimation</a></td>
+            </tr>
+        </table>
+
+        <h2>Competition Terms</h2>
+
+        <table>
+            <tr><th>Term</th><th>What It Means</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>Match</strong></td>
+                <td>A 2.5 minute game: 15 seconds autonomous + 2:15 teleop. You play 8-12 qual matches per event.</td>
+                <td><a href="https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system" target="_blank">FRC Game Manual</a></td>
+            </tr>
+            <tr>
+                <td><strong>Alliance</strong></td>
+                <td>Your team of 3 robots (Red or Blue). You're randomly paired with different teams each match.</td>
+                <td><a href="https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system" target="_blank">FRC Game Manual</a></td>
+            </tr>
+            <tr>
+                <td><strong>Pit</strong></td>
+                <td>Your team's workspace at competition. Where you fix and maintain the robot between matches.</td>
+                <td><a href="https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system" target="_blank">FRC Game Manual</a></td>
+            </tr>
+            <tr>
+                <td><strong>Queue</strong></td>
+                <td>The waiting area before going on field. You must be there 2-3 matches before yours.</td>
+                <td><a href="https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system" target="_blank">FRC Game Manual</a></td>
+            </tr>
+            <tr>
+                <td><strong>E-Stop</strong></td>
+                <td>Emergency Stop. Instantly kills all robot power. On our robot: press both controller bumpers.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/driverstation/driver-station.html" target="_blank">WPILib Driver Station</a></td>
+            </tr>
+        </table>
+
+        <h2>Common Abbreviations</h2>
+
+        <table>
+            <tr><th>Abbreviation</th><th>Meaning</th><th>Learn More</th></tr>
+            <tr>
+                <td><strong>FRC</strong></td>
+                <td>FIRST Robotics Competition</td>
+                <td><a href="https://www.firstinspires.org/robotics/frc" target="_blank">FIRST FRC</a></td>
+            </tr>
+            <tr>
+                <td><strong>CAN</strong></td>
+                <td>Controller Area Network (the communication wire between devices)</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/hardware/hardware-basics/can-wiring-basics.html" target="_blank">WPILib CAN</a></td>
+            </tr>
+            <tr>
+                <td><strong>PWM</strong></td>
+                <td>Pulse Width Modulation (older motor control method, less common now)</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/pwm-motor-controllers.html" target="_blank">WPILib PWM</a></td>
+            </tr>
+            <tr>
+                <td><strong>PDP / PDH</strong></td>
+                <td>Power Distribution Panel / Hub. Distributes battery power to all devices.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/can-devices/power-distribution-module.html" target="_blank">WPILib Power</a></td>
+            </tr>
+            <tr>
+                <td><strong>PCM / PH</strong></td>
+                <td>Pneumatics Control Module / Hub. Controls the compressed air system.</td>
+                <td><a href="https://docs.wpilib.org/en/stable/docs/software/hardware-apis/pneumatics/pneumatics.html" target="_blank">WPILib Pneumatics</a></td>
+            </tr>
+            <tr>
+                <td><strong>NEO</strong></td>
+                <td>A brushless motor from REV Robotics. Popular for mechanisms.</td>
+                <td><a href="https://docs.revrobotics.com/brushless/neo/neo-motor" target="_blank">REV NEO</a></td>
+            </tr>
+            <tr>
+                <td><strong>CTRE</strong></td>
+                <td>Cross The Road Electronics. Makes TalonFX, Pigeon, CANcoder.</td>
+                <td><a href="https://v6.docs.ctr-electronics.com/" target="_blank">CTRE Phoenix 6</a></td>
+            </tr>
+            <tr>
+                <td><strong>REV</strong></td>
+                <td>REV Robotics. Makes SparkMax, NEO motors, sensors.</td>
+                <td><a href="https://docs.revrobotics.com/" target="_blank">REV Docs</a></td>
+            </tr>
+        </table>
+
+        <h2>Still Confused?</h2>
+        <p>Ask a mentor or senior team member. There are no dumb questions - everyone was new once.</p>
+        <ul>
+            <li><a href="https://docs.wpilib.org/" target="_blank">WPILib Documentation</a> - Official FRC programming docs</li>
+            <li><a href="https://www.chiefdelphi.com/" target="_blank">Chief Delphi</a> - FRC community forum</li>
+            <li><a href="https://discord.gg/frc" target="_blank">FRC Discord</a> - Real-time help from other teams</li>
+        </ul>
+    </div>
+    <footer>
+        FRC Team 10413 FLUX Robotics - 2026 Season | Last updated: January 25, 2026
+    </footer>
+</body>
+</html>

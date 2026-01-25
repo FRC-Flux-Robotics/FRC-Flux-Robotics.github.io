@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algae Robot - FLUX Robotics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="doc-page">
+        <nav><a href="index.html">&larr; Back to Home</a></nav>
+
+        <h1>Algae Robot Configuration</h1>
+        <p class="page-subtitle">FRC Team 10413 FLUX Robotics - 2025 Season - Intake Mechanism Robot</p>
+
+        <h2>Overview</h2>
+        <p>The Algae robot is configured for the Intake mechanism, designed to collect and process Algae game pieces. It uses a swerve drivetrain with a pneumatic intake system and roller mechanism for game piece manipulation.</p>
+
+        <h2>Drivetrain Configuration</h2>
+
+        <h3>CAN Bus Setup</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Drive CAN Bus</td><td><code>Drivetrain</code></td></tr>
+            <tr><td>System CAN Bus</td><td><code>rio</code></td></tr>
+            <tr><td>Pigeon 2 ID</td><td>20</td></tr>
+        </table>
+
+        <h3>Swerve Module Configuration</h3>
+        <p>All modules use TalonFX motors with CANcoders. Wheelbase is 23" x 23" (11.5" from center).</p>
+        <table>
+            <tr><th>Module</th><th>Drive Motor ID</th><th>Steer Motor ID</th><th>CANcoder ID</th><th>Encoder Offset</th><th>Invert Drive</th></tr>
+            <tr><td>Front Left</td><td>1</td><td>2</td><td>24</td><td>-0.03173828125</td><td>false</td></tr>
+            <tr><td>Front Right</td><td>19</td><td>18</td><td>23</td><td>-0.455322265625</td><td>true</td></tr>
+            <tr><td>Back Left</td><td>4</td><td>3</td><td>25</td><td>-0.12744140625</td><td>false</td></tr>
+            <tr><td>Back Right</td><td>16</td><td>17</td><td>26</td><td>0.115478515625</td><td>true</td></tr>
+        </table>
+
+        <h3>Drivetrain Parameters</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Speed at 12V</td><td>4.99 m/s</td></tr>
+            <tr><td>Drive Gear Ratio</td><td>6.394736842105262</td></tr>
+            <tr><td>Steer Gear Ratio</td><td>12.1</td></tr>
+            <tr><td>Wheel Radius</td><td>2 inches</td></tr>
+            <tr><td>Coupling Ratio</td><td>4.5</td></tr>
+            <tr><td>Slip Current</td><td>120 A</td></tr>
+        </table>
+
+        <h3>PID Gains</h3>
+        <p><strong>Steer Motor:</strong> kP: 100, kI: 0, kD: 0.5, kS: 0.1, kV: 1.5, kA: 0</p>
+        <p><strong>Drive Motor:</strong> kP: 0.1, kI: 0, kD: 0, kS: 0, kV: 0.124</p>
+
+        <h3>Steer Motor Current Limits</h3>
+        <p>Stator Current Limit: 60 A (enabled)</p>
+
+        <h2>Pneumatics Subsystem</h2>
+        <p>Controls the intake arm using double solenoids on a REV Pneumatic Hub.</p>
+
+        <h3>Hardware Configuration</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Pneumatic Hub ID</td><td>3</td></tr>
+            <tr><td>Min Pressure</td><td>20 PSI</td></tr>
+            <tr><td>Max Pressure</td><td>60 PSI</td></tr>
+        </table>
+
+        <h3>Solenoid Configuration</h3>
+        <table>
+            <tr><th>Solenoid</th><th>Forward Channel</th><th>Reverse Channel</th></tr>
+            <tr><td>Left</td><td>6</td><td>7</td></tr>
+            <tr><td>Right</td><td>0</td><td>3</td></tr>
+        </table>
+
+        <h3>Control Methods</h3>
+        <table>
+            <tr><th>Method</th><th>Action</th></tr>
+            <tr><td>setForward()</td><td>Extend both solenoids</td></tr>
+            <tr><td>setReverse()</td><td>Retract both solenoids</td></tr>
+            <tr><td>setOff()</td><td>Release both solenoids</td></tr>
+            <tr><td>enableCompressor()</td><td>Enable analog compressor (20-60 PSI)</td></tr>
+            <tr><td>disableCompressor()</td><td>Disable compressor</td></tr>
+        </table>
+
+        <h2>Roller Subsystem</h2>
+        <p>Dual motor roller system for Algae intake and ejection.</p>
+
+        <h3>Motor Configuration</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Leader Motor ID</td><td>14 (SparkMax, Brushless)</td></tr>
+            <tr><td>Follower Motor ID</td><td>13 (SparkMax, Brushless)</td></tr>
+            <tr><td>Motor Current Limit</td><td>60 A</td></tr>
+            <tr><td>Voltage Compensation</td><td>10 V</td></tr>
+        </table>
+
+        <h3>Speed Settings</h3>
+        <table>
+            <tr><th>Mode</th><th>Speed</th></tr>
+            <tr><td>Intake (In)</td><td>1.0</td></tr>
+            <tr><td>Outtake (Out)</td><td>-0.8</td></tr>
+        </table>
+
+        <h3>Operation</h3>
+        <ul>
+            <li>Motors run in opposite directions (leader normal, follower inverted)</li>
+            <li>Used for collecting Algae game pieces through intake mechanism</li>
+        </ul>
+
+        <h2>Vision Subsystem</h2>
+        <p>Not configured on this robot.</p>
+
+        <h2>Autonomous Mode</h2>
+        <p>Not configured on this robot.</p>
+
+        <h2>Controller Bindings</h2>
+        <p>Supports both single and dual controller configurations. When using two controllers, operator controller handles mechanisms.</p>
+
+        <h3>Single Controller Mode (Driver Controller)</h3>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td>A</td><td>Pneumatics forward (extend)</td></tr>
+            <tr><td>B</td><td>Pneumatics reverse (retract)</td></tr>
+            <tr><td>Y</td><td>Pneumatics off</td></tr>
+            <tr><td>Start</td><td>Enable compressor</td></tr>
+            <tr><td>Back</td><td>Disable compressor</td></tr>
+            <tr><td>Right Bumper</td><td>Algae out (roller outtake)</td></tr>
+            <tr><td>Right Trigger</td><td>Algae in (roller intake)</td></tr>
+        </table>
+
+        <h3>Dual Controller Mode (Operator Controller)</h3>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td>A</td><td>Pneumatics forward (extend)</td></tr>
+            <tr><td>B</td><td>Pneumatics reverse (retract)</td></tr>
+            <tr><td>Y</td><td>Pneumatics off</td></tr>
+            <tr><td>Start</td><td>Enable compressor</td></tr>
+            <tr><td>Back</td><td>Disable compressor</td></tr>
+            <tr><td>Left Bumper</td><td>Algae in (roller intake)</td></tr>
+            <tr><td>Left Trigger</td><td>Algae out (roller outtake)</td></tr>
+        </table>
+
+        <h3>Drivetrain Controls (Driver Controller)</h3>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td>Left Stick</td><td>Drive translation</td></tr>
+            <tr><td>Right Stick X</td><td>Rotation</td></tr>
+            <tr><td>X</td><td>Brake mode</td></tr>
+            <tr><td>Left Bumper</td><td>Reset field-centric heading</td></tr>
+        </table>
+
+        <h2>Operator Constants</h2>
+
+        <h3>Joystick Sensitivity</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Linear Coefficient</td><td>0.15</td></tr>
+            <tr><td>Threshold</td><td>0.0</td></tr>
+            <tr><td>Cusp X</td><td>0.9</td></tr>
+            <tr><td>Speed Limit X</td><td>0.5</td></tr>
+            <tr><td>Min Limit</td><td>0.4</td></tr>
+            <tr><td>Rotation Linear Coefficient</td><td>0.2</td></tr>
+            <tr><td>Rotation Threshold</td><td>0.0</td></tr>
+            <tr><td>Rotation Cusp X</td><td>0.5</td></tr>
+            <tr><td>Speed Limit Rotation</td><td>0.8</td></tr>
+            <tr><td>Trigger Threshold</td><td>0.2</td></tr>
+        </table>
+
+        <h2>Other</h2>
+        <p>No additional subsystems configured on this robot.</p>
+
+        <h3>Key Differences from Coral Robot</h3>
+        <table>
+            <tr><th>Aspect</th><th>Coral Robot</th><th>Algae Robot</th></tr>
+            <tr><td>Drive CAN Bus</td><td><code>CANdace</code></td><td><code>Drivetrain</code></td></tr>
+            <tr><td>Pigeon ID</td><td>24</td><td>20</td></tr>
+            <tr><td>Mechanism</td><td>Elevator + Tray</td><td>Pneumatics + Roller</td></tr>
+            <tr><td>Game Piece</td><td>Coral</td><td>Algae</td></tr>
+            <tr><td>Vision</td><td>Yes (PhotonVision)</td><td>No</td></tr>
+            <tr><td>Lights</td><td>Yes (CANdle)</td><td>No</td></tr>
+        </table>
+    </div>
+    <footer>
+        FRC Team 10413 FLUX Robotics - 2025 Season | Last updated: January 25, 2026
+    </footer>
+</body>
+</html>

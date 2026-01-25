@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coral Robot - FLUX Robotics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="doc-page">
+        <nav><a href="index.html">&larr; Back to Home</a></nav>
+
+        <h1>Coral Robot Configuration</h1>
+        <p class="page-subtitle">FRC Team 10413 FLUX Robotics - 2025 Season - Elevator Mechanism Robot</p>
+
+        <h2>Overview</h2>
+        <p>The Coral robot is configured for the Elevator mechanism, designed to score Coral game pieces. It uses a swerve drivetrain with an elevator and tray system for game piece manipulation.</p>
+
+        <h2>Drivetrain Configuration</h2>
+
+        <h3>CAN Bus Setup</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Drive CAN Bus</td><td><code>CANdace</code></td></tr>
+            <tr><td>System CAN Bus</td><td><code>rio</code></td></tr>
+            <tr><td>Pigeon 2 ID</td><td>24</td></tr>
+        </table>
+
+        <h3>Swerve Module Configuration</h3>
+        <p>All modules use TalonFX motors with CANcoders. Wheelbase is 23" x 23" (11.5" from center).</p>
+        <table>
+            <tr><th>Module</th><th>Drive Motor ID</th><th>Steer Motor ID</th><th>CANcoder ID</th><th>Encoder Offset</th><th>Invert Drive</th></tr>
+            <tr><td>Front Left</td><td>7</td><td>8</td><td>23</td><td>0.124267578125</td><td>false</td></tr>
+            <tr><td>Front Right</td><td>1</td><td>2</td><td>20</td><td>-0.291015625</td><td>true</td></tr>
+            <tr><td>Back Left</td><td>5</td><td>6</td><td>22</td><td>0.048828125</td><td>false</td></tr>
+            <tr><td>Back Right</td><td>3</td><td>4</td><td>21</td><td>-0.371826171875</td><td>true</td></tr>
+        </table>
+
+        <h3>Drivetrain Parameters</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Speed at 12V</td><td>4.99 m/s</td></tr>
+            <tr><td>Drive Gear Ratio</td><td>6.394736842105262</td></tr>
+            <tr><td>Steer Gear Ratio</td><td>12.1</td></tr>
+            <tr><td>Wheel Radius</td><td>2 inches</td></tr>
+            <tr><td>Coupling Ratio</td><td>4.5</td></tr>
+            <tr><td>Slip Current</td><td>120 A</td></tr>
+        </table>
+
+        <h3>PID Gains</h3>
+        <p><strong>Steer Motor:</strong> kP: 100, kI: 0, kD: 0.5, kS: 0.1, kV: 1.5, kA: 0</p>
+        <p><strong>Drive Motor:</strong> kP: 0.1, kI: 0, kD: 0, kS: 0, kV: 0.124</p>
+
+        <h3>Steer Motor Current Limits</h3>
+        <p>Stator Current Limit: 60 A (enabled)</p>
+
+        <h2>Elevator Subsystem</h2>
+        <p>Uses REV SparkMax motor controllers with brushless motors.</p>
+
+        <h3>Motor Configuration</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Leader Motor ID</td><td>1 (SparkMax)</td></tr>
+            <tr><td>Follower Motor ID</td><td>2 (SparkMax)</td></tr>
+            <tr><td>Motor Type</td><td>Brushless</td></tr>
+            <tr><td>Idle Mode</td><td>Brake</td></tr>
+        </table>
+
+        <h3>Position Presets</h3>
+        <table>
+            <tr><th>Position</th><th>Encoder Value</th></tr>
+            <tr><td>Bottom</td><td>0.05</td></tr>
+            <tr><td>Level 1</td><td>-7.0</td></tr>
+            <tr><td>Level 2</td><td>-19.6</td></tr>
+        </table>
+
+        <h3>PID Configuration</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>kP</td><td>0.05</td></tr>
+            <tr><td>kI</td><td>0.0</td></tr>
+            <tr><td>kD</td><td>0.0</td></tr>
+            <tr><td>Output Limit</td><td>0.3 (30%)</td></tr>
+            <tr><td>Jog Step</td><td>0.2</td></tr>
+        </table>
+
+        <h3>Limit Switches</h3>
+        <ul>
+            <li>Forward and reverse limit switches enabled</li>
+            <li>Type: Normally Open</li>
+            <li>Soft limits: -500 to 500 rotations</li>
+        </ul>
+
+        <h2>Tray Subsystem</h2>
+        <p>Coral tray for game piece intake/outtake with sensor-based control.</p>
+
+        <h3>Motor Configuration</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Tray Motor ID</td><td>3 (SparkMax, Brushless)</td></tr>
+            <tr><td>Feed Motor ID</td><td>4 (SparkMax, Brushless, follows motor 3)</td></tr>
+            <tr><td>CANdi Sensor ID</td><td>7</td></tr>
+        </table>
+
+        <h3>Speed Settings</h3>
+        <table>
+            <tr><th>Mode</th><th>Speed</th></tr>
+            <tr><td>In Speed</td><td>0.5</td></tr>
+            <tr><td>Out Speed</td><td>1.0</td></tr>
+            <tr><td>Normal Speed</td><td>0.8</td></tr>
+            <tr><td>Backward Speed</td><td>0.5</td></tr>
+        </table>
+
+        <h3>CANdi Digital Input Configuration</h3>
+        <ul>
+            <li>S1 and S2 configured for float detection</li>
+            <li>Close state: CloseWhenLow (grounded when closed)</li>
+            <li>Used for game piece detection during intake/outtake cycles</li>
+        </ul>
+
+        <h2>Vision Subsystem</h2>
+        <p>PhotonVision-based AprilTag tracking.</p>
+
+        <h3>Camera Configuration</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Camera Name</td><td><code>Logitech_Webcam_C930e</code></td></tr>
+            <tr><td>Target Distance</td><td>27 inches</td></tr>
+        </table>
+
+        <h3>Control Parameters</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Rotation P</td><td>0.07</td></tr>
+            <tr><td>Drive P</td><td>0.15</td></tr>
+            <tr><td>Angle Tolerance</td><td>2.0 degrees</td></tr>
+            <tr><td>Area Target</td><td>8.0%</td></tr>
+            <tr><td>Area Tolerance</td><td>1.0%</td></tr>
+            <tr><td>Min Rotation Speed</td><td>0.1 rad/s</td></tr>
+            <tr><td>Max Rotation Speed</td><td>2.0 rad/s</td></tr>
+            <tr><td>Min Drive Speed</td><td>0.2 m/s</td></tr>
+            <tr><td>Max Drive Speed</td><td>1.5 m/s</td></tr>
+            <tr><td>Max Yaw Error for Drive</td><td>15.0 degrees</td></tr>
+        </table>
+
+        <h2>Autonomous Mode</h2>
+
+        <h3>DriveForwardAuto</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Speed</td><td>-0.8 (backward toward driver station)</td></tr>
+            <tr><td>Duration</td><td>2.2 seconds</td></tr>
+        </table>
+
+        <h2>Controller Bindings</h2>
+        <p>Supports both single and dual controller configurations.</p>
+
+        <h3>Elevator Controls (Operator Controller)</h3>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td>POV Down</td><td>Jog elevator up</td></tr>
+            <tr><td>POV Up</td><td>Jog elevator down</td></tr>
+            <tr><td>POV Left/Right</td><td>Stop elevator</td></tr>
+            <tr><td>Y</td><td>Move to Level 2</td></tr>
+            <tr><td>B</td><td>Move to Level 1</td></tr>
+            <tr><td>A</td><td>Move to bottom</td></tr>
+        </table>
+
+        <h3>Tray Controls (Operator Controller)</h3>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td>Right Trigger</td><td>Tray in/out (sensor-controlled)</td></tr>
+            <tr><td>Left Trigger</td><td>Raw tray out (speed proportional)</td></tr>
+            <tr><td>Left Bumper</td><td>Tray backward (0.5 speed)</td></tr>
+        </table>
+
+        <h3>Drivetrain Controls (Driver Controller)</h3>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td>Left Stick</td><td>Drive translation</td></tr>
+            <tr><td>Right Stick X</td><td>Rotation</td></tr>
+            <tr><td>X</td><td>Brake mode</td></tr>
+            <tr><td>Left Bumper</td><td>Reset field-centric heading</td></tr>
+        </table>
+
+        <h2>Operator Constants</h2>
+
+        <h3>Joystick Sensitivity</h3>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Linear Coefficient</td><td>0.15</td></tr>
+            <tr><td>Threshold</td><td>0.0</td></tr>
+            <tr><td>Cusp X</td><td>0.9</td></tr>
+            <tr><td>Speed Limit X</td><td>0.5</td></tr>
+            <tr><td>Min Limit</td><td>0.4</td></tr>
+            <tr><td>Rotation Linear Coefficient</td><td>0.2</td></tr>
+            <tr><td>Rotation Threshold</td><td>0.0</td></tr>
+            <tr><td>Rotation Cusp X</td><td>0.5</td></tr>
+            <tr><td>Speed Limit Rotation</td><td>0.8</td></tr>
+            <tr><td>Trigger Threshold</td><td>0.2</td></tr>
+        </table>
+
+        <h2>Other</h2>
+
+        <h3>Lights Subsystem</h3>
+        <p>CANdle LED controller for status indication.</p>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>CAN ID</td><td>6</td></tr>
+            <tr><td>CAN Bus</td><td><code>rio</code> (system bus)</td></tr>
+        </table>
+    </div>
+    <footer>
+        FRC Team 10413 FLUX Robotics - 2025 Season | Last updated: January 25, 2026
+    </footer>
+</body>
+</html>

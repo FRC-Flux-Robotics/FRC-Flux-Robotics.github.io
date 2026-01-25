@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Guide - FLUX Robotics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="doc-page">
+        <nav><a href="index.html">&larr; Back to Home</a></nav>
+
+        <h1>Driver Cheat Sheet</h1>
+        <p class="page-subtitle">FLUX Robotics Test Robot - Driver Training Guide</p>
+
+        <p><strong>Purpose:</strong> Robot Testing & Driver Training (Not for competition use)</p>
+
+        <h2>Pre-Run Checklist</h2>
+
+        <h3>Driver Station Setup</h3>
+        <ol>
+            <li>Connect to robot WiFi (10.104.13.X network)</li>
+            <li>Open Driver Station and verify:
+                <ul>
+                    <li>Robot communication (green)</li>
+                    <li>Joystick detected (Port 0)</li>
+                    <li>Battery voltage > 12V</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>Log Level Configuration</h3>
+        <p>In Driver Station > Settings:</p>
+        <table>
+            <tr><th>Log Level</th><th>When to Use</th></tr>
+            <tr><td><strong>Debug</strong></td><td>Troubleshooting issues, tuning PIDs</td></tr>
+            <tr><td><strong>Info</strong></td><td>Normal training sessions</td></tr>
+            <tr><td><strong>Warning</strong></td><td>Competition practice (less disk usage)</td></tr>
+        </table>
+
+        <h3>Before Enabling</h3>
+        <ul class="checklist">
+            <li>Clear area around robot (3m minimum)</li>
+            <li>Spotter in position</li>
+            <li>Battery fully charged (>12.5V)</li>
+            <li>Emergency stop tested (both bumpers)</li>
+        </ul>
+
+        <h2>Controller: Xbox (Port 0)</h2>
+
+        <h3>Basic Driving (Field-Centric)</h3>
+        <table>
+            <tr><th>Control</th><th>Action</th></tr>
+            <tr><td><strong>Left Stick Y</strong></td><td>Drive forward/backward</td></tr>
+            <tr><td><strong>Left Stick X</strong></td><td>Strafe left/right</td></tr>
+            <tr><td><strong>Right Stick X</strong></td><td>Rotate left/right</td></tr>
+        </table>
+        <p><em>Note: 10% deadband on all sticks. Sensitivity curves applied for smoother control.</em></p>
+
+        <h3>Buttons</h3>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td><strong>X</strong> (hold)</td><td>Brake - locks wheels in X pattern</td></tr>
+            <tr><td><strong>B</strong> (hold)</td><td>Point wheels - aims all wheels in left stick direction</td></tr>
+            <tr><td><strong>Right Bumper</strong> (press)</td><td>Reset field-centric heading (use when facing away from driver station)</td></tr>
+        </table>
+
+        <h2>Autonomous Mode</h2>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td><strong>Action</strong></td><td>Drives backward toward driver station</td></tr>
+            <tr><td><strong>Speed</strong></td><td>80%</td></tr>
+            <tr><td><strong>Duration</strong></td><td>2.2 seconds</td></tr>
+        </table>
+
+        <h2>Specs</h2>
+        <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td><strong>Max Speed</strong></td><td>~5 m/s (~11 mph)</td></tr>
+            <tr><td><strong>Max Rotation</strong></td><td>0.75 rotations/second</td></tr>
+        </table>
+
+        <h2>Quick Troubleshooting</h2>
+        <ol>
+            <li><strong>Robot won't drive:</strong> Check if disabled, verify controller connected</li>
+            <li><strong>Driving feels weird:</strong> Press Right Bumper to reset heading</li>
+            <li><strong>Need to stop fast:</strong> Hold X button for brake mode</li>
+        </ol>
+
+        <h2>Post-Run Procedures</h2>
+
+        <h3>Download Logs</h3>
+        <ol>
+            <li>Keep robot powered on</li>
+            <li>In Driver Station: <strong>File > Download Logs</strong></li>
+            <li>Or use SFTP: <code>sftp lvuser@10.104.13.2:/home/lvuser/logs/</code></li>
+            <li>Save to <code>~/frc-logs/YYYY-MM-DD/</code> on your laptop</li>
+        </ol>
+
+        <h3>Log Files to Collect</h3>
+        <table>
+            <tr><th>File</th><th>Contents</th></tr>
+            <tr><td><code>FRC_*.wpilog</code></td><td>Match/session data (auto-generated)</td></tr>
+            <tr><td><code>stdout.log</code></td><td>Console output, errors</td></tr>
+            <tr><td><code>stderr.log</code></td><td>Error stack traces</td></tr>
+        </table>
+
+        <h3>After Training Session</h3>
+        <ul class="checklist">
+            <li>Download logs before powering off</li>
+            <li>Note any issues in session log</li>
+            <li>Charge battery immediately</li>
+            <li>Report hardware issues to mentor</li>
+        </ul>
+
+        <h3>Quick Log Analysis</h3>
+        <pre><code># View recent errors
+grep -i "error\|exception" stderr.log
+
+# Check for brownouts
+grep -i "brownout" stdout.log</code></pre>
+    </div>
+    <footer>
+        FRC Team 10413 FLUX Robotics - 2026 Season | Last updated: January 25, 2026
+    </footer>
+</body>
+</html>
