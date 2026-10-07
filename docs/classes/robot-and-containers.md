@@ -2,15 +2,42 @@
 
 These classes handle **starting the robot program**, **detecting which physical robot (`FUEL` or `CORAL`) is running**, **wiring up subsystems and Xbox controllers**, and **shaping joystick inputs**.
 
-```mermaid
-flowchart TB
-    Main["<b>Main.java</b><br/>JVM Entry Point"] --> Robot["<b>Robot.java</b><br/>LoggedRobot 20ms Loop"]
-    Robot -->|selectRobot()| Robots["<b>Robots.java</b><br/>FUEL & CORAL Configs"]
-    Robots -->|CORAL| RC["<b>RobotContainer.java</b><br/>Base Swerve, Vision & Autos"]
-    Robots -->|FUEL| FRC["<b>FuelRobotContainer.java</b><br/>Adds 6 FUEL Mechanisms"]
-    RC -.->|extended by| FRC
-    Sens["<b>PiecewiseSensitivity.java</b><br/><b>SensitivityTuner.java</b><br/><b>InputProcessing.java</b><br/><b>DriverPreferences.java</b>"] --> RC
-```
+<div style="margin: 1.25rem 0; overflow-x: auto;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 230" style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; background: #0f172a; border: 1px solid #334155; border-radius: 10px; font-family: system-ui, -apple-system, sans-serif;">
+<defs>
+<marker id="m1-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+</marker>
+</defs>
+<rect x="20" y="25" width="160" height="68" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+<text x="100" y="54" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="14" font-weight="700">Main.java</text>
+<text x="100" y="74" text-anchor="middle" fill="#cbd5e1" font-size="12">JVM Entry Point</text>
+<line x1="180" y1="59" x2="215" y2="59" stroke="#38bdf8" stroke-width="2" marker-end="url(#m1-arr)"/>
+<rect x="220" y="25" width="210" height="68" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+<text x="325" y="54" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="14" font-weight="700">Robot.java</text>
+<text x="325" y="74" text-anchor="middle" fill="#cbd5e1" font-size="12">LoggedRobot 20ms Loop</text>
+<line x1="430" y1="59" x2="465" y2="59" stroke="#38bdf8" stroke-width="2" marker-end="url(#m1-arr)"/>
+<rect x="470" y="25" width="190" height="68" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+<text x="565" y="54" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="14" font-weight="700">Robots.java</text>
+<text x="565" y="74" text-anchor="middle" fill="#cbd5e1" font-size="12">FUEL &amp; CORAL Configs</text>
+<line x1="565" y1="93" x2="565" y2="130" stroke="#38bdf8" stroke-width="2" marker-end="url(#m1-arr)"/>
+<line x1="660" y1="59" x2="780" y2="130" stroke="#38bdf8" stroke-width="2" marker-end="url(#m1-arr)"/>
+<rect x="20" y="135" width="380" height="72" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+<text x="210" y="160" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="13" font-weight="700">InputProcessing &amp; PiecewiseSensitivity</text>
+<text x="210" y="180" text-anchor="middle" fill="#cbd5e1" font-family="monospace" font-size="12">SensitivityTuner &amp; DriverPreferences</text>
+<text x="210" y="197" text-anchor="middle" fill="#94a3b8" font-size="11">Joystick Curves, Deadband &amp; Slew Limits</text>
+<line x1="400" y1="171" x2="445" y2="171" stroke="#38bdf8" stroke-width="2" marker-end="url(#m1-arr)"/>
+<rect x="450" y="135" width="210" height="72" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+<text x="555" y="162" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="14" font-weight="700">RobotContainer.java</text>
+<text x="555" y="182" text-anchor="middle" fill="#cbd5e1" font-size="12">Base Swerve, Vision &amp; Autos</text>
+<text x="555" y="198" text-anchor="middle" fill="#94a3b8" font-size="11">Used on CORAL</text>
+<line x1="660" y1="171" x2="685" y2="171" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#m1-arr)"/>
+<rect x="690" y="135" width="190" height="72" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+<text x="785" y="162" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="13" font-weight="700">FuelRobotContainer</text>
+<text x="785" y="182" text-anchor="middle" fill="#cbd5e1" font-size="12">Extends RobotContainer</text>
+<text x="785" y="198" text-anchor="middle" fill="#94a3b8" font-size="11">Adds 6 FUEL Mechanisms</text>
+</svg>
+</div>
 
 ---
 

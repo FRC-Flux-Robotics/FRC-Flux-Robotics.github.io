@@ -2,17 +2,44 @@
 
 Instead of writing separate subsystem classes for every motor on the robot, [`New_Robot`](https://github.com/FRC-Flux-Robotics/New_Robot) uses **two universal mechanism classes** in [`src/main/java/frc/lib/mechanism/`](https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc/lib/mechanism) configured by [`MechanismConfigs.java`](https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/MechanismConfigs.java) and controlled by reusable commands in [`src/main/java/frc/robot/commands/`](https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc/robot/commands).
 
-```mermaid
-flowchart TB
-    MCfgs["<b>MechanismConfigs.java</b><br/>Defines INTAKE, TILT, INDEXER,<br/>FEEDER, SHOOTER, HOOD"] --> MBuilder["<b>MechanismConfig.java</b><br/><b>ControlMode.java</b>"]
-    Cmds["<b>VelocityCmd.java / ShootCommand.java</b><br/><b>SetShooterRangeCmd.java / RangeShootCmd.java</b><br/><b>RangeTable.java / MechanismTuning.java</b>"] --> VMech & PMech
-    MBuilder --> VMech["<b>VelocityMechanism.java</b><br/>Intake, Indexer, Feeder, Shooter"]
-    MBuilder --> PMech["<b>PositionMechanism.java</b><br/>Tilter, Hood"]
-    VMech & PMech --> MIO["<b>MechanismIO.java</b><br/>@AutoLog Motor Interface"]
-    MIO -.->|1 Motor| MIOT["<b>MechanismIOTalonFX.java</b><br/>Intake, Tilter, Indexer, Feeder, Hood"]
-    MIO -.->|2 Motors| MIOD["<b>MechanismIODualTalonFX.java</b><br/>Counter-Rotating Shooter (ID 11 + 10)"]
-    MIO -.->|Sim / Replay| MIOR["<b>MechanismIOReplay.java</b><br/>Log Replay No-Op"]
-```
+<div style="margin: 1.25rem 0; overflow-x: auto;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; background: #0f172a; border: 1px solid #334155; border-radius: 10px; font-family: system-ui, -apple-system, sans-serif;">
+<defs>
+<marker id="m3-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 1 L 10 5 L 0 9 z" fill="#fb923c"/>
+</marker>
+</defs>
+<rect x="20" y="20" width="275" height="82" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+<text x="157" y="45" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="700">MechanismConfigs &amp; MechanismConfig</text>
+<text x="157" y="65" text-anchor="middle" fill="#cbd5e1" font-family="monospace" font-size="12">ControlMode &amp; MechanismTuning</text>
+<text x="157" y="85" text-anchor="middle" fill="#94a3b8" font-size="11">Defines INTAKE, TILT, INDEXER, FEEDER, SHOOTER, HOOD</text>
+<line x1="295" y1="61" x2="325" y2="61" stroke="#fb923c" stroke-width="2" marker-end="url(#m3-arr)"/>
+<rect x="330" y="20" width="250" height="82" rx="8" fill="#1e293b" stroke="#4ade80" stroke-width="2"/>
+<text x="455" y="45" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="14" font-weight="700">VelocityMechanism.java</text>
+<text x="455" y="65" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="14" font-weight="700">PositionMechanism.java</text>
+<text x="455" y="85" text-anchor="middle" fill="#cbd5e1" font-size="11">2 Reusable Subsystems for All 6 Mechanisms</text>
+<line x1="615" y1="61" x2="585" y2="61" stroke="#fb923c" stroke-width="2" marker-end="url(#m3-arr)"/>
+<rect x="620" y="20" width="260" height="82" rx="8" fill="#1e293b" stroke="#facc15" stroke-width="2"/>
+<text x="750" y="45" text-anchor="middle" fill="#fde047" font-family="monospace" font-size="13" font-weight="700">ShootCommand &amp; RangeShootCmd</text>
+<text x="750" y="65" text-anchor="middle" fill="#cbd5e1" font-family="monospace" font-size="12">SetShooterRangeCmd &amp; VelocityCmd</text>
+<text x="750" y="85" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11">RangeTable.java (Distance Interpolation)</text>
+<line x1="455" y1="102" x2="455" y2="140" stroke="#fb923c" stroke-width="2" marker-end="url(#m3-arr)"/>
+<rect x="20" y="145" width="275" height="72" rx="8" fill="#1e293b" stroke="#fb923c" stroke-width="2"/>
+<text x="157" y="172" text-anchor="middle" fill="#fdba74" font-family="monospace" font-size="13" font-weight="700">MechanismIOTalonFX.java</text>
+<text x="157" y="192" text-anchor="middle" fill="#cbd5e1" font-size="12">1-Motor Hardware (Intake, Tilter,</text>
+<text x="157" y="207" text-anchor="middle" fill="#cbd5e1" font-size="12">Indexer, Feeder, Hood)</text>
+<rect x="330" y="145" width="250" height="72" rx="8" fill="#1e293b" stroke="#fb923c" stroke-width="2"/>
+<text x="455" y="172" text-anchor="middle" fill="#fdba74" font-family="monospace" font-size="14" font-weight="700">MechanismIO.java</text>
+<text x="455" y="192" text-anchor="middle" fill="#cbd5e1" font-size="12">@AutoLog Motor Interface</text>
+<text x="455" y="207" text-anchor="middle" fill="#94a3b8" font-size="11">+ MechanismIOReplay.java</text>
+<rect x="620" y="145" width="260" height="72" rx="8" fill="#1e293b" stroke="#fb923c" stroke-width="2"/>
+<text x="750" y="172" text-anchor="middle" fill="#fdba74" font-family="monospace" font-size="13" font-weight="700">MechanismIODualTalonFX.java</text>
+<text x="750" y="192" text-anchor="middle" fill="#cbd5e1" font-size="12">2 Counter-Rotating Motors</text>
+<text x="750" y="207" text-anchor="middle" fill="#94a3b8" font-size="11">Shooter Leader ID 11 + Follower ID 10</text>
+<line x1="295" y1="181" x2="325" y2="181" stroke="#fb923c" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#m3-arr)"/>
+<line x1="620" y1="181" x2="585" y2="181" stroke="#fb923c" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#m3-arr)"/>
+</svg>
+</div>
 
 ---
 
