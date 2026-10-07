@@ -4,4 +4,20 @@
          <loc>https://frc-flux-robotics.github.io/v2/</loc>
          <lastmod>2026-10-07</lastmod>
     </url>
+    <url>
+         <loc>https://frc-flux-robotics.github.io/v2/classes/drivetrain/</loc>
+         <lastmod>2026-10-07</lastmod>
+    </url>
+    <url>
+         <loc>https://frc-flux-robotics.github.io/v2/classes/mechanisms/</loc>
+         <lastmod>2026-10-07</lastmod>
+    </url>
+    <url>
+         <loc>https://frc-flux-robotics.github.io/v2/classes/robot-and-containers/</loc>
+         <lastmod>2026-10-07</lastmod>
+    </url>
+    <url>
+         <loc>https://frc-flux-robotics.github.io/v2/classes/vision-autos-and-util/</loc>
+         <lastmod>2026-10-07</lastmod>
+    </url>
 </urlset>
