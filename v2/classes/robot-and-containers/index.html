@@ -55,6 +55,8 @@
     
       <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -737,13 +739,13 @@
 
 <h1 id="1-boot-robot-configs-containers-frcrobot">1. Boot, Robot Configs &amp; Containers (<code>frc.robot</code>)<a class="headerlink" href="#1-boot-robot-configs-containers-frcrobot" title="Permanent link">&para;</a></h1>
 <p>These classes handle <strong>starting the robot program</strong>, <strong>detecting which physical robot (<code>FUEL</code> or <code>CORAL</code>) is running</strong>, <strong>wiring up subsystems and Xbox controllers</strong>, and <strong>shaping joystick inputs</strong>.</p>
-<pre class="mermaid"><code>flowchart LR
-    Main["Main.java"] --&gt; Robot["Robot.java"]
-    Robot --&gt;|selectRobot()| Robots["Robots.java\n(FUEL / CORAL)"]
-    Robot --&gt;|CORAL| RC["RobotContainer.java"]
-    Robot --&gt;|FUEL| FRC["FuelRobotContainer.java"]
-    FRC -.-&gt;|extends| RC
-    Sens["PiecewiseSensitivity\nSensitivityTuner\nInputProcessing\nDriverPreferences"] --&gt; RC</code></pre>
+<pre class="mermaid"><code>flowchart TB
+    Main["&lt;b&gt;Main.java&lt;/b&gt;&lt;br/&gt;JVM Entry Point"] --&gt; Robot["&lt;b&gt;Robot.java&lt;/b&gt;&lt;br/&gt;LoggedRobot 20ms Loop"]
+    Robot --&gt;|selectRobot()| Robots["&lt;b&gt;Robots.java&lt;/b&gt;&lt;br/&gt;FUEL &amp; CORAL Configs"]
+    Robots --&gt;|CORAL| RC["&lt;b&gt;RobotContainer.java&lt;/b&gt;&lt;br/&gt;Base Swerve, Vision &amp; Autos"]
+    Robots --&gt;|FUEL| FRC["&lt;b&gt;FuelRobotContainer.java&lt;/b&gt;&lt;br/&gt;Adds 6 FUEL Mechanisms"]
+    RC -.-&gt;|extended by| FRC
+    Sens["&lt;b&gt;PiecewiseSensitivity.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;SensitivityTuner.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;InputProcessing.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;DriverPreferences.java&lt;/b&gt;"] --&gt; RC</code></pre>
 <hr />
 <h2 id="mainjava"><a href="https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/Main.java"><code>Main.java</code></a><a class="headerlink" href="#mainjava" title="Permanent link">&para;</a></h2>
 <ul>

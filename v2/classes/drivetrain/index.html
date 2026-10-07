@@ -55,6 +55,8 @@
     
       <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -693,13 +695,13 @@
 
 <h1 id="2-swerve-drivetrain-library-frclibdrivetrain">2. Swerve Drivetrain Library (<code>frc.lib.drivetrain</code>)<a class="headerlink" href="#2-swerve-drivetrain-library-frclibdrivetrain" title="Permanent link">&para;</a></h1>
 <p>All swerve drivetrain classes live in <a href="https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc/lib/drivetrain"><code>src/main/java/frc/lib/drivetrain/</code></a>. Other subsystems and commands never depend on <a href="https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/SwerveDrive.java"><code>SwerveDrive</code></a> directly—they program against <a href="https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DriveInterface.java"><code>DriveInterface</code></a>.</p>
-<pre class="mermaid"><code>flowchart LR
-    Consumers["RobotContainer /\nVision / Autos /\nSafeAutoBuilder"] --&gt; DI["DriveInterface.java\n(Consumer API)"]
-    SD["SwerveDrive.java\n(CTRE Implementation)"] -.-&gt;|implements| DI
-    DIO["DrivetrainIO.java"] --&gt; SD
-    DIOT["DrivetrainIOTalonFX.java"] -.-&gt;|implements| DIO
-    DIOR["DrivetrainIOReplay.java"] -.-&gt;|implements| DIO
-    Cfg["DrivetrainConfig.java\nModuleConfig.java\nPIDGains.java\nDriveState.java"] --&gt; SD</code></pre>
+<pre class="mermaid"><code>flowchart TB
+    Consumers["&lt;b&gt;RobotContainer / Vision&lt;/b&gt;&lt;br/&gt;&lt;b&gt;Autos / SafeAutoBuilder&lt;/b&gt;"] --&gt; DI["&lt;b&gt;DriveInterface.java&lt;/b&gt;&lt;br/&gt;Abstract Drivetrain API"]
+    DI -.-&gt;|implemented by| SD["&lt;b&gt;SwerveDrive.java&lt;/b&gt;&lt;br/&gt;CTRE SwerveDrivetrain + PathPlanner"]
+    Cfg["&lt;b&gt;DrivetrainConfig.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;ModuleConfig.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;PIDGains.java / DriveState.java&lt;/b&gt;"] --&gt; SD
+    SD --&gt; DIO["&lt;b&gt;DrivetrainIO.java&lt;/b&gt;&lt;br/&gt;@AutoLog Sensor Interface"]
+    DIO -.-&gt;|Real Hardware| DIOT["&lt;b&gt;DrivetrainIOTalonFX.java&lt;/b&gt;&lt;br/&gt;Kraken X60 + CANcoder + Pigeon 2"]
+    DIO -.-&gt;|Sim / Replay| DIOR["&lt;b&gt;DrivetrainIOReplay.java&lt;/b&gt;&lt;br/&gt;Log Replay No-Op"]</code></pre>
 <hr />
 <h2 id="driveinterfacejava"><a href="https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DriveInterface.java"><code>DriveInterface.java</code></a><a class="headerlink" href="#driveinterfacejava" title="Permanent link">&para;</a></h2>
 <ul>

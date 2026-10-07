@@ -55,6 +55,8 @@
     
       <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -728,14 +730,14 @@
 <h1 id="3-mechanisms-shooting-frclibmechanism-frcrobot">3. Mechanisms &amp; Shooting (<code>frc.lib.mechanism</code> &amp; <code>frc.robot</code>)<a class="headerlink" href="#3-mechanisms-shooting-frclibmechanism-frcrobot" title="Permanent link">&para;</a></h1>
 <p>Instead of writing separate subsystem classes for every motor on the robot, <a href="https://github.com/FRC-Flux-Robotics/New_Robot"><code>New_Robot</code></a> uses <strong>two universal mechanism classes</strong> in <a href="https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc/lib/mechanism"><code>src/main/java/frc/lib/mechanism/</code></a> configured by <a href="https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/MechanismConfigs.java"><code>MechanismConfigs.java</code></a> and controlled by reusable commands in <a href="https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc/robot/commands"><code>src/main/java/frc/robot/commands/</code></a>.</p>
 <pre class="mermaid"><code>flowchart TB
-    MCfgs["MechanismConfigs.java\nDefines INTAKE, TILT, INDEXER,\nFEEDER, SHOOTER, HOOD"] --&gt; MBuilder["MechanismConfig.java +\nControlMode.java"]
-    MBuilder --&gt; VMech["VelocityMechanism.java\n(Intake, Indexer, Feeder, Shooter)"]
-    MBuilder --&gt; PMech["PositionMechanism.java\n(Tilter, Hood)"]
-    MIO["MechanismIO.java\n@AutoLog Interface"] --&gt; VMech &amp; PMech
-    MIOT["MechanismIOTalonFX.java\n(1 Motor: Intake, Tilter,\nIndexer, Feeder, Hood)"] -.-&gt;|implements| MIO
-    MIOD["MechanismIODualTalonFX.java\n(2 Counter-Rotating Motors:\nShooter ID 11 + 10)"] -.-&gt;|implements| MIO
-    MIOR["MechanismIOReplay.java\n(Log Replay)"] -.-&gt;|implements| MIO
-    Cmds["VelocityCmd.java\nShootCommand.java\nSetShooterRangeCmd.java\nRangeShootCmd.java + RangeTable.java"] --&gt; VMech &amp; PMech</code></pre>
+    MCfgs["&lt;b&gt;MechanismConfigs.java&lt;/b&gt;&lt;br/&gt;Defines INTAKE, TILT, INDEXER,&lt;br/&gt;FEEDER, SHOOTER, HOOD"] --&gt; MBuilder["&lt;b&gt;MechanismConfig.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;ControlMode.java&lt;/b&gt;"]
+    Cmds["&lt;b&gt;VelocityCmd.java / ShootCommand.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;SetShooterRangeCmd.java / RangeShootCmd.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;RangeTable.java / MechanismTuning.java&lt;/b&gt;"] --&gt; VMech &amp; PMech
+    MBuilder --&gt; VMech["&lt;b&gt;VelocityMechanism.java&lt;/b&gt;&lt;br/&gt;Intake, Indexer, Feeder, Shooter"]
+    MBuilder --&gt; PMech["&lt;b&gt;PositionMechanism.java&lt;/b&gt;&lt;br/&gt;Tilter, Hood"]
+    VMech &amp; PMech --&gt; MIO["&lt;b&gt;MechanismIO.java&lt;/b&gt;&lt;br/&gt;@AutoLog Motor Interface"]
+    MIO -.-&gt;|1 Motor| MIOT["&lt;b&gt;MechanismIOTalonFX.java&lt;/b&gt;&lt;br/&gt;Intake, Tilter, Indexer, Feeder, Hood"]
+    MIO -.-&gt;|2 Motors| MIOD["&lt;b&gt;MechanismIODualTalonFX.java&lt;/b&gt;&lt;br/&gt;Counter-Rotating Shooter (ID 11 + 10)"]
+    MIO -.-&gt;|Sim / Replay| MIOR["&lt;b&gt;MechanismIOReplay.java&lt;/b&gt;&lt;br/&gt;Log Replay No-Op"]</code></pre>
 <hr />
 <h2 id="reusable-mechanism-subsystems-frclibmechanism">Reusable Mechanism Subsystems (<code>frc.lib.mechanism</code>)<a class="headerlink" href="#reusable-mechanism-subsystems-frclibmechanism" title="Permanent link">&para;</a></h2>
 <h3 id="velocitymechanismjava"><a href="https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/VelocityMechanism.java"><code>VelocityMechanism.java</code></a><a class="headerlink" href="#velocitymechanismjava" title="Permanent link">&para;</a></h3>

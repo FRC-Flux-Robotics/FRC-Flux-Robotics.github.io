@@ -53,6 +53,8 @@
     
       <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -725,19 +727,16 @@
 
 <h1 id="4-vision-autonomous-shared-utilities">4. Vision, Autonomous &amp; Shared Utilities<a class="headerlink" href="#4-vision-autonomous-shared-utilities" title="Permanent link">&para;</a></h1>
 <p>These classes handle <strong>multi-camera AprilTag localization</strong>, <strong>camera calibration</strong>, <strong>safe PathPlanner autonomous execution</strong>, and <strong>low-level CAN batching &amp; logging</strong>.</p>
-<pre class="mermaid"><code>flowchart LR
-    subgraph VisFlow ["Vision Pipeline"]
-        VIOP["VisionIOPhotonVision.java\nVisionIOReplay.java"] -.-&gt;|implements| VIO["VisionIO.java"]
-        VIO --&gt; Vis["Vision.java\n5 Rejection Filters +\nDynamic Std Devs"]
-        Vis --&gt;|addVisionMeasurement| DI["DriveInterface.java"]
-        VCmds["DriveToTag.java\nResetPoseFromVision.java\nCameraValidationCmd.java\nAutoCalibrateCmd.java"] --&gt; Vis &amp; DI
-    end
-
-    subgraph AutoFlow ["Autonomous &amp; Safety"]
-        FP["FieldPositions.java"] --&gt; Autos["Autos.java"]
-        Autos --&gt; SAB["SafeAutoBuilder.java\nPre-Flight + Runtime Guards"]
-        SAB --&gt; DI
-    end</code></pre>
+<pre class="mermaid"><code>flowchart TB
+    VCmds["&lt;b&gt;DriveToTag.java / ResetPoseFromVision.java&lt;/b&gt;&lt;br/&gt;&lt;b&gt;CameraValidationCmd.java / AutoCalibrateCmd.java&lt;/b&gt;"] --&gt; Vis["&lt;b&gt;Vision.java&lt;/b&gt;&lt;br/&gt;5 Rejection Filters (VisionRejectReason)&lt;br/&gt;&amp; Dynamic Std Devs (CameraConfig)"]
+    FP["&lt;b&gt;FieldPositions.java&lt;/b&gt;"] --&gt; Autos["&lt;b&gt;Autos.java&lt;/b&gt;&lt;br/&gt;Competition Auto Routines"]
+    Autos --&gt; SAB["&lt;b&gt;SafeAutoBuilder.java&lt;/b&gt;&lt;br/&gt;Pre-Flight + Runtime Safety Guards"]
+    Vis --&gt;|addVisionMeasurement| DI["&lt;b&gt;DriveInterface.java&lt;/b&gt;"]
+    VCmds --&gt; DI
+    SAB --&gt; DI
+    Vis --&gt; VIO["&lt;b&gt;VisionIO.java&lt;/b&gt;&lt;br/&gt;@AutoLog Camera Interface"]
+    VIO -.-&gt;|Real Camera| VIOP["&lt;b&gt;VisionIOPhotonVision.java&lt;/b&gt;&lt;br/&gt;PhotonCamera + Multi-Tag PnP"]
+    VIO -.-&gt;|Sim / Replay| VIOR["&lt;b&gt;VisionIOReplay.java&lt;/b&gt;&lt;br/&gt;Log Replay No-Op"]</code></pre>
 <hr />
 <h2 id="multi-camera-vision-frcrobot-frclibvision">Multi-Camera Vision (<code>frc.robot</code> &amp; <code>frc.lib.vision</code>)<a class="headerlink" href="#multi-camera-vision-frcrobot-frclibvision" title="Permanent link">&para;</a></h2>
 <h3 id="visionjava"><a href="https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/Vision.java"><code>Vision.java</code></a><a class="headerlink" href="#visionjava" title="Permanent link">&para;</a></h3>

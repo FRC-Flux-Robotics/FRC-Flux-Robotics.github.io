@@ -1,0 +1,11 @@
+/* Give diagrams and code tables more horizontal room on desktop screens */
+.md-grid {
+  max-width: 1440px;
+}
+
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
