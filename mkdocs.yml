@@ -1,8 +1,8 @@
 site_name: FLUX Robotics — FRC Team 10413
 site_url: https://frc-flux-robotics.github.io/v2/
 site_description: Software Engineering & Documentation Hub for FRC Team 10413 (FLUX Robotics)
-repo_url: https://github.com/FRC-Flux-Robotics/FRC-Flux-Robotics.github.io
-repo_name: FRC-Flux-Robotics
+repo_url: https://github.com/FRC-Flux-Robotics/New_Robot
+repo_name: FRC-Flux-Robotics/New_Robot
 
 theme:
   name: material
@@ -64,4 +64,9 @@ extra_css:
   - https://unpkg.com/katex@0/dist/katex.min.css
 
 nav:
-  - Home: index.md
+  - "Architecture & Class Map": index.md
+  - "Class Explainers (New_Robot)":
+      - "1. Boot, Configs & Containers": classes/robot-and-containers.md
+      - "2. Swerve Drivetrain Library": classes/drivetrain.md
+      - "3. Mechanisms & Shooting": classes/mechanisms.md
+      - "4. Vision, Autos & Utilities": classes/vision-autos-and-util.md
