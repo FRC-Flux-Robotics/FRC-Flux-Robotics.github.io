@@ -3,13 +3,13 @@
 These classes handle **starting the robot program**, **detecting which physical robot (`FUEL` or `CORAL`) is running**, **wiring up subsystems and Xbox controllers**, and **shaping joystick inputs**.
 
 ```mermaid
-flowchart LR
-    Main["Main.java"] --> Robot["Robot.java"]
-    Robot -->|selectRobot()| Robots["Robots.java\n(FUEL / CORAL)"]
-    Robot -->|CORAL| RC["RobotContainer.java"]
-    Robot -->|FUEL| FRC["FuelRobotContainer.java"]
-    FRC -.->|extends| RC
-    Sens["PiecewiseSensitivity\nSensitivityTuner\nInputProcessing\nDriverPreferences"] --> RC
+flowchart TB
+    Main["<b>Main.java</b><br/>JVM Entry Point"] --> Robot["<b>Robot.java</b><br/>LoggedRobot 20ms Loop"]
+    Robot -->|selectRobot()| Robots["<b>Robots.java</b><br/>FUEL & CORAL Configs"]
+    Robots -->|CORAL| RC["<b>RobotContainer.java</b><br/>Base Swerve, Vision & Autos"]
+    Robots -->|FUEL| FRC["<b>FuelRobotContainer.java</b><br/>Adds 6 FUEL Mechanisms"]
+    RC -.->|extended by| FRC
+    Sens["<b>PiecewiseSensitivity.java</b><br/><b>SensitivityTuner.java</b><br/><b>InputProcessing.java</b><br/><b>DriverPreferences.java</b>"] --> RC
 ```
 
 ---

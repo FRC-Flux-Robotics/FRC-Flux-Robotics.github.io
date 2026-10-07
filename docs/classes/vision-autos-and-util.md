@@ -3,19 +3,16 @@
 These classes handle **multi-camera AprilTag localization**, **camera calibration**, **safe PathPlanner autonomous execution**, and **low-level CAN batching & logging**.
 
 ```mermaid
-flowchart LR
-    subgraph VisFlow ["Vision Pipeline"]
-        VIOP["VisionIOPhotonVision.java\nVisionIOReplay.java"] -.->|implements| VIO["VisionIO.java"]
-        VIO --> Vis["Vision.java\n5 Rejection Filters +\nDynamic Std Devs"]
-        Vis -->|addVisionMeasurement| DI["DriveInterface.java"]
-        VCmds["DriveToTag.java\nResetPoseFromVision.java\nCameraValidationCmd.java\nAutoCalibrateCmd.java"] --> Vis & DI
-    end
-
-    subgraph AutoFlow ["Autonomous & Safety"]
-        FP["FieldPositions.java"] --> Autos["Autos.java"]
-        Autos --> SAB["SafeAutoBuilder.java\nPre-Flight + Runtime Guards"]
-        SAB --> DI
-    end
+flowchart TB
+    VCmds["<b>DriveToTag.java / ResetPoseFromVision.java</b><br/><b>CameraValidationCmd.java / AutoCalibrateCmd.java</b>"] --> Vis["<b>Vision.java</b><br/>5 Rejection Filters (VisionRejectReason)<br/>& Dynamic Std Devs (CameraConfig)"]
+    FP["<b>FieldPositions.java</b>"] --> Autos["<b>Autos.java</b><br/>Competition Auto Routines"]
+    Autos --> SAB["<b>SafeAutoBuilder.java</b><br/>Pre-Flight + Runtime Safety Guards"]
+    Vis -->|addVisionMeasurement| DI["<b>DriveInterface.java</b>"]
+    VCmds --> DI
+    SAB --> DI
+    Vis --> VIO["<b>VisionIO.java</b><br/>@AutoLog Camera Interface"]
+    VIO -.->|Real Camera| VIOP["<b>VisionIOPhotonVision.java</b><br/>PhotonCamera + Multi-Tag PnP"]
+    VIO -.->|Sim / Replay| VIOR["<b>VisionIOReplay.java</b><br/>Log Replay No-Op"]
 ```
 
 ---

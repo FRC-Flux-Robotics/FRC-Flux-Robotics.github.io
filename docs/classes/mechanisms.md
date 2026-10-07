@@ -4,14 +4,14 @@ Instead of writing separate subsystem classes for every motor on the robot, [`Ne
 
 ```mermaid
 flowchart TB
-    MCfgs["MechanismConfigs.java\nDefines INTAKE, TILT, INDEXER,\nFEEDER, SHOOTER, HOOD"] --> MBuilder["MechanismConfig.java +\nControlMode.java"]
-    MBuilder --> VMech["VelocityMechanism.java\n(Intake, Indexer, Feeder, Shooter)"]
-    MBuilder --> PMech["PositionMechanism.java\n(Tilter, Hood)"]
-    MIO["MechanismIO.java\n@AutoLog Interface"] --> VMech & PMech
-    MIOT["MechanismIOTalonFX.java\n(1 Motor: Intake, Tilter,\nIndexer, Feeder, Hood)"] -.->|implements| MIO
-    MIOD["MechanismIODualTalonFX.java\n(2 Counter-Rotating Motors:\nShooter ID 11 + 10)"] -.->|implements| MIO
-    MIOR["MechanismIOReplay.java\n(Log Replay)"] -.->|implements| MIO
-    Cmds["VelocityCmd.java\nShootCommand.java\nSetShooterRangeCmd.java\nRangeShootCmd.java + RangeTable.java"] --> VMech & PMech
+    MCfgs["<b>MechanismConfigs.java</b><br/>Defines INTAKE, TILT, INDEXER,<br/>FEEDER, SHOOTER, HOOD"] --> MBuilder["<b>MechanismConfig.java</b><br/><b>ControlMode.java</b>"]
+    Cmds["<b>VelocityCmd.java / ShootCommand.java</b><br/><b>SetShooterRangeCmd.java / RangeShootCmd.java</b><br/><b>RangeTable.java / MechanismTuning.java</b>"] --> VMech & PMech
+    MBuilder --> VMech["<b>VelocityMechanism.java</b><br/>Intake, Indexer, Feeder, Shooter"]
+    MBuilder --> PMech["<b>PositionMechanism.java</b><br/>Tilter, Hood"]
+    VMech & PMech --> MIO["<b>MechanismIO.java</b><br/>@AutoLog Motor Interface"]
+    MIO -.->|1 Motor| MIOT["<b>MechanismIOTalonFX.java</b><br/>Intake, Tilter, Indexer, Feeder, Hood"]
+    MIO -.->|2 Motors| MIOD["<b>MechanismIODualTalonFX.java</b><br/>Counter-Rotating Shooter (ID 11 + 10)"]
+    MIO -.->|Sim / Replay| MIOR["<b>MechanismIOReplay.java</b><br/>Log Replay No-Op"]
 ```
 
 ---

@@ -3,13 +3,13 @@
 All swerve drivetrain classes live in [`src/main/java/frc/lib/drivetrain/`](https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc/lib/drivetrain). Other subsystems and commands never depend on [`SwerveDrive`](https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/SwerveDrive.java) directly—they program against [`DriveInterface`](https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DriveInterface.java).
 
 ```mermaid
-flowchart LR
-    Consumers["RobotContainer /\nVision / Autos /\nSafeAutoBuilder"] --> DI["DriveInterface.java\n(Consumer API)"]
-    SD["SwerveDrive.java\n(CTRE Implementation)"] -.->|implements| DI
-    DIO["DrivetrainIO.java"] --> SD
-    DIOT["DrivetrainIOTalonFX.java"] -.->|implements| DIO
-    DIOR["DrivetrainIOReplay.java"] -.->|implements| DIO
-    Cfg["DrivetrainConfig.java\nModuleConfig.java\nPIDGains.java\nDriveState.java"] --> SD
+flowchart TB
+    Consumers["<b>RobotContainer / Vision</b><br/><b>Autos / SafeAutoBuilder</b>"] --> DI["<b>DriveInterface.java</b><br/>Abstract Drivetrain API"]
+    DI -.->|implemented by| SD["<b>SwerveDrive.java</b><br/>CTRE SwerveDrivetrain + PathPlanner"]
+    Cfg["<b>DrivetrainConfig.java</b><br/><b>ModuleConfig.java</b><br/><b>PIDGains.java / DriveState.java</b>"] --> SD
+    SD --> DIO["<b>DrivetrainIO.java</b><br/>@AutoLog Sensor Interface"]
+    DIO -.->|Real Hardware| DIOT["<b>DrivetrainIOTalonFX.java</b><br/>Kraken X60 + CANcoder + Pigeon 2"]
+    DIO -.->|Sim / Replay| DIOR["<b>DrivetrainIOReplay.java</b><br/>Log Replay No-Op"]
 ```
 
 ---

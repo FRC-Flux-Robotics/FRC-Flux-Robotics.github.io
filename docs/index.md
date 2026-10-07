@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # `New_Robot` Code Explainer — Architecture & Class Map
 
 Welcome to the software architecture guide for **[`New_Robot`](https://github.com/FRC-Flux-Robotics/New_Robot)** (FRC Team 10413 FLUX Robotics — 2026 Season).
@@ -8,61 +13,37 @@ This guide explains **every Java class in the repository**, **why it exists**, *
 
 ## 1. Overall Class Relationship Diagram
 
-The diagram below shows how all 38 Java classes in [`New_Robot/src/main/java/frc/`](https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc) fit together across **Boot & Containers**, **Swerve Drivetrain**, **Vision**, **Mechanisms**, **Commands & Autonomous**, and **Utilities**:
+The diagram below shows how all 38 Java classes in [`New_Robot/src/main/java/frc/`](https://github.com/FRC-Flux-Robotics/New_Robot/tree/main/src/main/java/frc) flow from **JVM Boot** at the top down to **AdvantageKit `*IO` Hardware & CAN Batching** at the bottom. Each of the 4 module pages linked below also includes a zoomed-in diagram for that specific package.
 
 ```mermaid
 flowchart TB
-    subgraph Boot ["1. Boot, Configs & Containers (frc.robot)"]
-        Main["Main.java\nJVM Entry Point"] --> Robot["Robot.java\nLoggedRobot 20ms Loop &\nMode (REAL / SIM / REPLAY)"]
-        Robot -->|reads RoboRIO comments| Robots["Robots.java\nFUEL & CORAL\nDrivetrainConfig + CameraConfig[]"]
-        Robot -->|CORAL config| RC["RobotContainer.java\nBase Swerve Controls, Vision,\nPose Reset & Auto Chooser"]
-        Robot -->|FUEL config| FRC["FuelRobotContainer.java\nExtends RobotContainer:\nAdds 6 Mechanisms & Operator Xbox"]
-        FRC -.->|extends| RC
-        Sens["PiecewiseSensitivity.java\nSensitivityTuner.java\nInputProcessing.java\nDriverPreferences.java"] --> RC
-    end
+    Main["<b>Main.java</b><br/>JVM Entry Point"] --> Robot["<b>Robot.java</b><br/>LoggedRobot 20ms Loop<br/>(REAL / SIM / REPLAY)"]
 
-    subgraph DriveLib ["2. Swerve Drivetrain (frc.lib.drivetrain)"]
-        DI["DriveInterface.java\nAbstract Drivetrain API"]
-        SD["SwerveDrive.java\nCTRE SwerveDrivetrain +\nPathPlanner + SysId"] -.->|implements| DI
-        DIO["DrivetrainIO.java\n@AutoLog Sensor Interface"] --> SD
-        DIOT["DrivetrainIOTalonFX.java\nReal Kraken X60 + CANcoder + Pigeon 2"] -.->|implements| DIO
-        DIOR["DrivetrainIOReplay.java\nLog Replay No-Op"] -.->|implements| DIO
-        DCfg["DrivetrainConfig.java\nModuleConfig.java\nPIDGains.java\nDriveState.java"] --> SD
-    end
+    Robot --> Input["<b>Driver Input & Curves</b><br/>InputProcessing.java<br/>PiecewiseSensitivity.java<br/>SensitivityTuner.java<br/>DriverPreferences.java"]
+    Robot -->|reads RoboRIO comment| Robots["<b>Robots.java</b><br/>Selects FUEL or CORAL<br/>DrivetrainConfig + CameraConfig[]"]
+    Robot --> Utils["<b>Core Utilities</b><br/>LogFileManager.java<br/>LoggedTracer.java<br/>PhoenixUtil.java / Elastic.java"]
 
-    subgraph VisionSys ["3. Multi-Camera Vision (frc.robot & frc.lib.vision)"]
-        Vis["Vision.java\nPose Estimation, 5 Rejection Filters,\nDynamic Std Devs & CamTune"]
-        VIO["VisionIO.java\n@AutoLog Camera Interface"] --> Vis
-        VIOP["VisionIOPhotonVision.java\nPhotonCamera + Multi-Tag PnP"] -.->|implements| VIO
-        VIOR["VisionIOReplay.java\nLog Replay No-Op"] -.->|implements| VIO
-        Vis -->|addVisionMeasurement| DI
-    end
+    Input --> RC
+    Robots -->|CORAL or Base| RC["<b>RobotContainer.java</b><br/>Base Swerve Controls,<br/>Vision & Auto Chooser"]
+    Robots -->|FUEL| FRC["<b>FuelRobotContainer.java</b><br/>Extends RobotContainer:<br/>Adds 6 FUEL Mechanisms"]
+    RC -.->|extended by| FRC
 
-    subgraph MechLib ["4. Mechanisms & Shooting (frc.lib.mechanism & frc.robot)"]
-        MCfgs["MechanismConfigs.java\nINTAKE, TILT, INDEXER,\nFEEDER, SHOOTER, HOOD"] --> FRC
-        VMech["VelocityMechanism.java\nIntake, Indexer, Feeder, Shooter"]
-        PMech["PositionMechanism.java\nTilter, Hood"]
-        MIO["MechanismIO.java\n@AutoLog Motor Interface"] --> VMech & PMech
-        MIOT["MechanismIOTalonFX.java\nSingle TalonFX"] -.->|implements| MIO
-        MIOD["MechanismIODualTalonFX.java\nLeader + Follower TalonFX (Shooter)"] -.->|implements| MIO
-        MIOR["MechanismIOReplay.java\nLog Replay No-Op"] -.->|implements| MIO
-        MTune["MechanismTuning.java\nLive Dashboard Speeds/Angles"] --> FRC
-    end
+    RC --> Autos["<b>Autonomous</b><br/>Autos.java<br/>SafeAutoBuilder.java<br/>FieldPositions.java"]
+    RC --> VCmds["<b>Vision Commands</b><br/>DriveToTag.java<br/>ResetPoseFromVision.java<br/>CameraValidationCmd.java<br/>AutoCalibrateCmd.java"]
+    FRC --> MCmds["<b>Shooting Commands</b><br/>ShootCommand.java<br/>RangeShootCmd.java<br/>SetShooterRangeCmd.java<br/>VelocityCmd.java / RangeTable.java"]
 
-    subgraph Cmds ["5. Commands & Autonomous (frc.robot & frc.robot.commands)"]
-        Autos["Autos.java\nCompetition Auto Routines"] --> SafeAuto["SafeAutoBuilder.java\nPre-Flight + Runtime Safety Guards"]
-        SafeAuto --> DI
-        MCmds["VelocityCmd.java\nShootCommand.java\nSetShooterRangeCmd.java\nRangeShootCmd.java + RangeTable.java"] --> VMech & PMech
-        VCmds["DriveToTag.java\nResetPoseFromVision.java\nCameraValidationCmd.java\nAutoCalibrateCmd.java"] --> Vis & DI
-    end
+    Autos --> Drive["<b>Swerve Drivetrain (frc.lib.drivetrain)</b><br/>DriveInterface.java / SwerveDrive.java<br/>DrivetrainConfig / ModuleConfig<br/>PIDGains / DriveState"]
+    VCmds --> Drive
+    VCmds --> Vis["<b>Vision Subsystem (frc.robot)</b><br/>Vision.java<br/>CameraConfig.java<br/>VisionRejectReason.java"]
+    Vis -->|addVisionMeasurement| Drive
+    MCmds --> Mechs["<b>Mechanisms (frc.lib.mechanism)</b><br/>VelocityMechanism.java<br/>PositionMechanism.java<br/>MechanismConfigs / MechanismConfig<br/>ControlMode / MechanismTuning"]
 
-    subgraph Utils ["6. Core Utilities (frc.lib.util & frc.robot.util)"]
-        PSig["PhoenixSignals.java\nBatched CAN refreshAll()"] --> DIOT & MIOT & MIOD
-        LogMgr["LogFileManager.java\nLoggedTracer.java\nPhoenixUtil.java\nElastic.java"] --> Robot
-    end
+    Drive --> DIO["<b>DrivetrainIO.java (@AutoLog)</b><br/>DrivetrainIOTalonFX.java (Real)<br/>DrivetrainIOReplay.java (Replay)"]
+    Vis --> VIO["<b>VisionIO.java (@AutoLog)</b><br/>VisionIOPhotonVision.java (Real)<br/>VisionIOReplay.java (Replay)"]
+    Mechs --> MIO["<b>MechanismIO.java (@AutoLog)</b><br/>MechanismIOTalonFX.java (1 Motor)<br/>MechanismIODualTalonFX.java (2 Motors)<br/>MechanismIOReplay.java (Replay)"]
 
-    RC --> DI & Vis & Autos
-    FRC --> VMech & PMech & MCmds
+    DIO --> PSig["<b>PhoenixSignals.java</b><br/>Batches all 50Hz TalonFX StatusSignals<br/>into a single refreshAll() per 20ms loop"]
+    MIO --> PSig
 ```
 
 ---
@@ -81,7 +62,7 @@ flowchart TB
 
 ## 3. Class-by-Class Explainer Pages
 
-Click into each module below for a detailed breakdown of every class, why it exists, what it does, and links to its source file on GitHub:
+Click into each module below for a detailed breakdown of every class, why it exists, what it does, a zoomed-in module diagram, and links to its source file on GitHub:
 
 | Module Page | Classes Covered |
 | :--- | :--- |
