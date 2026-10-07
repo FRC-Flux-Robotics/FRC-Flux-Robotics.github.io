@@ -19,14 +19,31 @@
 
         <h3>Driver Station Setup</h3>
         <ol>
-            <li>Connect to robot WiFi (10.104.13.X network)</li>
+            <li>Connect to robot WiFi (10.104.13.X network) or USB (172.22.11.2)</li>
             <li>Open Driver Station and verify:
                 <ul>
                     <li>Robot communication (green)</li>
-                    <li>Joystick detected (Port 0)</li>
-                    <li>Battery voltage > 12V</li>
+                    <li>Joystick detected (Port 0 for Driver, Port 1 for Operator on FUEL)</li>
+                    <li>Battery voltage &gt; 12V</li>
                 </ul>
             </li>
+        </ol>
+
+        <h3>Elastic Dashboard Setup</h3>
+        <ol>
+            <li>Open <strong>Elastic Dashboard</strong> alongside FRC Driver Station</li>
+            <li>Verify connection in <strong>Settings</strong> (gear icon):
+                <ul>
+                    <li><strong>Team Number / IP:</strong> <code>10413</code> (connects to <code>10.104.13.2</code> on WiFi or <code>172.22.11.2</code> on USB; use <code>127.0.0.1</code> for laptop simulation)</li>
+                </ul>
+            </li>
+            <li>Load the team layout file via <strong>File &gt; Open Layout</strong> (from the robot code repository root):
+                <ul>
+                    <li><strong><code>elastic-competition.json</code> (Match Play):</strong> Single clutter-free <code>Match</code> tab with Field view, <code>RobotName</code>, <code>Auto Chooser</code>, <code>Alliance</code>, <code>Battery</code>, <code>Vision</code>, <code>Has Targets</code>, and <code>Shooter At Target</code>.</li>
+                    <li><strong><code>elastic-test.json</code> (Pit, Practice &amp; Calibration):</strong> 5 diagnostic tabs (<code>Setup</code>, <code>Vision &amp; Cal</code>, <code>Drive Style</code>, <code>Tuning</code>, <code>Auto Test</code>).</li>
+                </ul>
+            </li>
+            <li>Verify the boot notification toast appears in Elastic (e.g., <code>[FUEL] initialized with 3 camera(s)</code> or <code>[CORAL] initialized with 1 camera(s)</code>) and select your autonomous routine in <strong>Auto Chooser</strong>.</li>
         </ol>
 
         <h3>Log Level Configuration</h3>

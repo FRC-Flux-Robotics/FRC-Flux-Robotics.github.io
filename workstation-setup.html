@@ -42,6 +42,11 @@
                 <td>Configure TalonFX motors, CANcoders, Pigeon IMU</td>
                 <td><a href="https://apps.microsoft.com/detail/9NVV4PWDW27Z" target="_blank">Microsoft Store: Phoenix Tuner X</a><br>Or search "Phoenix Tuner X" in Microsoft Store</td>
             </tr>
+            <tr>
+                <td><strong>Elastic Dashboard</strong></td>
+                <td>Driver Station &amp; pit dashboard for auto selection, vision, and tuning</td>
+                <td><a href="https://github.com/Gold872/elastic_dashboard/releases/latest" target="_blank">github.com/Gold872/elastic_dashboard/releases</a><br>Download: <code>Elastic-Windows-x64-installer.exe</code></td>
+            </tr>
         </table>
 
         <p><strong>Note:</strong> VS Code is included with WPILib installation. Do not install VS Code separately.</p>
@@ -51,8 +56,9 @@
             <li><strong>Git for Windows</strong> - Install first for version control</li>
             <li><strong>WPILib</strong> - Includes VS Code and Java</li>
             <li><strong>FRC Game Tools</strong> - Includes Driver Station and roboRIO imaging tool</li>
-            <li><strong>Phoenix Tuner X</strong> - For CTRE devices (drivetrain motors)</li>
-            <li><strong>REV Hardware Client</strong> - For REV devices (mechanism motors)</li>
+            <li><strong>Elastic Dashboard</strong> - Primary driver &amp; pit dashboard</li>
+            <li><strong>Phoenix Tuner X</strong> - For CTRE devices (drivetrain &amp; mechanism motors)</li>
+            <li><strong>REV Hardware Client</strong> - For REV devices</li>
         </ol>
 
         <h2>Git Installation</h2>
@@ -84,6 +90,24 @@
         </ol>
         <p><strong>Verify:</strong> Open "FRC Driver Station" from Start menu. Status lights should appear (will show "No Robot Communication" until connected).</p>
 
+        <h2>Elastic Dashboard Setup</h2>
+        <ol>
+            <li>Download <code>Elastic-Windows-x64-installer.exe</code> from <a href="https://github.com/Gold872/elastic_dashboard/releases/latest" target="_blank">GitHub releases</a> and run the installer</li>
+            <li>Open <strong>Elastic</strong> and click <strong>Settings</strong> (gear icon) to configure the NetworkTables (NT4) connection:
+                <ul>
+                    <li><strong>For Real Robot (WiFi / USB / Ethernet):</strong> Set <strong>Team Number / IP</strong> to <code>10413</code> (automatically connects to <code>10.104.13.2</code> on WiFi or <code>172.22.11.2</code> over USB)</li>
+                    <li><strong>For Laptop Simulation (<code>./gradlew simulateJava</code>):</strong> Set <strong>IP Address</strong> to <code>127.0.0.1</code> (<code>localhost</code>)</li>
+                </ul>
+            </li>
+            <li>Load the team dashboard layout via <strong>File &gt; Open Layout</strong> (located in the root of the robot repository):
+                <ul>
+                    <li><strong><code>elastic-competition.json</code> (Match Play):</strong> Single <code>Match</code> tab with Field view, <code>RobotName</code>, <code>Auto Chooser</code>, <code>Alliance</code>, <code>Battery</code>, <code>Vision</code>, <code>Has Targets</code>, and <code>Shooter At Target</code></li>
+                    <li><strong><code>elastic-test.json</code> (Pit, Practice &amp; Calibration):</strong> 5 diagnostic tabs (<code>Setup</code>, <code>Vision &amp; Cal</code>, <code>Drive Style</code>, <code>Tuning</code>, <code>Auto Test</code>)</li>
+                </ul>
+            </li>
+        </ol>
+        <p><strong>Verify:</strong> When connected to the robot or simulation, the title bar shows <strong>Connected (NT4)</strong> and a notification toast appears on boot (e.g., <code>[FUEL] initialized with 3 camera(s)</code>).</p>
+
         <h2>Phoenix Tuner X</h2>
         <ol>
             <li>Download from CTRE website or Microsoft Store</li>
@@ -106,6 +130,7 @@
             <li>WPILib VS Code opens and shows WPILib commands</li>
             <li>Can create a new WPILib project (Ctrl+Shift+P > "Create a new project")</li>
             <li>Driver Station opens and shows interface</li>
+            <li>Elastic Dashboard opens, Team Number set to <code>10413</code>, and <code>elastic-competition.json</code> / <code>elastic-test.json</code> layout loads</li>
             <li>Phoenix Tuner X installed and opens</li>
             <li>REV Hardware Client installed and opens</li>
         </ul>
