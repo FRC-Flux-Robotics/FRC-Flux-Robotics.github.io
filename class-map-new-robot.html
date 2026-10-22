@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLUX 10413 — New_Robot (2026) Interactive Class &amp; Dependency Map</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #111827;
+      --card-alt: #0f172a;
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --orange: #f97316;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px 24px 40px 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1520px; margin: 0 auto; }
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #f8fafc;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { border-color: var(--blue); background: #26354d; text-decoration: none; }
+    .btn.active { background: rgba(59,130,246,0.22); border-color: var(--blue); color: #60a5fa; }
+    .layout {
+      display: grid;
+      grid-template-columns: 2.15fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 1120px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .node-box { cursor: pointer; transition: opacity 0.15s ease; }
+    .chip {
+      display: inline-block;
+      margin: 2px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      cursor: pointer;
+    }
+    .chip:hover { border-color: var(--blue); color: #60a5fa; }
+    .chip-test {
+      border-color: rgba(245,158,11,0.4);
+      background: rgba(245,158,11,0.12);
+      color: #fcd34d;
+    }
+    .chip-test:hover { border-color: var(--amber); color: #fde68a; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--card-alt);
+    }
+    tr.row-item { cursor: pointer; transition: background 0.12s ease; }
+    tr.row-item:hover { background: rgba(59,130,246,0.08); }
+    tr.row-item.selected { background: rgba(59,130,246,0.16); }
+    .search-input {
+      background: var(--card-alt);
+      border: 1px solid #334155;
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 13px;
+      min-width: 220px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span class="badge" style="background:rgba(59,130,246,0.2);color:#60a5fa;border:1px solid rgba(59,130,246,0.4)">FRC Team 10413 (FLUX Robotics)</span>
+          <span class="badge" style="background:rgba(168,85,247,0.18);color:#c084fc;border:1px solid rgba(168,85,247,0.35)">2026 Season — 51 Java Classes + 20 Test Suites</span>
+        </div>
+        <h1 style="margin:8px 0 4px 0;font-size:22px;">New_Robot (2026) — Interactive Class &amp; Dependency Explorer</h1>
+        <div style="color:var(--muted);font-size:13.5px;">
+          Flows <b>Left &rarr; Right</b> from <b>1. Boot &amp; Containers</b> (`Main`, `Robot`, `RobotContainer`, `FuelRobotContainer`) &rarr; <b>2. Autos &amp; Commands</b> &rarr; <b>3. Core Subsystems</b> &rarr; <b>4. AdvantageKit *IO</b> &rarr; <b>5. Configs &amp; CAN Utils</b>.
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <div style="display:flex;gap:14px;font-size:12.5px;color:var(--muted);flex-wrap:wrap;">
+          <span>🟣 <b>frc.robot.*</b> (Robot, Containers, Cmds &amp; Configs)</span>
+          <span>🔵 <b>frc.lib.*</b> (Reusable Swerve, Vision, Mechanism &amp; CAN Library)</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" id="btn-show-all" onclick="toggleShowAll()">Show All Connections</button>
+          <a class="btn" href="class-map-2027.html">Compare w/ 2027 Class Map &rarr;</a>
+          <a class="btn" href="https://github.com/FRC-Flux-Robotics/New_Robot" target="_blank" rel="noopener">GitHub Repo ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="panel" style="overflow-x:auto;">
+        <svg id="graph-svg" viewBox="0 0 1160 880" width="100%"></svg>
+      </div>
+      <div class="panel" id="inspector" style="position:sticky;top:16px;"></div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" id="filter-pills">
+          <button class="btn active" data-filter="ALL" onclick="setFilter('ALL')">All 51 Classes</button>
+          <button class="btn" data-filter="COL0" onclick="setFilter('COL0')">1. Boot, Containers &amp; Input (9)</button>
+          <button class="btn" data-filter="COL1" onclick="setFilter('COL1')">2. Autos &amp; Commands (10)</button>
+          <button class="btn" data-filter="COL2" onclick="setFilter('COL2')">3. Core Subsystems (6)</button>
+          <button class="btn" data-filter="COL3" onclick="setFilter('COL3')">4. AdvantageKit *IO (10)</button>
+          <button class="btn" data-filter="COL4" onclick="setFilter('COL4')">5. Configs &amp; CAN Utils (16)</button>
+          <button class="btn" data-filter="TESTS" onclick="setFilter('TESTS')">JUnit 5 Tests (20)</button>
+        </div>
+        <input type="text" id="search-box" class="search-input" placeholder="Filter by class, package, or keyword..." oninput="renderTable()" />
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:205px;">Class</th>
+              <th style="width:185px;">Package &amp; Zone</th>
+              <th style="width:65px;">Lines</th>
+              <th>Purpose &amp; Public API</th>
+              <th style="width:240px;">Relations &amp; Tests</th>
+            </tr>
+          </thead>
+          <tbody id="class-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const NODES = [
+  {
+    "id": "Main",
+    "name": "Main.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Main.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/Main.java",
+    "lines": 25,
+    "summary": "Do NOT add any static variables to this class, or any initialization at all. Unless you know what you are doing, do not modify this file except to change the parameter class to the startRobot call.",
+    "methods": [
+      "void main(String... args)"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "Robot",
+    "name": "Robot.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Robot.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/Robot.java",
+    "lines": 156,
+    "summary": "Robot operating mode. Change to REPLAY to replay log files.",
+    "methods": [
+      "Robot()",
+      "void robotPeriodic()",
+      "void autonomousInit()",
+      "void autonomousExit()",
+      "void autonomousPeriodic()",
+      "void teleopInit()",
+      "void teleopPeriodic()"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "Robots",
+    "name": "Robots.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Robots.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/Robots.java",
+    "lines": 231,
+    "summary": "Robot-specific drivetrain configurations for CORAL and FUEL. <h2>Shared Constants</h2> <table> <tr><th>Parameter</th><th>Value</th></tr> <tr><td>Motor</td><td>Kraken x60 (free speed 96.7 rps)</td></tr> <tr><td>Drive Gear Ratio</td><td>6.3947</td></tr> <tr><td>Steer Gear Ratio</td><td>12.1</td></tr> <tr><td>Coupling Ratio</td><td>4.5</td></tr> <tr><td>Wheel Radius</td><td>2.0 in</td></tr> <tr><td>Max Speed (12V)</td><td>~4.83 m/s</td></tr> <tr><td>Speed Coefficient</td><td>0.5 (teleop = ~2.42 m/s)</td></tr> <tr><td>Max Angular Rate</td><td>\u03c0 rad/s (0.5 rot/s)</td></tr> <tr><td>Translation Deadband</td><td>0.02</td></tr> <tr><td>Rotation Deadband</td><td>0.02</td></tr> </table> <h3>PID Gains</h3> <table> <tr><th>Controller</th><th>kP</th><th>kI</th><th>kD</th><th>kS</th><th>kV</th><th>kA</th></tr> <tr><td>Steer</td><td>15</td><td>0</td><td>0.9</td><td>0.1</td><td>1.5</td><td>0</td></tr> <tr><td>Drive</td><td>0.1</td><td>0</td><td>0</td><td>0</td><td>0.124</td><td>0</td></tr> </table> <h3>Current Limits</h3> <table> <tr><th>Parameter</th><th>Value</th></tr> <tr><td>Drive Stator</td><td>60 A</td></tr> <tr><td>Drive Supply</td><td>120 A</td></tr> <tr><td>Steer Stator</td><td>60 A</td></tr> </table> <h2>CORAL</h2> <table> <tr><th>Parameter</th><th>Value</th></tr> <tr><td>CAN Bus</td><td>\"CANdace\"</td></tr> <tr><td>Pigeon ID</td><td>24</td></tr> <tr><td>Track</td><td>23.5 \u00d7 23.5 in</td></tr> <tr><td>Camera</td><td>OV9281 at (0.3m, 0, 0.25m)</td></tr> </table> <table> <tr><th>Module</th><th>Drive</th><th>Steer</th><th>Encoder</th><th>Offset</th><th>Inv Drive</th></tr> <tr><td>FL</td><td>7</td><td>8</td><td>23</td><td>+0.1213</td><td>no</td></tr> <tr><td>FR</td><td>1</td><td>2</td><td>20</td><td>-0.2949</td><td>yes</td></tr> <tr><td>BL</td><td>5</td><td>6</td><td>22</td><td>+0.0408</td><td>no</td></tr> <tr><td>BR</td><td>3</td><td>4</td><td>21</td><td>-0.3770</td><td>yes</td></tr> </table> <h2>FUEL</h2> <table> <tr><th>Parameter</th><th>Value</th></tr> <tr><td>CAN Bus</td><td>\"Drivetrain\"</td></tr> <tr><td>Pigeon ID</td><td>20</td></tr> <tr><td>Track</td><td>22.25 \u00d7 22.25 in</td></tr> </table> <table> <tr><th>Module</th><th>Drive</th><th>Steer</th><th>Encoder</th><th>Offset</th><th>Inv Drive</th></tr> <tr><td>FL</td><td>2</td><td>1</td><td>21</td><td>+0.1052</td><td>no</td></tr> <tr><td>FR</td><td>4</td><td>3</td><td>22</td><td>-0.1206</td><td>yes</td></tr> <tr><td>BL</td><td>6</td><td>5</td><td>23</td><td>-0.4668</td><td>no</td></tr> <tr><td>BR</td><td>8</td><td>7</td><td>24</td><td>-0.0371</td><td>yes</td></tr> </table>",
+    "methods": [],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "RobotContainer",
+    "name": "RobotContainer.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/RobotContainer.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/RobotContainer.java",
+    "lines": 468,
+    "summary": "Owns subsystems, default commands, button bindings, and auto chooser.",
+    "methods": [
+      "void initAutoChoosers()",
+      "Command getAutonomousCommand()",
+      "void teleopInit()",
+      "void periodic()"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "FuelRobotContainer",
+    "name": "FuelRobotContainer.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/FuelRobotContainer.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/FuelRobotContainer.java",
+    "lines": 335,
+    "summary": "FUEL robot container \u2014 Scott's controller layout.",
+    "methods": [
+      "void periodic()",
+      "void resetEncoders()"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "InputProcessing",
+    "name": "InputProcessing.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/InputProcessing.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/InputProcessing.java",
+    "lines": 19,
+    "summary": "Pure math utilities for joystick input processing.",
+    "methods": [],
+    "testedBy": [
+      "InputProcessingTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "PiecewiseSensitivity",
+    "name": "PiecewiseSensitivity.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/PiecewiseSensitivity.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/PiecewiseSensitivity.java",
+    "lines": 84,
+    "summary": "Piecewise linear sensitivity curve for joystick input processing.",
+    "methods": [
+      "PiecewiseSensitivity(",
+      "double transfer(double x)"
+    ],
+    "testedBy": [
+      "PiecewiseSensitivityTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "SensitivityTuner",
+    "name": "SensitivityTuner.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/SensitivityTuner.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/SensitivityTuner.java",
+    "lines": 82,
+    "summary": "Manages sensitivity curve tuning via SmartDashboard.",
+    "methods": [
+      "SensitivityTuner(",
+      "double transfer(double input)"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "DriverPreferences",
+    "name": "DriverPreferences.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/DriverPreferences.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/DriverPreferences.java",
+    "lines": 67,
+    "summary": "Persistent driver-tunable parameters stored on the RoboRIO via WPILib Preferences.",
+    "methods": [
+      "void init()",
+      "double maxSpeedScale()",
+      "double maxRotationScale()",
+      "double accelLimit()",
+      "double rotAccelLimit()",
+      "double slowModeScale()",
+      "double decelMultiplier()",
+      "double maxRotRate()"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "Autos",
+    "name": "Autos.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Autos.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/Autos.java",
+    "lines": 264,
+    "summary": "Auto routines for competition. All speeds match teleop max.",
+    "methods": [
+      "Command none()",
+      "Command driveToNearestTag(Vision vision, DriveInterface drive)",
+      "Command driveForward(DriveInterface drive)",
+      "Command precisionSquare(DriveInterface drive)",
+      "Command hubToDepot(DriveInterface drive)",
+      "Command leftToDepot(DriveInterface drive)",
+      "Command rightToDepot(DriveInterface drive)",
+      "Command backAndDeploy(DriveInterface drive)"
+    ],
+    "testedBy": [],
+    "col": 1
+  },
+  {
+    "id": "SafeAutoBuilder",
+    "name": "SafeAutoBuilder.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/SafeAutoBuilder.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/SafeAutoBuilder.java",
+    "lines": 404,
+    "summary": "Wraps PathPlanner commands with pre-flight validation and runtime monitoring.",
+    "methods": [
+      "Limits DEFAULT = new Limits(4.0, 2.0, 1.0, 0.30, 0.5, 10.0, 0.5, 5)",
+      "Limits COMPETITION = new Limits(4.0, 2.0, 1.0, 0.30, 0.5, 10.0, 0.5, 5)",
+      "Command wrap(PathPlannerPath path, DriveInterface drive)",
+      "Command wrap(PathPlannerPath path, DriveInterface drive, Limits limits)",
+      "Command wrap(",
+      "boolean checkSpeedAboveDeadband(double speedMps, DriveInterface drive)",
+      "void initDashboard()",
+      "void initialize()"
+    ],
+    "testedBy": [],
+    "col": 1
+  },
+  {
+    "id": "DriveToTag",
+    "name": "DriveToTag.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/DriveToTag.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/DriveToTag.java",
+    "lines": 104,
+    "summary": "Simple P-controller command: rotate to align yaw, drive forward by area.",
+    "methods": [
+      "DriveToTag(",
+      "DriveToTag(Vision vision, DriveInterface drive)",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)"
+    ],
+    "testedBy": [
+      "DriveToTagTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "ShootCommand",
+    "name": "ShootCommand.java",
+    "pkg": "frc.robot.commands",
+    "relPath": "src/main/java/frc/robot/commands/ShootCommand.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/commands/ShootCommand.java",
+    "lines": 39,
+    "summary": "Runs the shooter at a supplied speed. Stays active until cancelled (works with toggleOnTrue). Stops the shooter on end.",
+    "methods": [
+      "ShootCommand(VelocityMechanism shooter, DoubleSupplier speedRPS)",
+      "void initialize()",
+      "void end(boolean interrupted)",
+      "boolean isFinished()"
+    ],
+    "testedBy": [
+      "MechanismCommandsTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "RangeShootCmd",
+    "name": "RangeShootCmd.java",
+    "pkg": "frc.robot.commands",
+    "relPath": "src/main/java/frc/robot/commands/RangeShootCmd.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/commands/RangeShootCmd.java",
+    "lines": 98,
+    "summary": "Automatic range-based shooting. Continuously calculates distance to hub, sets shooter speed and hood angle from range table, and feeds when shooter reaches target speed.",
+    "methods": [
+      "RangeShootCmd(",
+      "void initialize()",
+      "void execute()",
+      "void end(boolean interrupted)",
+      "boolean isFinished()"
+    ],
+    "testedBy": [
+      "MechanismCommandsTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "SetShooterRangeCmd",
+    "name": "SetShooterRangeCmd.java",
+    "pkg": "frc.robot.commands",
+    "relPath": "src/main/java/frc/robot/commands/SetShooterRangeCmd.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/commands/SetShooterRangeCmd.java",
+    "lines": 53,
+    "summary": "Sets shooter speed and hood position from a tunable range preset. Finishes immediately.",
+    "methods": [
+      "void initialize()",
+      "void end(boolean interrupted)",
+      "boolean isFinished()"
+    ],
+    "testedBy": [
+      "MechanismCommandsTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "VelocityCmd",
+    "name": "VelocityCmd.java",
+    "pkg": "frc.robot.commands",
+    "relPath": "src/main/java/frc/robot/commands/VelocityCmd.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/commands/VelocityCmd.java",
+    "lines": 56,
+    "summary": "Runs a velocity mechanism at a supplied speed (RPS). Sign of the speed determines direction. Stops on end. Finishes after timeout if set, otherwise runs until cancelled.",
+    "methods": [
+      "VelocityCmd(VelocityMechanism mechanism, DoubleSupplier speedRPS)",
+      "void initialize()",
+      "void execute()",
+      "void end(boolean interrupted)",
+      "boolean isFinished()"
+    ],
+    "testedBy": [
+      "MechanismCommandsTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "CameraValidationCmd",
+    "name": "CameraValidationCmd.java",
+    "pkg": "frc.robot.commands",
+    "relPath": "src/main/java/frc/robot/commands/CameraValidationCmd.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/commands/CameraValidationCmd.java",
+    "lines": 751,
+    "summary": "Self-referencing camera transform calibration. Does NOT depend on accurate absolute odometry.",
+    "methods": [
+      "void initialize()",
+      "void execute()",
+      "void end(boolean interrupted)",
+      "Result getResult()",
+      "boolean isFinished()",
+      "void checkAutoApply(int cameraCount)"
+    ],
+    "testedBy": [
+      "CameraValidationCmdTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "AutoCalibrateCmd",
+    "name": "AutoCalibrateCmd.java",
+    "pkg": "frc.robot.commands",
+    "relPath": "src/main/java/frc/robot/commands/AutoCalibrateCmd.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/commands/AutoCalibrateCmd.java",
+    "lines": 140,
+    "summary": "Fully automated camera calibration. Runs CameraValidationCmd repeatedly, applying corrections between passes until all cameras converge or max iterations reached.",
+    "methods": [
+      "AutoCalibrateCmd(Vision vision, DriveInterface drive, CameraConfig[] cameras)",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)"
+    ],
+    "testedBy": [],
+    "col": 1
+  },
+  {
+    "id": "ResetPoseFromVision",
+    "name": "ResetPoseFromVision.java",
+    "pkg": "frc.robot.commands",
+    "relPath": "src/main/java/frc/robot/commands/ResetPoseFromVision.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/commands/ResetPoseFromVision.java",
+    "lines": 95,
+    "summary": "Collects 3 pose measurements from each camera, averages them, and resets odometry. Triggered from the Elastic dashboard. Robot should be stationary for best results.",
+    "methods": [
+      "ResetPoseFromVision(Vision vision, DriveInterface drive)",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)"
+    ],
+    "testedBy": [],
+    "col": 1
+  },
+  {
+    "id": "DriveInterface",
+    "name": "DriveInterface.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/DriveInterface.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DriveInterface.java",
+    "lines": 64,
+    "summary": "Clean API for drivetrain consumers. Program against this, not the concrete implementation.",
+    "methods": [
+      "void driveFieldCentricFacingAngle(",
+      "void setDeadband(double translationFraction, double rotationFraction)",
+      "void setIdle()",
+      "void setBrake()",
+      "Command followPathCommand(String pathName)"
+    ],
+    "testedBy": [
+      "DriveInterfaceTest",
+      "VisionRoundRobinTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "SwerveDrive",
+    "name": "SwerveDrive.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/SwerveDrive.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/SwerveDrive.java",
+    "lines": 609,
+    "summary": "Swerve drivetrain implementation backed by CTRE SwerveDrivetrain.",
+    "methods": [
+      "SwerveDrive(DrivetrainConfig config, BooleanSupplier shouldFlipPath)",
+      "Command followPathCommand(String pathName)",
+      "void drive(",
+      "void driveFieldCentricFacingAngle(",
+      "void updateOdometry()",
+      "Pose2d getPose()",
+      "ChassisSpeeds getVelocity()",
+      "Rotation2d getHeading()"
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
+    "id": "Vision",
+    "name": "Vision.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Vision.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/Vision.java",
+    "lines": 510,
+    "summary": "Vision subsystem: processes VisionIO inputs for pose estimation with dynamic std devs.",
+    "methods": [
+      "Vision(VisionIO[] ios, CameraConfig[] cameras, DriveInterface drive)",
+      "void periodic()",
+      "void setEnabled(boolean enabled)",
+      "boolean isEnabled()",
+      "boolean isConnected()",
+      "Pose2d getLastVisionPose()",
+      "int getCameraCount()",
+      "String getCameraName(int index)"
+    ],
+    "testedBy": [
+      "VisionRejectionTest",
+      "VisionRoundRobinTest",
+      "CameraValidationCmdTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "VelocityMechanism",
+    "name": "VelocityMechanism.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/VelocityMechanism.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/VelocityMechanism.java",
+    "lines": 60,
+    "summary": "Velocity-controlled mechanism subsystem using MechanismIO with AdvantageKit logging.",
+    "methods": [
+      "VelocityMechanism(MechanismIO io, MechanismConfig config)",
+      "void periodic()",
+      "void setVelocity(double velocityRPS)",
+      "void stop()",
+      "boolean atTarget()",
+      "double getVelocity()",
+      "double getTargetVelocity()"
+    ],
+    "testedBy": [
+      "VelocityMechanismTest",
+      "MechanismCommandsTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "PositionMechanism",
+    "name": "PositionMechanism.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/PositionMechanism.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/PositionMechanism.java",
+    "lines": 78,
+    "summary": "Position-controlled mechanism subsystem using MechanismIO with AdvantageKit logging.",
+    "methods": [
+      "PositionMechanism(MechanismIO io, MechanismConfig config)",
+      "void periodic()",
+      "void setPosition(double positionRotations)",
+      "void jogUp()",
+      "void jogDown()",
+      "void stop()",
+      "boolean atTarget()",
+      "double getPosition()"
+    ],
+    "testedBy": [
+      "PositionMechanismTest",
+      "MechanismCommandsTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "VisionRejectReason",
+    "name": "VisionRejectReason.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/VisionRejectReason.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/VisionRejectReason.java",
+    "lines": 11,
+    "summary": "Reasons a vision measurement can be rejected from pose estimation.",
+    "methods": [],
+    "testedBy": [
+      "VisionRejectionTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "DrivetrainIO",
+    "name": "DrivetrainIO.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/DrivetrainIO.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DrivetrainIO.java",
+    "lines": 20,
+    "summary": "Hardware abstraction for drivetrain sensor data.",
+    "methods": [],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "DrivetrainIOTalonFX",
+    "name": "DrivetrainIOTalonFX.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/DrivetrainIOTalonFX.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DrivetrainIOTalonFX.java",
+    "lines": 66,
+    "summary": "Real hardware IO \u2014 batch-refreshes CAN signals from TalonFX motors, CANcoders, and Pigeon2.",
+    "methods": [
+      "DrivetrainIOTalonFX(SwerveDrive drivetrain, String canBusName)",
+      "void updateInputs(DrivetrainIOInputsAutoLogged inputs)"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "DrivetrainIOReplay",
+    "name": "DrivetrainIOReplay.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/DrivetrainIOReplay.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DrivetrainIOReplay.java",
+    "lines": 10,
+    "summary": "No-op IO implementation for log replay. AdvantageKit fills inputs from log data.",
+    "methods": [
+      "void updateInputs(DrivetrainIOInputsAutoLogged inputs)"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "VisionIO",
+    "name": "VisionIO.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VisionIO.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/vision/VisionIO.java",
+    "lines": 41,
+    "summary": "Hardware abstraction for vision camera data. One instance per camera.",
+    "methods": [
+      "void setTransform(Transform3d robotToCamera)"
+    ],
+    "testedBy": [
+      "VisionRejectionTest",
+      "VisionRoundRobinTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "VisionIOPhotonVision",
+    "name": "VisionIOPhotonVision.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VisionIOPhotonVision.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/vision/VisionIOPhotonVision.java",
+    "lines": 106,
+    "summary": "Real PhotonVision hardware IO. One instance per camera.",
+    "methods": [
+      "VisionIOPhotonVision(CameraConfig config, AprilTagFieldLayout fieldLayout)",
+      "void setTransform(Transform3d robotToCamera)",
+      "void updateInputs(VisionIOInputsAutoLogged inputs)"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "VisionIOReplay",
+    "name": "VisionIOReplay.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VisionIOReplay.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/vision/VisionIOReplay.java",
+    "lines": 9,
+    "summary": "No-op vision IO for AdvantageKit log replay.",
+    "methods": [
+      "void updateInputs(VisionIOInputsAutoLogged inputs)"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "MechanismIO",
+    "name": "MechanismIO.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismIO.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/MechanismIO.java",
+    "lines": 36,
+    "summary": "Hardware abstraction for mechanism motor data. One instance per mechanism.",
+    "methods": [
+      "void setPosition(double positionRotations)",
+      "void setMotionMagicPosition(double positionRotations)",
+      "void setVelocity(double velocityRPS)",
+      "void stop()",
+      "void resetPosition()"
+    ],
+    "testedBy": [
+      "MechanismIOTest",
+      "PositionMechanismTest",
+      "VelocityMechanismTest",
+      "MechanismCommandsTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "MechanismIOTalonFX",
+    "name": "MechanismIOTalonFX.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
+    "lines": 151,
+    "summary": "Real hardware IO for a single TalonFX motor mechanism with batched CAN refresh.",
+    "methods": [
+      "MechanismIOTalonFX(MechanismConfig config)",
+      "TalonFX getMotor()",
+      "void setPosition(double positionRotations)",
+      "void setVelocity(double velocityRPS)",
+      "void setMotionMagicPosition(double positionRotations)",
+      "void stop()",
+      "void resetPosition()",
+      "void updateInputs(MechanismIOInputsAutoLogged inputs)"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "MechanismIODualTalonFX",
+    "name": "MechanismIODualTalonFX.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismIODualTalonFX.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/MechanismIODualTalonFX.java",
+    "lines": 195,
+    "summary": "Real hardware IO for a dual TalonFX motor mechanism with batched CAN refresh.",
+    "methods": [
+      "MechanismIODualTalonFX(MechanismConfig config)",
+      "TalonFX getMotor()",
+      "TalonFX getFollowerMotor()",
+      "void setPosition(double positionRotations)",
+      "void setVelocity(double velocityRPS)",
+      "void setMotionMagicPosition(double positionRotations)",
+      "void stop()",
+      "void resetPosition()"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "MechanismIOReplay",
+    "name": "MechanismIOReplay.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismIOReplay.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/MechanismIOReplay.java",
+    "lines": 10,
+    "summary": "No-op IO implementation for log replay. AdvantageKit fills inputs from log data.",
+    "methods": [
+      "void updateInputs(MechanismIOInputsAutoLogged inputs)"
+    ],
+    "testedBy": [
+      "MechanismIOTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "MechanismConfigs",
+    "name": "MechanismConfigs.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/MechanismConfigs.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/MechanismConfigs.java",
+    "lines": 126,
+    "summary": "Static MechanismConfig instances for FUEL robot mechanisms. Mirrors Robots.java pattern for drivetrain configs.",
+    "methods": [],
+    "testedBy": [],
+    "col": 4
+  },
+  {
+    "id": "MechanismConfig",
+    "name": "MechanismConfig.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismConfig.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/MechanismConfig.java",
+    "lines": 235,
+    "summary": "Immutable configuration for a mechanism subsystem. Use the Builder to construct.",
+    "methods": [
+      "boolean isDualMotor()",
+      "boolean hasMotionMagic()",
+      "boolean hasSoftLimits()",
+      "boolean hasStatorCurrentLimit()",
+      "boolean hasSupplyCurrentLimit()",
+      "Builder name(String name)",
+      "Builder motorId(int motorId)",
+      "Builder canBus(String canBus)"
+    ],
+    "testedBy": [
+      "MechanismConfigTest",
+      "PositionMechanismTest",
+      "VelocityMechanismTest",
+      "MechanismCommandsTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "MechanismTuning",
+    "name": "MechanismTuning.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/MechanismTuning.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/MechanismTuning.java",
+    "lines": 174,
+    "summary": "Dashboard-tunable mechanism parameters with persistent save/load via WPILib Preferences. On boot, loads last-saved values (or code defaults). Dashboard edits are live. Press \"Save\" button to persist current values across reboots.",
+    "methods": [
+      "void init()",
+      "void periodic()",
+      "double intakeInSpeed()",
+      "double intakeOutSpeed()",
+      "double indexerSpeed()",
+      "double feederSpeed()",
+      "double shooterSpeed()",
+      "double hoodShort()"
+    ],
+    "testedBy": [
+      "MechanismCommandsTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "ControlMode",
+    "name": "ControlMode.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/ControlMode.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/mechanism/ControlMode.java",
+    "lines": 7,
+    "summary": "Control mode for a mechanism motor.",
+    "methods": [],
+    "testedBy": [
+      "MechanismConfigTest",
+      "PositionMechanismTest",
+      "VelocityMechanismTest",
+      "MechanismCommandsTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "RangeTable",
+    "name": "RangeTable.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/RangeTable.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/RangeTable.java",
+    "lines": 98,
+    "summary": "New_Robot 2026 class",
+    "methods": [
+      "Range(double distance, double speed, double elevation)",
+      "RangeTable()",
+      "double getSpeedPreset(int preset)",
+      "double getElevationPreset(int preset)",
+      "double lerp(double a, double b, double x)",
+      "Range getRange(double distance)",
+      "Range getRangeStep(double distance)"
+    ],
+    "testedBy": [
+      "MechanismCommandsTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "DrivetrainConfig",
+    "name": "DrivetrainConfig.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/DrivetrainConfig.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DrivetrainConfig.java",
+    "lines": 293,
+    "summary": "New_Robot 2026 class",
+    "methods": [
+      "Builder canBusName(String canBusName)",
+      "Builder pigeonId(int pigeonId)",
+      "Builder frontLeft(ModuleConfig config)",
+      "Builder frontRight(ModuleConfig config)",
+      "Builder backLeft(ModuleConfig config)",
+      "Builder backRight(ModuleConfig config)",
+      "Builder driveGearRatio(double ratio)",
+      "Builder steerGearRatio(double ratio)"
+    ],
+    "testedBy": [
+      "DriveInterfaceTest",
+      "DrivetrainConfigTest",
+      "VisionRoundRobinTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "ModuleConfig",
+    "name": "ModuleConfig.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/ModuleConfig.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/ModuleConfig.java",
+    "lines": 31,
+    "summary": "New_Robot 2026 class",
+    "methods": [
+      "ModuleConfig("
+    ],
+    "testedBy": [
+      "DrivetrainConfigTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "CameraConfig",
+    "name": "CameraConfig.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/CameraConfig.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/CameraConfig.java",
+    "lines": 23,
+    "summary": "Creates a CameraConfig with default stdDevMultiplier of 1.0.",
+    "methods": [
+      "CameraConfig(String name, Transform3d robotToCamera)"
+    ],
+    "testedBy": [
+      "CameraConfigTest",
+      "DrivetrainConfigTest",
+      "VisionRoundRobinTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "PIDGains",
+    "name": "PIDGains.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/PIDGains.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/PIDGains.java",
+    "lines": 23,
+    "summary": "New_Robot 2026 class",
+    "methods": [
+      "PIDGains(double kP, double kI, double kD, double kS, double kV, double kA)",
+      "PIDGains(double kP, double kI, double kD)"
+    ],
+    "testedBy": [
+      "DrivetrainConfigTest",
+      "MechanismConfigTest",
+      "PositionMechanismTest",
+      "VelocityMechanismTest",
+      "MechanismCommandsTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "DriveState",
+    "name": "DriveState.java",
+    "pkg": "frc.lib.drivetrain",
+    "relPath": "src/main/java/frc/lib/drivetrain/DriveState.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/drivetrain/DriveState.java",
+    "lines": 18,
+    "summary": "Snapshot of drivetrain state at a point in time.",
+    "methods": [
+      "DriveState(Pose2d pose, ChassisSpeeds velocity, Rotation2d heading)"
+    ],
+    "testedBy": [
+      "DriveInterfaceTest",
+      "DriveStateTest",
+      "VisionRoundRobinTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "FieldPositions",
+    "name": "FieldPositions.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/FieldPositions.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/FieldPositions.java",
+    "lines": 344,
+    "summary": "Alliance-neutral and coordinate-system-agnostic field geometry & practice-field bounds.",
+    "methods": [
+      "double minBlueX()",
+      "double maxBlueX()",
+      "double minBlueY()",
+      "double maxBlueY()",
+      "void init()",
+      "CoordinateSystem getCoordinateSystem()",
+      "void setCoordinateSystem(CoordinateSystem system)",
+      "FieldProfile getFieldProfile()"
+    ],
+    "testedBy": [
+      "FieldPositionsTest",
+      "VisionRejectionTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "PhoenixSignals",
+    "name": "PhoenixSignals.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/PhoenixSignals.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/util/PhoenixSignals.java",
+    "lines": 119,
+    "summary": "Centralized CAN signal registry \u2014 collects all StatusSignals across subsystems and refreshes them in a single `BaseStatusSignal.refreshAll()` call per bus, reducing CAN round-trips.",
+    "methods": [
+      "int register(String busName, BaseStatusSignal... signals)",
+      "void refreshAll()",
+      "boolean isOK(int groupId)",
+      "int signalCount()",
+      "void reset()"
+    ],
+    "testedBy": [
+      "PhoenixSignalsTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "PhoenixUtil",
+    "name": "PhoenixUtil.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/PhoenixUtil.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/util/PhoenixUtil.java",
+    "lines": 28,
+    "summary": "Utility methods for CTRE Phoenix 6 hardware configuration.",
+    "methods": [
+      "StatusCode tryUntilOk(Supplier<StatusCode> configCall, int maxAttempts)"
+    ],
+    "testedBy": [
+      "PhoenixUtilTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "LogFileManager",
+    "name": "LogFileManager.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/LogFileManager.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/util/LogFileManager.java",
+    "lines": 61,
+    "summary": "Manages AdvantageKit log file storage with automatic old-log cleanup.",
+    "methods": [
+      "String getLogPath()"
+    ],
+    "testedBy": [
+      "LogFileManagerTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "LoggedTracer",
+    "name": "LoggedTracer.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/LoggedTracer.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/lib/util/LoggedTracer.java",
+    "lines": 28,
+    "summary": "Lightweight per-section loop profiler that logs elapsed ms via AdvantageKit.",
+    "methods": [
+      "void reset()",
+      "void trace(String section)"
+    ],
+    "testedBy": [
+      "LoggedTracerTest"
+    ],
+    "col": 4
+  },
+  {
+    "id": "Elastic",
+    "name": "Elastic.java",
+    "pkg": "frc.robot.util",
+    "relPath": "src/main/java/frc/robot/util/Elastic.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/main/java/frc/robot/util/Elastic.java",
+    "lines": 197,
+    "summary": "New_Robot 2026 class",
+    "methods": [
+      "void sendNotification(Notification notification)",
+      "void selectTab(String tabName)",
+      "void selectTab(int tabIndex)",
+      "Notification()",
+      "Notification(",
+      "Notification(NotificationLevel level, String title, String description)",
+      "Notification(",
+      "Notification("
+    ],
+    "testedBy": [],
+    "col": 4
+  }
+];
+    const EDGES = [["DriveInterface", "DriveState"], ["DriveInterface", "DrivetrainConfig"], ["DrivetrainConfig", "CameraConfig"], ["DrivetrainConfig", "ModuleConfig"], ["DrivetrainConfig", "PIDGains"], ["DrivetrainConfig", "Vision"], ["DrivetrainIOReplay", "DrivetrainIO"], ["DrivetrainIOTalonFX", "DrivetrainIO"], ["DrivetrainIOTalonFX", "PhoenixSignals"], ["DrivetrainIOTalonFX", "SwerveDrive"], ["SwerveDrive", "DriveInterface"], ["SwerveDrive", "DriveState"], ["SwerveDrive", "DrivetrainConfig"], ["SwerveDrive", "DrivetrainIO"], ["SwerveDrive", "DrivetrainIOReplay"], ["SwerveDrive", "DrivetrainIOTalonFX"], ["SwerveDrive", "ModuleConfig"], ["MechanismConfig", "ControlMode"], ["MechanismConfig", "DrivetrainConfig"], ["MechanismConfig", "PIDGains"], ["MechanismIODualTalonFX", "MechanismConfig"], ["MechanismIODualTalonFX", "MechanismIO"], ["MechanismIODualTalonFX", "PhoenixSignals"], ["MechanismIODualTalonFX", "PhoenixUtil"], ["MechanismIOReplay", "MechanismIO"], ["MechanismIOTalonFX", "MechanismConfig"], ["MechanismIOTalonFX", "MechanismIO"], ["MechanismIOTalonFX", "PhoenixSignals"], ["MechanismIOTalonFX", "PhoenixUtil"], ["PositionMechanism", "ControlMode"], ["PositionMechanism", "MechanismConfig"], ["PositionMechanism", "MechanismIO"], ["VelocityMechanism", "ControlMode"], ["VelocityMechanism", "MechanismConfig"], ["VelocityMechanism", "MechanismIO"], ["LoggedTracer", "Vision"], ["PhoenixSignals", "Robot"], ["VisionIO", "DriveToTag"], ["VisionIOPhotonVision", "CameraConfig"], ["VisionIOPhotonVision", "Vision"], ["VisionIOPhotonVision", "VisionIO"], ["VisionIOReplay", "VisionIO"], ["Autos", "DriveInterface"], ["Autos", "DriveToTag"], ["Autos", "FieldPositions"], ["Autos", "Robot"], ["Autos", "SafeAutoBuilder"], ["Autos", "Vision"], ["DriveToTag", "DriveInterface"], ["DriveToTag", "Vision"], ["FieldPositions", "RobotContainer"], ["FieldPositions", "SafeAutoBuilder"], ["FieldPositions", "Vision"], ["FuelRobotContainer", "CameraConfig"], ["FuelRobotContainer", "DriveInterface"], ["FuelRobotContainer", "MechanismConfig"], ["FuelRobotContainer", "MechanismConfigs"], ["FuelRobotContainer", "MechanismIO"], ["FuelRobotContainer", "MechanismIODualTalonFX"], ["FuelRobotContainer", "MechanismIOReplay"], ["FuelRobotContainer", "MechanismIOTalonFX"], ["FuelRobotContainer", "MechanismTuning"], ["FuelRobotContainer", "PositionMechanism"], ["FuelRobotContainer", "RangeShootCmd"], ["FuelRobotContainer", "RangeTable"], ["FuelRobotContainer", "Robot"], ["FuelRobotContainer", "RobotContainer"], ["FuelRobotContainer", "SetShooterRangeCmd"], ["FuelRobotContainer", "ShootCommand"], ["FuelRobotContainer", "VelocityCmd"], ["FuelRobotContainer", "VelocityMechanism"], ["FuelRobotContainer", "VisionIO"], ["Main", "Robot"], ["MechanismConfigs", "ControlMode"], ["MechanismConfigs", "MechanismConfig"], ["MechanismConfigs", "PIDGains"], ["MechanismConfigs", "Robots"], ["MechanismTuning", "MechanismConfigs"], ["MechanismTuning", "RangeTable"], ["RangeTable", "Robot"], ["Robot", "CameraConfig"], ["Robot", "DrivetrainConfig"], ["Robot", "DrivetrainIOReplay"], ["Robot", "Elastic"], ["Robot", "FieldPositions"], ["Robot", "FuelRobotContainer"], ["Robot", "LogFileManager"], ["Robot", "LoggedTracer"], ["Robot", "PhoenixSignals"], ["Robot", "RobotContainer"], ["Robot", "Robots"], ["Robot", "SwerveDrive"], ["Robot", "VisionIO"], ["Robot", "VisionIOPhotonVision"], ["Robot", "VisionIOReplay"], ["RobotContainer", "Autos"], ["RobotContainer", "CameraConfig"], ["RobotContainer", "DriveInterface"], ["RobotContainer", "DriveToTag"], ["RobotContainer", "DriverPreferences"], ["RobotContainer", "Elastic"], ["RobotContainer", "FieldPositions"], ["RobotContainer", "FuelRobotContainer"], ["RobotContainer", "InputProcessing"], ["RobotContainer", "PiecewiseSensitivity"], ["RobotContainer", "ResetPoseFromVision"], ["RobotContainer", "SafeAutoBuilder"], ["RobotContainer", "SensitivityTuner"], ["RobotContainer", "SwerveDrive"], ["RobotContainer", "Vision"], ["RobotContainer", "VisionIO"], ["Robots", "CameraConfig"], ["Robots", "DrivetrainConfig"], ["Robots", "ModuleConfig"], ["Robots", "PIDGains"], ["Robots", "Robot"], ["Robots", "Vision"], ["SafeAutoBuilder", "DriveInterface"], ["SafeAutoBuilder", "FieldPositions"], ["SafeAutoBuilder", "Robot"], ["SafeAutoBuilder", "RobotContainer"], ["SensitivityTuner", "PiecewiseSensitivity"], ["Vision", "CameraConfig"], ["Vision", "CameraValidationCmd"], ["Vision", "DriveInterface"], ["Vision", "FieldPositions"], ["Vision", "Robot"], ["Vision", "VisionIO"], ["Vision", "VisionRejectReason"], ["AutoCalibrateCmd", "CameraConfig"], ["AutoCalibrateCmd", "CameraValidationCmd"], ["AutoCalibrateCmd", "DriveInterface"], ["AutoCalibrateCmd", "Vision"], ["AutoCalibrateCmd", "VisionIO"], ["CameraValidationCmd", "CameraConfig"], ["CameraValidationCmd", "DriveInterface"], ["CameraValidationCmd", "Vision"], ["RangeShootCmd", "FieldPositions"], ["RangeShootCmd", "MechanismTuning"], ["RangeShootCmd", "PositionMechanism"], ["RangeShootCmd", "RangeTable"], ["RangeShootCmd", "VelocityMechanism"], ["ResetPoseFromVision", "DriveInterface"], ["ResetPoseFromVision", "Elastic"], ["ResetPoseFromVision", "Robot"], ["ResetPoseFromVision", "Vision"], ["SetShooterRangeCmd", "MechanismTuning"], ["SetShooterRangeCmd", "PositionMechanism"], ["SetShooterRangeCmd", "VelocityMechanism"], ["ShootCommand", "VelocityMechanism"], ["VelocityCmd", "VelocityMechanism"]];
+    const TESTS = [
+  {
+    "id": "CameraConfigTest",
+    "name": "CameraConfigTest.java",
+    "relPath": "src/test/java/frc/lib/drivetrain/CameraConfigTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/drivetrain/CameraConfigTest.java",
+    "lines": 62,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "DriveInterfaceTest",
+    "name": "DriveInterfaceTest.java",
+    "relPath": "src/test/java/frc/lib/drivetrain/DriveInterfaceTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/drivetrain/DriveInterfaceTest.java",
+    "lines": 146,
+    "summary": "Stub implementation to verify the interface is usable."
+  },
+  {
+    "id": "DriveStateTest",
+    "name": "DriveStateTest.java",
+    "relPath": "src/test/java/frc/lib/drivetrain/DriveStateTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/drivetrain/DriveStateTest.java",
+    "lines": 37,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "DrivetrainConfigTest",
+    "name": "DrivetrainConfigTest.java",
+    "relPath": "src/test/java/frc/lib/drivetrain/DrivetrainConfigTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/drivetrain/DrivetrainConfigTest.java",
+    "lines": 240,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "MechanismConfigTest",
+    "name": "MechanismConfigTest.java",
+    "relPath": "src/test/java/frc/lib/mechanism/MechanismConfigTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/mechanism/MechanismConfigTest.java",
+    "lines": 192,
+    "summary": "Returns a builder with all required fields set."
+  },
+  {
+    "id": "MechanismIOTest",
+    "name": "MechanismIOTest.java",
+    "relPath": "src/test/java/frc/lib/mechanism/MechanismIOTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/mechanism/MechanismIOTest.java",
+    "lines": 92,
+    "summary": "Stub that populates inputs with known values."
+  },
+  {
+    "id": "PositionMechanismTest",
+    "name": "PositionMechanismTest.java",
+    "relPath": "src/test/java/frc/lib/mechanism/PositionMechanismTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/mechanism/PositionMechanismTest.java",
+    "lines": 184,
+    "summary": "Stub IO that tracks method calls and exposes settable position."
+  },
+  {
+    "id": "VelocityMechanismTest",
+    "name": "VelocityMechanismTest.java",
+    "relPath": "src/test/java/frc/lib/mechanism/VelocityMechanismTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/mechanism/VelocityMechanismTest.java",
+    "lines": 134,
+    "summary": "Stub IO that tracks method calls and exposes settable velocity."
+  },
+  {
+    "id": "LogFileManagerTest",
+    "name": "LogFileManagerTest.java",
+    "relPath": "src/test/java/frc/lib/util/LogFileManagerTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/util/LogFileManagerTest.java",
+    "lines": 85,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "LoggedTracerTest",
+    "name": "LoggedTracerTest.java",
+    "relPath": "src/test/java/frc/lib/util/LoggedTracerTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/util/LoggedTracerTest.java",
+    "lines": 49,
+    "summary": "LoggedTracer is a thin wrapper over Timer.getFPGATimestamp() and Logger.recordOutput(), both of which require HAL/AdvantageKit initialization. These tests verify the API contract and class structure; runtime behavior is covered by integration tests."
+  },
+  {
+    "id": "PhoenixSignalsTest",
+    "name": "PhoenixSignalsTest.java",
+    "relPath": "src/test/java/frc/lib/util/PhoenixSignalsTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/util/PhoenixSignalsTest.java",
+    "lines": 69,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "PhoenixUtilTest",
+    "name": "PhoenixUtilTest.java",
+    "relPath": "src/test/java/frc/lib/util/PhoenixUtilTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/lib/util/PhoenixUtilTest.java",
+    "lines": 64,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "DriveToTagTest",
+    "name": "DriveToTagTest.java",
+    "relPath": "src/test/java/frc/robot/DriveToTagTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/DriveToTagTest.java",
+    "lines": 58,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "FieldPositionsTest",
+    "name": "FieldPositionsTest.java",
+    "relPath": "src/test/java/frc/robot/FieldPositionsTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/FieldPositionsTest.java",
+    "lines": 167,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "InputProcessingTest",
+    "name": "InputProcessingTest.java",
+    "relPath": "src/test/java/frc/robot/InputProcessingTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/InputProcessingTest.java",
+    "lines": 29,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "PiecewiseSensitivityTest",
+    "name": "PiecewiseSensitivityTest.java",
+    "relPath": "src/test/java/frc/robot/PiecewiseSensitivityTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/PiecewiseSensitivityTest.java",
+    "lines": 109,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "VisionRejectionTest",
+    "name": "VisionRejectionTest.java",
+    "relPath": "src/test/java/frc/robot/VisionRejectionTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/VisionRejectionTest.java",
+    "lines": 154,
+    "summary": "Creates inputs simulating a single tag with the given ambiguity."
+  },
+  {
+    "id": "VisionRoundRobinTest",
+    "name": "VisionRoundRobinTest.java",
+    "relPath": "src/test/java/frc/robot/VisionRoundRobinTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/VisionRoundRobinTest.java",
+    "lines": 203,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "CameraValidationCmdTest",
+    "name": "CameraValidationCmdTest.java",
+    "relPath": "src/test/java/frc/robot/commands/CameraValidationCmdTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/commands/CameraValidationCmdTest.java",
+    "lines": 283,
+    "summary": "JUnit 5 unit test suite"
+  },
+  {
+    "id": "MechanismCommandsTest",
+    "name": "MechanismCommandsTest.java",
+    "relPath": "src/test/java/frc/robot/commands/MechanismCommandsTest.java",
+    "ghUrl": "https://github.com/FRC-Flux-Robotics/New_Robot/blob/main/src/test/java/frc/robot/commands/MechanismCommandsTest.java",
+    "lines": 273,
+    "summary": "Stub IO that tracks calls for velocity mechanisms."
+  }
+];
+    let selectedId = "FuelRobotContainer";
+    let showAllEdges = false;
+    let activeFilter = "ALL";
+
+    function selectNode(id) {
+      selectedId = id;
+      showAllEdges = false;
+      document.getElementById("btn-show-all").classList.remove("active");
+      render();
+      renderTable();
+    }
+
+    function toggleShowAll() {
+      showAllEdges = !showAllEdges;
+      document.getElementById("btn-show-all").classList.toggle("active", showAllEdges);
+      render();
+    }
+
+    function setFilter(f) {
+      activeFilter = f;
+      document.querySelectorAll("#filter-pills .btn").forEach(b => {
+        b.classList.toggle("active", b.getAttribute("data-filter") === f);
+      });
+      renderTable();
+    }
+
+    function render() {
+      const svg = document.getElementById("graph-svg");
+      const cols = {0: [], 1: [], 2: [], 3: [], 4: []};
+      NODES.forEach(n => cols[n.col].push(n));
+      const colX = [14, 242, 470, 698, 926];
+      const boxW = 214;
+      const boxH = 44;
+      const rowStep = 52;
+      const pos = {};
+      Object.keys(cols).forEach(c => {
+        cols[c].forEach((n, r) => {
+          pos[n.id] = { x: colX[c], y: 38 + r * rowStep };
+        });
+      });
+
+      const connNodes = new Set([selectedId]);
+      const connEdges = new Set();
+      EDGES.forEach(([u, v], idx) => {
+        if (showAllEdges || u === selectedId || v === selectedId) {
+          connNodes.add(u);
+          connNodes.add(v);
+          connEdges.add(idx);
+        }
+      });
+
+      let out = `<defs>
+        <marker id="arr-hi" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+        </marker>
+        <marker id="arr-lo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+        </marker>
+      </defs>`;
+
+      const headers = [
+        "1. Boot & Containers",
+        "2. Autos & Commands",
+        "3. Core Subsystems",
+        "4. AdvantageKit *IO",
+        "5. Configs & CAN Utils"
+      ];
+      headers.forEach((h, i) => {
+        out += `<text x="${colX[i] + 4}" y="22" fill="#94a3b8" font-size="12" font-weight="700">${h}</text>`;
+      });
+
+      EDGES.forEach(([u, v], idx) => {
+        if (!pos[u] || !pos[v]) return;
+        const p1 = pos[u], p2 = pos[v];
+        const act = connEdges.has(idx);
+        let d = "";
+        if (p1.x === p2.x) {
+          const sy = p1.y < p2.y ? p1.y + boxH : p1.y;
+          const ey = p1.y < p2.y ? p2.y : p2.y + boxH;
+          d = `M ${p1.x + boxW/2} ${sy} L ${p2.x + boxW/2} ${ey}`;
+        } else {
+          const sx = p1.x < p2.x ? p1.x + boxW : p1.x;
+          const ex = p1.x < p2.x ? p2.x : p2.x + boxW;
+          const sy = p1.y + boxH/2, ey = p2.y + boxH/2;
+          const mx = (sx + ex) / 2;
+          d = `M ${sx} ${sy} C ${mx} ${sy}, ${mx} ${ey}, ${ex} ${ey}`;
+        }
+        out += `<path d="${d}" fill="none" stroke="${act ? '#3b82f6' : '#475569'}" stroke-width="${act ? 2.2 : 1.0}" opacity="${act ? 0.95 : 0.16}" marker-end="url(#${act ? 'arr-hi' : 'arr-lo'})"/>`;
+      });
+
+      NODES.forEach(n => {
+        const p = pos[n.id];
+        const sel = n.id === selectedId;
+        const conn = showAllEdges || connNodes.has(n.id);
+        let fill = "rgba(30, 58, 138, 0.58)", stroke = sel ? "#60a5fa" : "#3b82f6";
+        if (n.pkg.startsWith("frc.robot")) {
+          fill = "rgba(88, 28, 135, 0.58)";
+          stroke = sel ? "#c084fc" : "#a855f7";
+        }
+        out += `<g class="node-box" transform="translate(${p.x}, ${p.y})" opacity="${conn ? 1.0 : 0.32}" onclick="selectNode('${n.id}')">
+          <rect width="${boxW}" height="${boxH}" rx="7" fill="${fill}" stroke="${stroke}" stroke-width="${sel ? 2.8 : 1.3}"/>
+          <text x="10" y="18" fill="#f8fafc" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12" font-weight="700">${n.id}</text>
+          <text x="10" y="34" fill="#94a3b8" font-size="10.5">${n.pkg} · ${n.lines}L</text>
+        </g>`;
+      });
+
+      svg.innerHTML = out;
+
+      const n = NODES.find(x => x.id === selectedId) || NODES[0];
+      const dependsOn = EDGES.filter(([u, v]) => u === n.id).map(([u, v]) => v);
+      const usedBy = EDGES.filter(([u, v]) => v === n.id).map(([u, v]) => u);
+      const scopeTag = n.pkg.startsWith("frc.robot")
+        ? `<span class="badge" style="background:rgba(168,85,247,0.2);color:#c084fc;">frc.robot (Robot &amp; Season Logic)</span>`
+        : `<span class="badge" style="background:rgba(59,130,246,0.2);color:#60a5fa;">frc.lib (Reusable Library)</span>`;
+
+      const testChips = (n.testedBy || []).map(tid => {
+        const tObj = TESTS.find(t => t.id === tid);
+        const url = tObj ? tObj.ghUrl : "#";
+        return `<a class="chip chip-test" href="${url}" target="_blank" rel="noopener" title="Open test on GitHub">${tid} ↗</a>`;
+      }).join("");
+
+      document.getElementById("inspector").innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <h2 style="margin:0;font-size:18px;font-family:ui-monospace,monospace;">${n.id}</h2>
+          ${scopeTag}
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;color:var(--muted);font-family:ui-monospace,monospace;">${n.relPath} (${n.lines}L)</span>
+          <a class="btn" style="padding:3px 9px;font-size:11.5px;" href="${n.ghUrl}" target="_blank" rel="noopener">View Source on GitHub ↗</a>
+        </div>
+        <p style="margin:12px 0;padding:11px;background:var(--card-alt);border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.55;">${n.summary}</p>
+        <div style="font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;">Public Constructors &amp; Methods</div>
+        <ul style="margin:6px 0 14px 0;padding-left:18px;font-family:ui-monospace,monospace;font-size:12px;color:#60a5fa;line-height:1.65;">
+          ${n.methods.length ? n.methods.map(m => `<li>${m}</li>`).join('') : '<li>(Entry / Config / Enum Class)</li>'}
+        </ul>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;">
+          <div>
+            <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">Uses / Calls &rarr; (${dependsOn.length})</div>
+            ${dependsOn.length ? dependsOn.map(id => `<span class="chip" onclick="selectNode('${id}')">${id}</span>`).join('') : '<span style="color:var(--muted)">Zero internal deps</span>'}
+          </div>
+          <div>
+            <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">&larr; Called / Used By (${usedBy.length})</div>
+            ${usedBy.length ? usedBy.map(id => `<span class="chip" onclick="selectNode('${id}')">${id}</span>`).join('') : '<span style="color:var(--muted)">Top-level Entry Point</span>'}
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:10px;font-size:12px;">
+          <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">Verified By JUnit 5 Tests (${(n.testedBy || []).length})</div>
+          ${testChips || '<span style="color:var(--muted)">No direct unit test reference</span>'}
+        </div>
+      `;
+    }
+
+    function renderTable() {
+      const q = (document.getElementById("search-box").value || "").toLowerCase().trim();
+      const tbody = document.getElementById("class-table-body");
+
+      if (activeFilter === "TESTS") {
+        const rows = TESTS.filter(t => !q || t.id.toLowerCase().includes(q) || t.summary.toLowerCase().includes(q));
+        tbody.innerHTML = rows.map(t => `
+          <tr class="row-item" onclick="window.open('${t.ghUrl}', '_blank')">
+            <td style="font-family:ui-monospace,monospace;font-weight:700;color:#fcd34d;">
+              <a href="${t.ghUrl}" target="_blank" rel="noopener" style="color:#fcd34d;">${t.name} ↗</a>
+            </td>
+            <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#fcd34d;">JUnit 5 Test</span></td>
+            <td style="font-family:ui-monospace,monospace;">${t.lines}L</td>
+            <td>${t.summary}</td>
+            <td style="color:var(--muted);font-size:12px;">Click row to open JUnit 5 test source on GitHub</td>
+          </tr>
+        `).join("");
+        return;
+      }
+
+      const filtered = NODES.filter(n => {
+        if (activeFilter === "COL0" && n.col !== 0) return false;
+        if (activeFilter === "COL1" && n.col !== 1) return false;
+        if (activeFilter === "COL2" && n.col !== 2) return false;
+        if (activeFilter === "COL3" && n.col !== 3) return false;
+        if (activeFilter === "COL4" && n.col !== 4) return false;
+        if (q) {
+          const hay = (n.id + " " + n.pkg + " " + n.summary + " " + n.methods.join(" ")).toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      tbody.innerHTML = filtered.map(n => {
+        const dependsOn = EDGES.filter(([u, v]) => u === n.id).map(([u, v]) => v);
+        const usedBy = EDGES.filter(([u, v]) => v === n.id).map(([u, v]) => u);
+        const scopeBadge = n.pkg.startsWith("frc.robot")
+          ? `<span class="badge" style="background:rgba(168,85,247,0.18);color:#c084fc;">frc.robot</span>`
+          : `<span class="badge" style="background:rgba(59,130,246,0.18);color:#60a5fa;">frc.lib</span>`;
+        return `
+          <tr class="row-item ${n.id === selectedId ? 'selected' : ''}" onclick="selectNode('${n.id}')">
+            <td style="font-family:ui-monospace,monospace;font-weight:700;">
+              <div>${n.id}</div>
+              <div style="margin-top:4px;font-size:11.5px;font-weight:400;">
+                <a href="${n.ghUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub Source ↗</a>
+              </div>
+            </td>
+            <td>
+              <div style="font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);margin-bottom:4px;">${n.pkg}</div>
+              ${scopeBadge}
+            </td>
+            <td style="font-family:ui-monospace,monospace;">${n.lines}L</td>
+            <td>
+              <div style="margin-bottom:6px;line-height:1.45;">${n.summary}</div>
+              <div style="font-family:ui-monospace,monospace;font-size:11.5px;color:#60a5fa;">
+                ${n.methods.slice(0, 4).join(" · ")}
+              </div>
+            </td>
+            <td style="font-size:12px;">
+              <div><b style="color:var(--muted);">Uses &rarr;:</b> ${dependsOn.length ? dependsOn.join(", ") : "—"}</div>
+              <div style="margin-top:3px;"><b style="color:var(--muted);">&larr; Used by:</b> ${usedBy.length ? usedBy.join(", ") : "—"}</div>
+              <div style="margin-top:3px;color:#fcd34d;"><b style="color:var(--muted);">Tests:</b> ${(n.testedBy || []).join(", ") || "—"}</div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    render();
+    renderTable();
+  </script>
+</body>
+</html>
