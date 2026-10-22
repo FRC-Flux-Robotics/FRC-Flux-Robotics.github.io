@@ -3,101 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FLUX 10413 — New_Robot (2026) Interactive Class &amp; Dependency Map</title>
+  <title>FLUX Robotics (FRC 10413) — New_Robot Interactive Class &amp; Dependency Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b1120;
-      --card: #111827;
-      --card-alt: #0f172a;
-      --border: #1e293b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --blue: #3b82f6;
-      --purple: #a855f7;
-      --green: #10b981;
-      --amber: #f59e0b;
-      --orange: #f97316;
+      --black: #212020;
+      --royal: #254BA0;
+      --flux-blue: #2B7BFF;
+      --silver: #BFBFBF;
+      --light-silver: #DEDEDE;
+      --bg: #F2F3F5;
+      --card: #FFFFFF;
+      --muted: #5A606E;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      padding: 20px 24px 40px 24px;
+      padding: 20px 24px 44px 24px;
       background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--black);
+      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
     }
-    a { color: #60a5fa; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .container { max-width: 1520px; margin: 0 auto; }
+    a { color: var(--royal); text-decoration: none; font-weight: 600; }
+    a:hover { color: var(--flux-blue); text-decoration: underline; }
+    .container { max-width: 1540px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
     .header {
+      background: var(--card);
+      border-top: 6px solid var(--royal);
+      border-radius: 10px;
+      padding: 16px 22px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 18px;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(33, 32, 32, 0.08);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .logo {
+      height: 58px;
+      width: auto;
+      border-radius: 6px;
+      border: 1px solid var(--light-silver);
+    }
+    .brand-title {
+      font-family: 'Archivo Black', 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.02em;
+      color: var(--black);
+      margin: 4px 0 3px 0;
     }
     .badge {
       display: inline-block;
-      padding: 3px 9px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 12px;
+      padding: 7px 13px;
       border-radius: 7px;
       font-size: 12.5px;
-      font-weight: 600;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
       cursor: pointer;
-      border: 1px solid #334155;
-      background: #1e293b;
-      color: #f8fafc;
+      border: 1.5px solid var(--light-silver);
+      background: var(--card);
+      color: var(--black);
       transition: all 0.15s ease;
     }
-    .btn:hover { border-color: var(--blue); background: #26354d; text-decoration: none; }
-    .btn.active { background: rgba(59,130,246,0.22); border-color: var(--blue); color: #60a5fa; }
+    .btn:hover {
+      border-color: var(--flux-blue);
+      color: var(--royal);
+      background: #F8FAFF;
+      text-decoration: none;
+    }
+    .btn.active {
+      background: var(--royal);
+      border-color: var(--royal);
+      color: #FFFFFF;
+    }
     .layout {
       display: grid;
       grid-template-columns: 2.15fr 1fr;
       gap: 16px;
       align-items: start;
-      margin-bottom: 22px;
     }
     @media (max-width: 1120px) {
       .layout { grid-template-columns: 1fr; }
     }
     .panel {
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
+      border: 1px solid var(--light-silver);
+      border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 6px rgba(33, 32, 32, 0.05);
+    }
+    .graph-panel {
+      background: var(--black);
+      border-top: 5px solid var(--flux-blue);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 3px 10px rgba(33, 32, 32, 0.14);
+      overflow-x: auto;
     }
     .node-box { cursor: pointer; transition: opacity 0.15s ease; }
     .chip {
       display: inline-block;
       margin: 2px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid #334155;
+      padding: 4px 9px;
+      border-radius: 5px;
+      background: var(--bg);
+      color: var(--black);
+      border: 1px solid var(--silver);
       font-size: 12px;
+      font-weight: 600;
       font-family: ui-monospace, SFMono-Regular, monospace;
       cursor: pointer;
     }
-    .chip:hover { border-color: var(--blue); color: #60a5fa; }
-    .chip-test {
-      border-color: rgba(245,158,11,0.4);
-      background: rgba(245,158,11,0.12);
-      color: #fcd34d;
+    .chip:hover {
+      border-color: var(--flux-blue);
+      background: #EBF2FF;
+      color: var(--royal);
     }
-    .chip-test:hover { border-color: var(--amber); color: #fde68a; }
+    .chip-test {
+      border-color: var(--royal);
+      background: rgba(37, 75, 160, 0.09);
+      color: var(--royal);
+    }
+    .chip-test:hover {
+      background: var(--royal);
+      color: #FFFFFF;
+      text-decoration: none;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -106,47 +153,58 @@
     th, td {
       text-align: left;
       padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--light-silver);
       vertical-align: top;
     }
     th {
-      color: var(--muted);
+      background: var(--black);
+      color: #FFFFFF;
       font-size: 11.5px;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      background: var(--card-alt);
+      letter-spacing: 0.05em;
+      font-weight: 700;
     }
     tr.row-item { cursor: pointer; transition: background 0.12s ease; }
-    tr.row-item:hover { background: rgba(59,130,246,0.08); }
-    tr.row-item.selected { background: rgba(59,130,246,0.16); }
+    tr.row-item:nth-child(even) td { background: #F9FAFB; }
+    tr.row-item:hover td { background: #EBF2FF; }
+    tr.row-item.selected td { background: #DCE8FF; border-top: 1px solid var(--flux-blue); border-bottom: 1px solid var(--flux-blue); }
     .search-input {
-      background: var(--card-alt);
-      border: 1px solid #334155;
-      color: var(--text);
-      padding: 6px 12px;
+      background: var(--bg);
+      border: 1.5px solid var(--silver);
+      color: var(--black);
+      padding: 7px 12px;
       border-radius: 7px;
       font-size: 13px;
-      min-width: 220px;
+      font-family: 'Space Grotesk', sans-serif;
+      min-width: 240px;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--flux-blue);
+      background: #FFFFFF;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <span class="badge" style="background:rgba(59,130,246,0.2);color:#60a5fa;border:1px solid rgba(59,130,246,0.4)">FRC Team 10413 (FLUX Robotics)</span>
-          <span class="badge" style="background:rgba(168,85,247,0.18);color:#c084fc;border:1px solid rgba(168,85,247,0.35)">2026 Season — 51 Java Classes + 20 Test Suites</span>
-        </div>
-        <h1 style="margin:8px 0 4px 0;font-size:22px;">New_Robot (2026) — Interactive Class &amp; Dependency Explorer</h1>
-        <div style="color:var(--muted);font-size:13.5px;">
-          Flows <b>Left &rarr; Right</b> from <b>1. Boot &amp; Containers</b> (`Main`, `Robot`, `RobotContainer`, `FuelRobotContainer`) &rarr; <b>2. Autos &amp; Commands</b> &rarr; <b>3. Core Subsystems</b> &rarr; <b>4. AdvantageKit *IO</b> &rarr; <b>5. Configs &amp; CAN Utils</b>.
+      <div class="header-left">
+        <img class="logo" src="https://images.squarespace-cdn.com/content/v1/678bfe582830c94f0965d1b8/c581de14-67ff-442b-b36b-1959857c428e/Caitlin+B%26W+Logo+JPEG.jpg?format=1500w" alt="FLUX Robotics Team 10413 Logo" />
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="badge" style="background:var(--black);color:#FFFFFF;">FRC Team 10413 · FLUX Robotics</span>
+            <span class="badge" style="background:var(--royal);color:#FFFFFF;">New_Robot (2026 Season) · 51 Classes + 20 Tests</span>
+          </div>
+          <div class="brand-title">NEW_ROBOT — ARCHITECTURE &amp; CLASS DEPENDENCY MAP</div>
+          <div style="color:var(--muted);font-size:13px;">
+            Flows <b>Left &rarr; Right</b> from <b>1. Boot &amp; Containers</b> (`Main`, `Robot`, `RobotContainer`, `FuelRobotContainer`) &rarr; <b>2. Autos &amp; Commands</b> &rarr; <b>3. Core Subsystems</b> &rarr; <b>4. AdvantageKit *IO</b> &rarr; <b>5. Configs &amp; CAN Utils</b>.
+          </div>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
-        <div style="display:flex;gap:14px;font-size:12.5px;color:var(--muted);flex-wrap:wrap;">
-          <span>🟣 <b>frc.robot.*</b> (Robot, Containers, Cmds &amp; Configs)</span>
-          <span>🔵 <b>frc.lib.*</b> (Reusable Swerve, Vision, Mechanism &amp; CAN Library)</span>
+        <div style="display:flex;gap:14px;font-size:12.5px;color:var(--black);font-weight:600;flex-wrap:wrap;">
+          <span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:#254BA0;border:1.5px solid #2B7BFF;vertical-align:middle;margin-right:4px;"></span><b>frc.robot.*</b> (Robot, Containers, Cmds)</span>
+          <span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:#2B303A;border:1.5px solid #BFBFBF;vertical-align:middle;margin-right:4px;"></span><b>frc.lib.*</b> (Swerve, Vision, Mechanism &amp; CAN Library)</span>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn" id="btn-show-all" onclick="toggleShowAll()">Show All Connections</button>
@@ -156,13 +214,13 @@
     </div>
 
     <div class="layout">
-      <div class="panel" style="overflow-x:auto;">
+      <div class="graph-panel">
         <svg id="graph-svg" viewBox="0 0 1160 880" width="100%"></svg>
       </div>
-      <div class="panel" id="inspector" style="position:sticky;top:16px;"></div>
+      <div class="panel" id="inspector" style="position:sticky;top:16px;border-top:5px solid var(--royal);"></div>
     </div>
 
-    <div class="panel">
+    <div class="panel" style="border-top:5px solid var(--black);">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" id="filter-pills">
           <button class="btn active" data-filter="ALL" onclick="setFilter('ALL')">All 51 Classes</button>
@@ -173,7 +231,7 @@
           <button class="btn" data-filter="COL4" onclick="setFilter('COL4')">5. Configs &amp; CAN Utils (16)</button>
           <button class="btn" data-filter="TESTS" onclick="setFilter('TESTS')">JUnit 5 Tests (20)</button>
         </div>
-        <input type="text" id="search-box" class="search-input" placeholder="Filter by class, package, or keyword..." oninput="renderTable()" />
+        <input type="text" id="search-box" class="search-input" placeholder="Search class, package, or method..." oninput="renderTable()" />
       </div>
       <div style="overflow-x:auto;">
         <table>
@@ -1362,22 +1420,22 @@
 
       let out = `<defs>
         <marker id="arr-hi" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#2B7BFF"/>
         </marker>
         <marker id="arr-lo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#BFBFBF"/>
         </marker>
       </defs>`;
 
       const headers = [
-        "1. Boot & Containers",
-        "2. Autos & Commands",
-        "3. Core Subsystems",
-        "4. AdvantageKit *IO",
-        "5. Configs & CAN Utils"
+        "1. BOOT & CONTAINERS",
+        "2. AUTOS & COMMANDS",
+        "3. CORE SUBSYSTEMS",
+        "4. ADVANTAGEKIT *IO",
+        "5. CONFIGS & CAN UTILS"
       ];
       headers.forEach((h, i) => {
-        out += `<text x="${colX[i] + 4}" y="22" fill="#94a3b8" font-size="12" font-weight="700">${h}</text>`;
+        out += `<text x="${colX[i] + 4}" y="22" fill="#2B7BFF" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.05em">${h}</text>`;
       });
 
       EDGES.forEach(([u, v], idx) => {
@@ -1396,22 +1454,24 @@
           const mx = (sx + ex) / 2;
           d = `M ${sx} ${sy} C ${mx} ${sy}, ${mx} ${ey}, ${ex} ${ey}`;
         }
-        out += `<path d="${d}" fill="none" stroke="${act ? '#3b82f6' : '#475569'}" stroke-width="${act ? 2.2 : 1.0}" opacity="${act ? 0.95 : 0.16}" marker-end="url(#${act ? 'arr-hi' : 'arr-lo'})"/>`;
+        out += `<path d="${d}" fill="none" stroke="${act ? '#2B7BFF' : '#BFBFBF'}" stroke-width="${act ? 2.3 : 1.0}" opacity="${act ? 0.98 : 0.16}" marker-end="url(#${act ? 'arr-hi' : 'arr-lo'})"/>`;
       });
 
       NODES.forEach(n => {
         const p = pos[n.id];
         const sel = n.id === selectedId;
         const conn = showAllEdges || connNodes.has(n.id);
-        let fill = "rgba(30, 58, 138, 0.58)", stroke = sel ? "#60a5fa" : "#3b82f6";
+        // Pelham Royal Blue (#254BA0) for frc.robot.*, Metallic Dark Slate (#2B303A) for frc.lib.*
+        let fill = "#2B303A", stroke = sel ? "#2B7BFF" : "#BFBFBF", subColor = "#DEDEDE";
         if (n.pkg.startsWith("frc.robot")) {
-          fill = "rgba(88, 28, 135, 0.58)";
-          stroke = sel ? "#c084fc" : "#a855f7";
+          fill = "#254BA0";
+          stroke = sel ? "#FFFFFF" : "#2B7BFF";
+          subColor = "#DEDEDE";
         }
-        out += `<g class="node-box" transform="translate(${p.x}, ${p.y})" opacity="${conn ? 1.0 : 0.32}" onclick="selectNode('${n.id}')">
-          <rect width="${boxW}" height="${boxH}" rx="7" fill="${fill}" stroke="${stroke}" stroke-width="${sel ? 2.8 : 1.3}"/>
-          <text x="10" y="18" fill="#f8fafc" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12" font-weight="700">${n.id}</text>
-          <text x="10" y="34" fill="#94a3b8" font-size="10.5">${n.pkg} · ${n.lines}L</text>
+        out += `<g class="node-box" transform="translate(${p.x}, ${p.y})" opacity="${conn ? 1.0 : 0.28}" onclick="selectNode('${n.id}')">
+          <rect width="${boxW}" height="${boxH}" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="${sel ? 2.8 : 1.4}"/>
+          <text x="10" y="18" fill="#FFFFFF" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12" font-weight="700">${n.id}</text>
+          <text x="10" y="34" fill="${subColor}" font-family="'Space Grotesk', sans-serif" font-size="10.5">${n.pkg} · ${n.lines}L</text>
         </g>`;
       });
 
@@ -1421,8 +1481,8 @@
       const dependsOn = EDGES.filter(([u, v]) => u === n.id).map(([u, v]) => v);
       const usedBy = EDGES.filter(([u, v]) => v === n.id).map(([u, v]) => u);
       const scopeTag = n.pkg.startsWith("frc.robot")
-        ? `<span class="badge" style="background:rgba(168,85,247,0.2);color:#c084fc;">frc.robot (Robot &amp; Season Logic)</span>`
-        : `<span class="badge" style="background:rgba(59,130,246,0.2);color:#60a5fa;">frc.lib (Reusable Library)</span>`;
+        ? `<span class="badge" style="background:var(--royal);color:#FFFFFF;">frc.robot · Robot &amp; Season</span>`
+        : `<span class="badge" style="background:var(--black);color:#FFFFFF;">frc.lib · Reusable Library</span>`;
 
       const testChips = (n.testedBy || []).map(tid => {
         const tObj = TESTS.find(t => t.id === tid);
@@ -1432,19 +1492,19 @@
 
       document.getElementById("inspector").innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-          <h2 style="margin:0;font-size:18px;font-family:ui-monospace,monospace;">${n.id}</h2>
+          <h2 style="margin:0;font-size:19px;font-family:ui-monospace,monospace;color:var(--black);">${n.id}</h2>
           ${scopeTag}
         </div>
         <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
           <span style="font-size:12px;color:var(--muted);font-family:ui-monospace,monospace;">${n.relPath} (${n.lines}L)</span>
-          <a class="btn" style="padding:3px 9px;font-size:11.5px;" href="${n.ghUrl}" target="_blank" rel="noopener">View Source on GitHub ↗</a>
+          <a class="btn" style="padding:4px 10px;font-size:11.5px;background:var(--royal);color:#FFFFFF;border-color:var(--royal);" href="${n.ghUrl}" target="_blank" rel="noopener">View Source on GitHub ↗</a>
         </div>
-        <p style="margin:12px 0;padding:11px;background:var(--card-alt);border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.55;">${n.summary}</p>
-        <div style="font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;">Public Constructors &amp; Methods</div>
-        <ul style="margin:6px 0 14px 0;padding-left:18px;font-family:ui-monospace,monospace;font-size:12px;color:#60a5fa;line-height:1.65;">
+        <p style="margin:12px 0;padding:12px;background:var(--bg);border-left:4px solid var(--flux-blue);border-radius:6px;font-size:13px;line-height:1.55;color:var(--black);">${n.summary}</p>
+        <div style="font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Public Constructors &amp; Methods</div>
+        <ul style="margin:6px 0 14px 0;padding-left:18px;font-family:ui-monospace,monospace;font-size:12px;color:var(--royal);line-height:1.65;font-weight:600;">
           ${n.methods.length ? n.methods.map(m => `<li>${m}</li>`).join('') : '<li>(Entry / Config / Enum Class)</li>'}
         </ul>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid var(--light-silver);padding-top:12px;font-size:12px;">
           <div>
             <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">Uses / Calls &rarr; (${dependsOn.length})</div>
             ${dependsOn.length ? dependsOn.map(id => `<span class="chip" onclick="selectNode('${id}')">${id}</span>`).join('') : '<span style="color:var(--muted)">Zero internal deps</span>'}
@@ -1454,7 +1514,7 @@
             ${usedBy.length ? usedBy.map(id => `<span class="chip" onclick="selectNode('${id}')">${id}</span>`).join('') : '<span style="color:var(--muted)">Top-level Entry Point</span>'}
           </div>
         </div>
-        <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:10px;font-size:12px;">
+        <div style="border-top:1px solid var(--light-silver);margin-top:12px;padding-top:10px;font-size:12px;">
           <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">Verified By JUnit 5 Tests (${(n.testedBy || []).length})</div>
           ${testChips || '<span style="color:var(--muted)">No direct unit test reference</span>'}
         </div>
@@ -1469,11 +1529,11 @@
         const rows = TESTS.filter(t => !q || t.id.toLowerCase().includes(q) || t.summary.toLowerCase().includes(q));
         tbody.innerHTML = rows.map(t => `
           <tr class="row-item" onclick="window.open('${t.ghUrl}', '_blank')">
-            <td style="font-family:ui-monospace,monospace;font-weight:700;color:#fcd34d;">
-              <a href="${t.ghUrl}" target="_blank" rel="noopener" style="color:#fcd34d;">${t.name} ↗</a>
+            <td style="font-family:ui-monospace,monospace;font-weight:700;">
+              <a href="${t.ghUrl}" target="_blank" rel="noopener">${t.name} ↗</a>
             </td>
-            <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#fcd34d;">JUnit 5 Test</span></td>
-            <td style="font-family:ui-monospace,monospace;">${t.lines}L</td>
+            <td><span class="badge" style="background:var(--royal);color:#FFFFFF;">JUnit 5 Test</span></td>
+            <td style="font-family:ui-monospace,monospace;font-weight:600;">${t.lines}L</td>
             <td>${t.summary}</td>
             <td style="color:var(--muted);font-size:12px;">Click row to open JUnit 5 test source on GitHub</td>
           </tr>
@@ -1498,13 +1558,13 @@
         const dependsOn = EDGES.filter(([u, v]) => u === n.id).map(([u, v]) => v);
         const usedBy = EDGES.filter(([u, v]) => v === n.id).map(([u, v]) => u);
         const scopeBadge = n.pkg.startsWith("frc.robot")
-          ? `<span class="badge" style="background:rgba(168,85,247,0.18);color:#c084fc;">frc.robot</span>`
-          : `<span class="badge" style="background:rgba(59,130,246,0.18);color:#60a5fa;">frc.lib</span>`;
+          ? `<span class="badge" style="background:var(--royal);color:#FFFFFF;">frc.robot</span>`
+          : `<span class="badge" style="background:var(--black);color:#FFFFFF;">frc.lib</span>`;
         return `
           <tr class="row-item ${n.id === selectedId ? 'selected' : ''}" onclick="selectNode('${n.id}')">
             <td style="font-family:ui-monospace,monospace;font-weight:700;">
               <div>${n.id}</div>
-              <div style="margin-top:4px;font-size:11.5px;font-weight:400;">
+              <div style="margin-top:4px;font-size:11.5px;font-weight:600;">
                 <a href="${n.ghUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub Source ↗</a>
               </div>
             </td>
@@ -1512,17 +1572,17 @@
               <div style="font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);margin-bottom:4px;">${n.pkg}</div>
               ${scopeBadge}
             </td>
-            <td style="font-family:ui-monospace,monospace;">${n.lines}L</td>
+            <td style="font-family:ui-monospace,monospace;font-weight:600;">${n.lines}L</td>
             <td>
               <div style="margin-bottom:6px;line-height:1.45;">${n.summary}</div>
-              <div style="font-family:ui-monospace,monospace;font-size:11.5px;color:#60a5fa;">
+              <div style="font-family:ui-monospace,monospace;font-size:11.5px;color:var(--royal);font-weight:600;">
                 ${n.methods.slice(0, 4).join(" · ")}
               </div>
             </td>
             <td style="font-size:12px;">
               <div><b style="color:var(--muted);">Uses &rarr;:</b> ${dependsOn.length ? dependsOn.join(", ") : "—"}</div>
               <div style="margin-top:3px;"><b style="color:var(--muted);">&larr; Used by:</b> ${usedBy.length ? usedBy.join(", ") : "—"}</div>
-              <div style="margin-top:3px;color:#fcd34d;"><b style="color:var(--muted);">Tests:</b> ${(n.testedBy || []).join(", ") || "—"}</div>
+              <div style="margin-top:3px;color:var(--royal);font-weight:600;"><b style="color:var(--muted);">Tests:</b> ${(n.testedBy || []).join(", ") || "—"}</div>
             </td>
           </tr>
         `;
