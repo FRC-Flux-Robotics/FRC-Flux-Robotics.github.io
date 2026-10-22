@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLUX 10413 — Flux-SystemCore-2027 Interactive Class &amp; Dependency Map</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #111827;
+      --card-alt: #0f172a;
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #10b981;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px 24px 40px 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1440px; margin: 0 auto; }
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #f8fafc;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { border-color: var(--blue); background: #26354d; text-decoration: none; }
+    .btn.active { background: rgba(59,130,246,0.22); border-color: var(--blue); color: #60a5fa; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.85fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .node-box { cursor: pointer; transition: opacity 0.15s ease; }
+    .chip {
+      display: inline-block;
+      margin: 2px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      cursor: pointer;
+    }
+    .chip:hover { border-color: var(--blue); color: #60a5fa; }
+    .chip-test {
+      border-color: rgba(245,158,11,0.4);
+      background: rgba(245,158,11,0.12);
+      color: #fcd34d;
+    }
+    .chip-test:hover { border-color: var(--amber); color: #fde68a; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--card-alt);
+    }
+    tr.row-item { cursor: pointer; transition: background 0.12s ease; }
+    tr.row-item:hover { background: rgba(59,130,246,0.08); }
+    tr.row-item.selected { background: rgba(59,130,246,0.16); }
+    .search-input {
+      background: var(--card-alt);
+      border: 1px solid #334155;
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 13px;
+      min-width: 220px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span class="badge" style="background:rgba(59,130,246,0.2);color:#60a5fa;border:1px solid rgba(59,130,246,0.4)">FRC Team 10413 (FLUX Robotics)</span>
+          <span class="badge" style="background:rgba(16,185,129,0.16);color:#34d399;border:1px solid rgba(16,185,129,0.35)">Auto-Synced via ./gradlew updateStudentDocs</span>
+        </div>
+        <h1 style="margin:8px 0 4px 0;font-size:22px;">Flux-SystemCore-2027 — Interactive Class &amp; Dependency Explorer</h1>
+        <div style="color:var(--muted);font-size:13.5px;">
+          Click any class box in the diagram (or any row in the table below) to trace its upstream &amp; downstream connections, inspect public methods, and open its source file on GitHub.
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <div style="display:flex;gap:14px;font-size:12.5px;color:var(--muted);flex-wrap:wrap;">
+          <span>🟢 <b>FluxFig JAR</b></span>
+          <span>🔵 <b>frc.lib.*</b> (Synced 1:1 via <code>backTo2026</code>)</span>
+          <span>🟣 <b>frc.robot.*</b> (Separate 2027 vs 2026)</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn" id="btn-show-all" onclick="toggleShowAll()">Show All Connections</button>
+          <a class="btn" href="https://github.com/tvaroska/Flux-SystemCore-2027" target="_blank" rel="noopener">GitHub Repo ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="panel" style="overflow-x:auto;">
+        <svg id="graph-svg" viewBox="0 0 980 480" width="100%"></svg>
+      </div>
+      <div class="panel" id="inspector"></div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" id="filter-pills">
+          <button class="btn active" data-filter="ALL" onclick="setFilter('ALL')">All Production Classes</button>
+          <button class="btn" data-filter="MECH" onclick="setFilter('MECH')">frc.lib.mechanism</button>
+          <button class="btn" data-filter="UTIL" onclick="setFilter('UTIL')">frc.lib.util &amp; wpilog</button>
+          <button class="btn" data-filter="SAFETY" onclick="setFilter('SAFETY')">frc.lib.drive / safety / vision</button>
+          <button class="btn" data-filter="ROBOT" onclick="setFilter('ROBOT')">frc.robot (2027 Specific)</button>
+          <button class="btn" data-filter="TESTS" onclick="setFilter('TESTS')">5-Tier Verification Tests</button>
+        </div>
+        <input type="text" id="search-box" class="search-input" placeholder="Filter by class, package, or keyword..." oninput="renderTable()" />
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:190px;">Class</th>
+              <th style="width:170px;">Package &amp; Scope</th>
+              <th style="width:70px;">Lines</th>
+              <th>Purpose &amp; Public API</th>
+              <th style="width:210px;">Relations &amp; Tests</th>
+            </tr>
+          </thead>
+          <tbody id="class-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const NODES = [
+  {
+    "id": "FluxFig",
+    "name": "fluxfig-1.0.0.jar",
+    "pkg": "frc.lib.fluxfig (JAR)",
+    "relPath": "libs/fluxfig-1.0.0.jar",
+    "ghUrl": "https://github.com/tvaroska/FluxFig/blob/main/src/main/java/frc/lib/fluxfig/FluxFig.java",
+    "lines": 340,
+    "summary": "Standalone pure-Java 17 CSV config engine (parameters.csv, mechanisms.csv, cameras.csv) providing MechanismSpec.",
+    "methods": [
+      "getMechanismSpec(robot, name)",
+      "getTable(tab, Record.class)",
+      "validateStrict()",
+      "getConfigSha256()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest",
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "VirtualGeofence",
+    "name": "VirtualGeofence.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/VirtualGeofence.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/VirtualGeofence.java",
+    "lines": 49,
+    "summary": "Kinematic braking barrier and Dead-Man watchdog for the 5m x 3m shop micro-arena (safe robot center box: 3.3m x 1.3m).",
+    "methods": [
+      "ChassisSpeeds clampFieldSpeeds("
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "MechanismIO",
+    "name": "MechanismIO.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismIO.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIO.java",
+    "lines": 56,
+    "summary": "Hardware abstraction for a mechanism (single or dual motor).",
+    "methods": [
+      "void toLog(LogTable table)",
+      "void fromLog(LogTable table)",
+      "void updateInputs(MechanismIOInputs inputs)",
+      "void setPosition(double positionRotations)",
+      "void setVelocity(double velocityRPS)",
+      "void stop()",
+      "void resetPosition()"
+    ],
+    "testedBy": [
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "MechanismIOSim",
+    "name": "MechanismIOSim.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismIOSim.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOSim.java",
+    "lines": 86,
+    "summary": "WPILib DCMotorSim physics implementation of MechanismIO for desktop simulation and Ghost Superstructure mode on bare chassis (`CORAL` / `CHASSIS_3`).",
+    "methods": [
+      "MechanismIOSim(MechanismSpec spec)",
+      "void setPosition(double positionRotations)",
+      "void setVelocity(double velocityRPS)",
+      "void stop()",
+      "void resetPosition()",
+      "void updateInputs(MechanismIOInputs inputs)"
+    ],
+    "testedBy": [],
+    "col": 1
+  },
+  {
+    "id": "MechanismIOTalonFX",
+    "name": "MechanismIOTalonFX.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
+    "lines": 194,
+    "summary": "Real CTRE TalonFX implementation of MechanismIO (supports single motor or leader + follower) configured directly from a MechanismSpec. Enforces <= 60A Stator and <= 40A Supply limits and registers 50 Hz status signals with PhoenixSignals.",
+    "methods": [
+      "MechanismIOTalonFX(MechanismSpec spec)",
+      "TalonFXConfiguration readAppliedConfig()",
+      "TalonFX getMotor()",
+      "void setPosition(double positionRotations)",
+      "void setVelocity(double velocityRPS)",
+      "void stop()",
+      "void resetPosition()",
+      "void updateInputs(MechanismIOInputs inputs)"
+    ],
+    "testedBy": [
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "PositionMechanism",
+    "name": "PositionMechanism.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/PositionMechanism.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/PositionMechanism.java",
+    "lines": 71,
+    "summary": "Generic config-driven position mechanism subsystem backed by MechanismIO.",
+    "methods": [
+      "PositionMechanism(MechanismIO io, MechanismSpec spec)",
+      "PositionMechanism(MechanismIO io, MechanismSpec spec, double toleranceRot)",
+      "void periodic()",
+      "void setPosition(double positionRotations)",
+      "void stop()",
+      "boolean atTarget()",
+      "double getPosition()",
+      "double getStatorCurrentAmps()"
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
+    "id": "VelocityMechanism",
+    "name": "VelocityMechanism.java",
+    "pkg": "frc.lib.mechanism",
+    "relPath": "src/main/java/frc/lib/mechanism/VelocityMechanism.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/VelocityMechanism.java",
+    "lines": 66,
+    "summary": "Generic config-driven velocity mechanism subsystem backed by MechanismIO.",
+    "methods": [
+      "VelocityMechanism(MechanismIO io, MechanismSpec spec)",
+      "VelocityMechanism(MechanismIO io, MechanismSpec spec, double toleranceRps)",
+      "void periodic()",
+      "void setVelocity(double velocityRPS)",
+      "void stop()",
+      "boolean atTarget()",
+      "double getVelocity()",
+      "double getStatorCurrentAmps()"
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
+    "id": "FaultSupervisor",
+    "name": "FaultSupervisor.java",
+    "pkg": "frc.lib.safety",
+    "relPath": "src/main/java/frc/lib/safety/FaultSupervisor.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/safety/FaultSupervisor.java",
+    "lines": 172,
+    "summary": "Real-time fault detection and graceful degradation supervisor for the 2027 robot fleet.",
+    "methods": [
+      "FaultSupervisor(int cameraCount)",
+      "void auditCameraDiscrepancy(int camIndex, double discrepancyMeters)",
+      "boolean isCameraQuarantined(int camIndex)",
+      "double filterMechanismCommandVoltage(",
+      "boolean updateTagVisibility(int visibleTagCount)",
+      "double reportSteerEncoderFault(int moduleIndex, boolean faulted)",
+      "double activeDriveStatorLimitAmps()",
+      "int dejamEventsTriggered()"
+    ],
+    "testedBy": [
+      "Tier4ChaosMatchSimTest",
+      "Tier5NytrReplayGateTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "FieldPositions",
+    "name": "FieldPositions.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/FieldPositions.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/FieldPositions.java",
+    "lines": 71,
+    "summary": "Abstracts WPILib 2026 Wall/Blue vs. WPILib 2027 Center/Red coordinate origins and Full-Field, Half-Field, and 5m x 3m Shop Micro-Arena bounds.",
+    "methods": [
+      "Pose2d wallBlueToCenterRed(Pose2d wallBlue)",
+      "Pose2d centerRedToWallBlue(Pose2d centerRed)",
+      "boolean isInsideField("
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "LogFileManager",
+    "name": "LogFileManager.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/LogFileManager.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/LogFileManager.java",
+    "lines": 74,
+    "summary": "OS-agnostic AdvantageKit & CTRE log storage manager (`/U/logs` -> operating directory `logs`), recursively cleaning both old `.wpilog` and nested `.hoot` files to prevent flash exhaustion.",
+    "methods": [
+      "String getLogPath()",
+      "String getLogPath(File logDir, long maxBytes)",
+      "void cleanOldLogs(File logDir, long maxBytes)"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "LoggedTracer",
+    "name": "LoggedTracer.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/LoggedTracer.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/LoggedTracer.java",
+    "lines": 24,
+    "summary": "Lightweight per-section loop profiler that logs elapsed ms via AdvantageKit.",
+    "methods": [
+      "void reset()",
+      "void trace(String section)"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "PhoenixSignals",
+    "name": "PhoenixSignals.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/PhoenixSignals.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/PhoenixSignals.java",
+    "lines": 103,
+    "summary": "Centralized CAN signal registry \u2014 collects all StatusSignals across subsystems and refreshes them in a single BaseStatusSignal.refreshAll() call per bus, reducing CAN round-trips.",
+    "methods": [
+      "int register(String busName, BaseStatusSignal... signals)",
+      "void refreshAll()",
+      "boolean isOK(int groupId)",
+      "int signalCount()",
+      "void reset()"
+    ],
+    "testedBy": [
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "PhoenixUtil",
+    "name": "PhoenixUtil.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/PhoenixUtil.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/PhoenixUtil.java",
+    "lines": 28,
+    "summary": "Utility methods for CTRE Phoenix 6 hardware configuration.",
+    "methods": [
+      "StatusCode tryUntilOk(Supplier<StatusCode> configCall, int maxAttempts)"
+    ],
+    "testedBy": [],
+    "col": 0
+  },
+  {
+    "id": "ZeroPriorBootstrapSolver",
+    "name": "ZeroPriorBootstrapSolver.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/ZeroPriorBootstrapSolver.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/ZeroPriorBootstrapSolver.java",
+    "lines": 85,
+    "summary": "Solves unknown camera mount extrinsics (yaw & X/Y lever arm) and wall AprilTag poses from pure L-slide translations and in-place pivot pairs (AX = XB Hand-Eye Calibration).",
+    "methods": [
+      "double solveCameraYawRad(List<TranslationObservationPair> pairs)",
+      "SolvedCameraExtrinsics solveExtrinsics("
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "WpiLogCodec",
+    "name": "WpiLogCodec.java",
+    "pkg": "frc.lib.wpilog",
+    "relPath": "src/main/java/frc/lib/wpilog/WpiLogCodec.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/wpilog/WpiLogCodec.java",
+    "lines": 271,
+    "summary": "Zero-dependency binary WPILib DataLog (.wpilog v1.0) reader and writer for Tier 4 Headless Match Simulation and Tier 5 NYTR Competition Telemetry Replay gates.",
+    "methods": [
+      "ParsedLog(",
+      "String extraHeader()",
+      "List<DoubleSample> getDoubleSeries(String name)",
+      "List<BooleanSample> getBooleanSeries(String name)",
+      "List<StringSample> getStringSeries(String name)",
+      "double durationSeconds()",
+      "Writer(Path outputPath, String extraHeader) throws IOException",
+      "int startEntry(String name, String type, String metadata, long timestampUs)"
+    ],
+    "testedBy": [
+      "Tier4ChaosMatchSimTest",
+      "Tier5NytrReplayGateTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "Main",
+    "name": "Main.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Main.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/Main.java",
+    "lines": 12,
+    "summary": "Entry point for Flux-SystemCore-2027 / Flux-RoboRIO-2027.",
+    "methods": [
+      "void main(String... args)"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "Robot",
+    "name": "Robot.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Robot.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/Robot.java",
+    "lines": 13,
+    "summary": "LoggedRobot lifecycle supporting configurable 50 Hz (20 ms) and 200 Hz (5 ms) control loops via FluxFig.",
+    "methods": [
+      "Robot()"
+    ],
+    "testedBy": [
+      "Tier4ChaosMatchSimTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "RobotIdentity",
+    "name": "RobotIdentity.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/RobotIdentity.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/RobotIdentity.java",
+    "lines": 33,
+    "summary": "Fleet robot identities for FRC Team 10413 (FLUX Robotics), supporting both SystemCore and roboRIO 2.0 fallback via FluxFig.",
+    "methods": [
+      "RobotIdentity fromSerialNumber(String serial)"
+    ],
+    "testedBy": [],
+    "col": 3
+  },
+  {
+    "id": "ElevatorArmKinematics",
+    "name": "ElevatorArmKinematics.java",
+    "pkg": "frc.robot.mechanisms",
+    "relPath": "src/main/java/frc/robot/mechanisms/ElevatorArmKinematics.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/mechanisms/ElevatorArmKinematics.java",
+    "lines": 46,
+    "summary": "2027-specific 2-stage cascading elevator + arm forward kinematics, 2D crossbar keep-out interlocks, and dynamic CG anti-tipping swerve acceleration scaling.",
+    "methods": [
+      "double stage1HeightMeters(double carriageHeightMeters)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 3
+  }
+];
+    const EDGES = [["MechanismIO", "MechanismIOSim"], ["MechanismIO", "MechanismIOTalonFX"], ["PhoenixSignals", "MechanismIOTalonFX"], ["PhoenixUtil", "MechanismIOTalonFX"], ["MechanismIO", "PositionMechanism"], ["MechanismIO", "VelocityMechanism"], ["Robot", "Main"], ["FluxFig", "MechanismIOSim"], ["FluxFig", "MechanismIOTalonFX"], ["FluxFig", "PositionMechanism"], ["FluxFig", "VelocityMechanism"], ["FluxFig", "Robot"], ["FluxFig", "RobotIdentity"]];
+    const TESTS = [
+  {
+    "id": "PrecisionReporter",
+    "name": "PrecisionReporter.java",
+    "relPath": "src/test/java/frc/simharness/PrecisionReporter.java",
+    "lines": 249,
+    "summary": "Quantitative precision collector for Tiers 1-5. Writes build/precision-scorecard.json, build/precision-scorecard.txt, and build/precision-scorecard.html for Cloud Build and GitHub Commit Status reporting.",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/PrecisionReporter.java"
+  },
+  {
+    "id": "Tier1ArchitectureHygieneTest",
+    "name": "Tier1ArchitectureHygieneTest.java",
+    "relPath": "src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java",
+    "lines": 123,
+    "summary": "Tier 1 Verification Gate: Zero SmartDashboard/Preferences, Zero Per-Loop ControlRequest Allocations, strict frc.lib vs. frc.robot separation for BackTo2026, and STUDENTS.md / STUDENT-CHANGELOG.md synchronization.",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java"
+  },
+  {
+    "id": "Tier2DeterministicSolversTest",
+    "name": "Tier2DeterministicSolversTest.java",
+    "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
+    "lines": 193,
+    "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection, 10,000-vector VirtualGeofence braking, AX=XB camera solver with synthetic Gaussian noise, and ElevatorArmKinematics keep-out interlocks.",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
+  },
+  {
+    "id": "Tier3CtreSimHardwareTest",
+    "name": "Tier3CtreSimHardwareTest.java",
+    "relPath": "src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java",
+    "lines": 196,
+    "summary": "Tier 3 Verification Gate: Real CTRE Phoenix 6 C++ Hardware Simulation (libCTRE_SimProTalonFX.so) + WPILib DCMotorSim exercising MechanismIOTalonFX directly.",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java"
+  },
+  {
+    "id": "Tier4ChaosMatchSimTest",
+    "name": "Tier4ChaosMatchSimTest.java",
+    "relPath": "src/test/java/frc/simharness/Tier4ChaosMatchSimTest.java",
+    "lines": 146,
+    "summary": "Tier 4 Verification Gate: Headless 50x Fast-Forward 150-Second Full Match Simulation with 5-Scenario FaultSupervisor Chaos Fault Injection and Binary .wpilog Recording.",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier4ChaosMatchSimTest.java"
+  },
+  {
+    "id": "Tier5NytrReplayGateTest",
+    "name": "Tier5NytrReplayGateTest.java",
+    "relPath": "src/test/java/frc/simharness/Tier5NytrReplayGateTest.java",
+    "lines": 142,
+    "summary": "Tier 5 Verification Gate: Automated .wpilog NYTR Competition Telemetry Replay Gate.",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier5NytrReplayGateTest.java"
+  }
+];
+    let selectedId = "MechanismIOTalonFX";
+    let showAllEdges = false;
+    let activeFilter = "ALL";
+
+    function selectNode(id) {
+      selectedId = id;
+      showAllEdges = false;
+      document.getElementById("btn-show-all").classList.remove("active");
+      render();
+      renderTable();
+    }
+
+    function toggleShowAll() {
+      showAllEdges = !showAllEdges;
+      document.getElementById("btn-show-all").classList.toggle("active", showAllEdges);
+      render();
+    }
+
+    function setFilter(f) {
+      activeFilter = f;
+      document.querySelectorAll("#filter-pills .btn").forEach(b => {
+        b.classList.toggle("active", b.getAttribute("data-filter") === f);
+      });
+      renderTable();
+    }
+
+    function render() {
+      const svg = document.getElementById("graph-svg");
+      const cols = {0: [], 1: [], 2: [], 3: []};
+      NODES.forEach(n => cols[n.col].push(n));
+      const colX = [16, 260, 504, 748];
+      const boxW = 216;
+      const boxH = 50;
+      const pos = {};
+      Object.keys(cols).forEach(c => {
+        cols[c].forEach((n, r) => {
+          pos[n.id] = { x: colX[c], y: 40 + r * 64 };
+        });
+      });
+
+      const connNodes = new Set([selectedId]);
+      const connEdges = new Set();
+      EDGES.forEach(([u, v], idx) => {
+        if (showAllEdges || u === selectedId || v === selectedId) {
+          connNodes.add(u);
+          connNodes.add(v);
+          connEdges.add(idx);
+        }
+      });
+
+      let out = `<defs>
+        <marker id="arr-hi" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+        </marker>
+        <marker id="arr-lo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+        </marker>
+      </defs>`;
+
+      const headers = [
+        "1. Config & Utils (frc.lib)",
+        "2. IO & Solvers (frc.lib)",
+        "3. Subsystems & Safety (frc.lib)",
+        "4. 2027 Robot (frc.robot)"
+      ];
+      headers.forEach((h, i) => {
+        out += `<text x="${colX[i] + 4}" y="22" fill="#94a3b8" font-size="12" font-weight="700">${h}</text>`;
+      });
+
+      EDGES.forEach(([u, v], idx) => {
+        if (!pos[u] || !pos[v]) return;
+        const p1 = pos[u], p2 = pos[v];
+        const act = connEdges.has(idx);
+        let d = "";
+        if (p1.x === p2.x) {
+          const sy = p1.y < p2.y ? p1.y + boxH : p1.y;
+          const ey = p1.y < p2.y ? p2.y : p2.y + boxH;
+          d = `M ${p1.x + boxW/2} ${sy} L ${p2.x + boxW/2} ${ey}`;
+        } else {
+          const sx = p1.x < p2.x ? p1.x + boxW : p1.x;
+          const ex = p1.x < p2.x ? p2.x : p2.x + boxW;
+          const sy = p1.y + boxH/2, ey = p2.y + boxH/2;
+          const mx = (sx + ex) / 2;
+          d = `M ${sx} ${sy} C ${mx} ${sy}, ${mx} ${ey}, ${ex} ${ey}`;
+        }
+        out += `<path d="${d}" fill="none" stroke="${act ? '#3b82f6' : '#475569'}" stroke-width="${act ? 2.3 : 1.1}" opacity="${act ? 0.95 : 0.22}" marker-end="url(#${act ? 'arr-hi' : 'arr-lo'})"/>`;
+      });
+
+      NODES.forEach(n => {
+        const p = pos[n.id];
+        const sel = n.id === selectedId;
+        const conn = showAllEdges || connNodes.has(n.id);
+        let fill = "rgba(30, 58, 138, 0.58)", stroke = sel ? "#60a5fa" : "#3b82f6";
+        if (n.id === "FluxFig") { fill = "rgba(6, 78, 59, 0.68)"; stroke = sel ? "#34d399" : "#10b981"; }
+        else if (n.pkg.startsWith("frc.robot")) { fill = "rgba(88, 28, 135, 0.58)"; stroke = sel ? "#c084fc" : "#a855f7"; }
+        out += `<g class="node-box" transform="translate(${p.x}, ${p.y})" opacity="${conn ? 1.0 : 0.35}" onclick="selectNode('${n.id}')">
+          <rect width="${boxW}" height="${boxH}" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="${sel ? 2.8 : 1.4}"/>
+          <text x="12" y="20" fill="#f8fafc" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12.5" font-weight="700">${n.id}</text>
+          <text x="12" y="38" fill="#94a3b8" font-size="11">${n.pkg} · ${n.lines}L</text>
+        </g>`;
+      });
+
+      svg.innerHTML = out;
+
+      const n = NODES.find(x => x.id === selectedId) || NODES[0];
+      const incoming = EDGES.filter(([u, v]) => v === n.id).map(([u, v]) => u);
+      const outgoing = EDGES.filter(([u, v]) => u === n.id).map(([u, v]) => v);
+      const scopeTag = n.id === "FluxFig"
+        ? `<span class="badge" style="background:rgba(16,185,129,0.2);color:#34d399;">Shared JAR</span>`
+        : n.pkg.startsWith("frc.robot")
+          ? `<span class="badge" style="background:rgba(168,85,247,0.2);color:#c084fc;">Separate per Repo (2027 vs 2026)</span>`
+          : `<span class="badge" style="background:rgba(59,130,246,0.2);color:#60a5fa;">Synced 1:1 via backTo2026</span>`;
+
+      const testChips = (n.testedBy || []).map(tid => {
+        const tObj = TESTS.find(t => t.id === tid);
+        const url = tObj ? tObj.ghUrl : "#";
+        return `<a class="chip chip-test" href="${url}" target="_blank" rel="noopener" title="Open test on GitHub">${tid} ↗</a>`;
+      }).join("");
+
+      document.getElementById("inspector").innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <h2 style="margin:0;font-size:18px;font-family:ui-monospace,monospace;">${n.id}</h2>
+          ${scopeTag}
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;color:var(--muted);font-family:ui-monospace,monospace;">${n.relPath} (${n.lines}L)</span>
+          <a class="btn" style="padding:3px 9px;font-size:11.5px;" href="${n.ghUrl}" target="_blank" rel="noopener">View Source on GitHub ↗</a>
+        </div>
+        <p style="margin:12px 0;padding:11px;background:var(--card-alt);border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.55;">${n.summary}</p>
+        <div style="font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;">Public Constructors &amp; Methods</div>
+        <ul style="margin:6px 0 14px 0;padding-left:18px;font-family:ui-monospace,monospace;font-size:12px;color:#60a5fa;line-height:1.65;">
+          ${n.methods.length ? n.methods.map(m => `<li>${m}</li>`).join('') : '<li>(Entry / Data Class)</li>'}
+        </ul>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;">
+          <div>
+            <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">Depends On (${incoming.length})</div>
+            ${incoming.length ? incoming.map(id => `<span class="chip" onclick="selectNode('${id}')">${id}</span>`).join('') : '<span style="color:var(--muted)">Zero internal deps</span>'}
+          </div>
+          <div>
+            <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">Used By (${outgoing.length})</div>
+            ${outgoing.length ? outgoing.map(id => `<span class="chip" onclick="selectNode('${id}')">${id}</span>`).join('') : '<span style="color:var(--muted)">Top-level / Subsystem</span>'}
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:10px;font-size:12px;">
+          <div style="color:var(--muted);font-weight:700;margin-bottom:4px;">Verified By JUnit 5 Gate Tests (${(n.testedBy || []).length})</div>
+          ${testChips || '<span style="color:var(--muted)">Covered by Tier 1 Architecture Hygiene Gate</span>'}
+        </div>
+      `;
+    }
+
+    function renderTable() {
+      const q = (document.getElementById("search-box").value || "").toLowerCase().trim();
+      const tbody = document.getElementById("class-table-body");
+
+      if (activeFilter === "TESTS") {
+        const rows = TESTS.filter(t => !q || t.id.toLowerCase().includes(q) || t.summary.toLowerCase().includes(q));
+        tbody.innerHTML = rows.map(t => `
+          <tr class="row-item" onclick="window.open('${t.ghUrl}', '_blank')">
+            <td style="font-family:ui-monospace,monospace;font-weight:700;color:#fcd34d;">
+              <a href="${t.ghUrl}" target="_blank" rel="noopener" style="color:#fcd34d;">${t.name} ↗</a>
+            </td>
+            <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#fcd34d;">frc.simharness (Test)</span></td>
+            <td style="font-family:ui-monospace,monospace;">${t.lines}L</td>
+            <td>${t.summary}</td>
+            <td style="color:var(--muted);font-size:12px;">Click row to open JUnit 5 test source on GitHub</td>
+          </tr>
+        `).join("");
+        return;
+      }
+
+      const filtered = NODES.filter(n => {
+        if (activeFilter === "MECH" && n.pkg !== "frc.lib.mechanism") return false;
+        if (activeFilter === "UTIL" && !["frc.lib.util", "frc.lib.wpilog", "frc.lib.fluxfig (JAR)"].includes(n.pkg)) return false;
+        if (activeFilter === "SAFETY" && !["frc.lib.drive", "frc.lib.safety", "frc.lib.vision"].includes(n.pkg)) return false;
+        if (activeFilter === "ROBOT" && !n.pkg.startsWith("frc.robot")) return false;
+        if (q) {
+          const hay = (n.id + " " + n.pkg + " " + n.summary + " " + n.methods.join(" ")).toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      tbody.innerHTML = filtered.map(n => {
+        const incoming = EDGES.filter(([u, v]) => v === n.id).map(([u, v]) => u);
+        const outgoing = EDGES.filter(([u, v]) => u === n.id).map(([u, v]) => v);
+        const scopeBadge = n.id === "FluxFig"
+          ? `<span class="badge" style="background:rgba(16,185,129,0.18);color:#34d399;">JAR</span>`
+          : n.pkg.startsWith("frc.robot")
+            ? `<span class="badge" style="background:rgba(168,85,247,0.18);color:#c084fc;">2027 Only</span>`
+            : `<span class="badge" style="background:rgba(59,130,246,0.18);color:#60a5fa;">backTo2026</span>`;
+        return `
+          <tr class="row-item ${n.id === selectedId ? 'selected' : ''}" onclick="selectNode('${n.id}')">
+            <td style="font-family:ui-monospace,monospace;font-weight:700;">
+              <div>${n.id}</div>
+              <div style="margin-top:4px;font-size:11.5px;font-weight:400;">
+                <a href="${n.ghUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub Source ↗</a>
+              </div>
+            </td>
+            <td>
+              <div style="font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);margin-bottom:4px;">${n.pkg}</div>
+              ${scopeBadge}
+            </td>
+            <td style="font-family:ui-monospace,monospace;">${n.lines}L</td>
+            <td>
+              <div style="margin-bottom:6px;line-height:1.45;">${n.summary}</div>
+              <div style="font-family:ui-monospace,monospace;font-size:11.5px;color:#60a5fa;">
+                ${n.methods.slice(0, 4).join(" · ")}
+              </div>
+            </td>
+            <td style="font-size:12px;">
+              <div><b style="color:var(--muted);">Uses:</b> ${incoming.length ? incoming.join(", ") : "—"}</div>
+              <div style="margin-top:3px;"><b style="color:var(--muted);">Used by:</b> ${outgoing.length ? outgoing.join(", ") : "—"}</div>
+              <div style="margin-top:3px;color:#fcd34d;"><b style="color:var(--muted);">Tests:</b> ${(n.testedBy || []).join(", ") || "Tier1Hygiene"}</div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    render();
+    renderTable();
+  </script>
+</body>
+</html>
