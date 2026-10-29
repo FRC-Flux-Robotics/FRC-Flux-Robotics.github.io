@@ -273,15 +273,21 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/Robot.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/Robot.java",
-    "lines": 44,
-    "summary": "LoggedRobot lifecycle supporting configurable 50 Hz (20 ms) and 200 Hz (5 ms) control loops via FluxFig, batched CAN status signal refresh, and per-section loop tracing.",
+    "lines": 137,
+    "summary": "LoggedRobot lifecycle supporting configurable 50 Hz (20 ms) and 200 Hz (5 ms) control loops via FluxFig, batched CAN status signal refresh, CommandScheduler execution, and per-section loop tracing.",
     "methods": [
       "Robot()",
       "void robotInit()",
       "void robotPeriodic()",
+      "void disabledInit()",
+      "void disabledPeriodic()",
+      "void autonomousInit()",
+      "void teleopInit()",
       "RobotContainer getRobotContainer()"
     ],
     "testedBy": [
+      "Tier1ArchitectureHygieneTest",
+      "Tier2DeterministicSolversTest",
       "Tier4ChaosMatchSimTest"
     ],
     "col": 0
@@ -292,19 +298,25 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotContainer.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/RobotContainer.java",
-    "lines": 107,
-    "summary": "Top-level robot container wiring subsystems, mechanisms, safety supervisors, and vision solvers from FluxFig CSV configurations.",
+    "lines": 497,
+    "summary": "Clean 2027 Pre-Kickoff robot container (zero 2026 shooting bloat) wiring 250 Hz Drive, full-queue Vision, BatteryIO (`Playing With Fusion BFG` on `auxCanBus`), PreMatchCalibrator, Superstructure (`Elevator` + `ArmPivot` + `IntakeRoller` with 2D keep-out &amp; CG anti-tipping), Ghost Superstructure hybrid mode, and shared `frc.lib.commands.*` bindings.",
     "methods": [
       "RobotContainer(RobotIdentity identity)",
-      "RobotIdentity getIdentity()",
-      "FluxFig getFluxFig()",
-      "FaultSupervisor getFaultSupervisor()",
-      "PositionMechanism getElevator()",
-      "PositionMechanism getArmPivot()",
-      "VelocityMechanism getSwerveDriveSample()",
-      "double computeSafeAccelScale(double carriageMeters, double armAngleDeg)"
+      "RobotContainer(RobotIdentity identity, Path configDir, boolean forceSimIo)",
+      "PitSystemCheckCmd createPitSystemCheckCommand()",
+      "Blitz15MinCmd createBlitz15MinCommand(Path checkpointPath)",
+      "OperatingMode getOperatingMode()",
+      "void disabledPeriodic()",
+      "void periodicUpdate()",
+      "Command getAutonomousCommand()"
     ],
-    "testedBy": [],
+    "testedBy": [
+      "StudentAutoSimExporter",
+      "StudentExercisesTest",
+      "Tier1ArchitectureHygieneTest",
+      "Tier2DeterministicSolversTest",
+      "Tier4ChaosMatchSimTest"
+    ],
     "col": 0
   },
   {
@@ -313,13 +325,396 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotIdentity.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/RobotIdentity.java",
-    "lines": 33,
+    "lines": 40,
     "summary": "Fleet robot identities for FRC Team 10413 (FLUX Robotics), supporting both SystemCore and roboRIO 2.0 fallback via FluxFig.",
     "methods": [
-      "RobotIdentity fromSerialNumber(String serial)"
+      "RobotIdentity fromSerialNumber(String serial)",
+      "RobotIdentity fromSerialOrComments(String serial, String comments)"
     ],
-    "testedBy": [],
+    "testedBy": [
+      "StudentExercisesTest",
+      "Tier2DeterministicSolversTest",
+      "Tier4ChaosMatchSimTest"
+    ],
     "col": 0
+  },
+  {
+    "id": "Superstructure",
+    "name": "Superstructure.java",
+    "pkg": "frc.robot",
+    "relPath": "src/main/java/frc/robot/Superstructure.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/Superstructure.java",
+    "lines": 179,
+    "summary": "Clean 2027 Pre-Kickoff `Superstructure` state coordinator template (Zero 2026 shooting bloat).",
+    "methods": [
+      "Superstructure(",
+      "void requestState(State desiredState)",
+      "void periodic()",
+      "boolean isAtTarget()",
+      "double getTotalMechanismSupplyCurrentAmps()",
+      "double getSafeSwerveAccelerationScale()",
+      "State getState()",
+      "PositionMechanism getElevator()"
+    ],
+    "testedBy": [
+      "StudentAutoSimExporter",
+      "StudentExercisesTest",
+      "Tier2DeterministicSolversTest",
+      "Tier4ChaosMatchSimTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "StudentAutoRoutines",
+    "name": "StudentAutoRoutines.java",
+    "pkg": "frc.robot.autos",
+    "relPath": "src/main/java/frc/robot/autos/StudentAutoRoutines.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/autos/StudentAutoRoutines.java",
+    "lines": 138,
+    "summary": "Pure WPILib Autonomous Command Definitions for `Flux-SystemCore-2027`.",
+    "methods": [
+      "Command createExampleSquareAndCircleAuto(",
+      "Command createStudentDefaultAuto(Drive drive, Superstructure superstructure)",
+      "Command createHolonomicCircleCommand(",
+      "Command withLoopTimeout(Command command, double timeoutSeconds)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "StudentExercises",
+    "name": "StudentExercises.java",
+    "pkg": "frc.robot.exercises",
+    "relPath": "src/main/java/frc/robot/exercises/StudentExercises.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/exercises/StudentExercises.java",
+    "lines": 240,
+    "summary": "Progressive 4-Level Hands-On Student Exercise Kit for `Flux-SystemCore-2027`.",
+    "methods": [
+      "double HEADING_DEADBAND_RAD = Math.toRadians(1.0); // 1.0 deg",
+      "MechanismSpec createBrokenClimberSpecExample()",
+      "boolean isMechanismSpecSafeForSystemCore(MechanismSpec spec)",
+      "MechanismSpec exercise1_fixClimberMechanismSpec(MechanismSpec broken)",
+      "SuperstructureSetpoint exercise2_computeSafeElevatorAndArmSetpoints(",
+      "ChassisSpeeds exercise3_computePoseAlignmentSpeeds(",
+      "Command exercise4_createTwoPieceScoringAuto("
+    ],
+    "testedBy": [
+      "StudentExercisesTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "DriveCommands",
+    "name": "DriveCommands.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/DriveCommands.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/DriveCommands.java",
+    "lines": 185,
+    "summary": "Shared robot-agnostic swerve drive command factories: field-relative joystick drive with PiecewiseSensitivity and `SHOP_5X3` geofence protection, heading-locked drive, and automated wheel radius characterization.",
+    "methods": [
+      "Translation2d getLinearVelocityFromJoysticks(",
+      "Command joystickDrive(",
+      "Command joystickDrive(",
+      "Command joystickDriveAtAngle(",
+      "Command wheelRadiusCharacterization(Drive drive)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "DriveToPose",
+    "name": "DriveToPose.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/DriveToPose.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/DriveToPose.java",
+    "lines": 115,
+    "summary": "Field-space holonomic ProfiledPIDController alignment command (Team 3061 / 2910 pattern) driving the robot smoothly to any target Pose2d using fused 250 Hz + vision odometry (continuing smoothly through brief camera occlusions).",
+    "methods": [
+      "double DEFAULT_ANGLE_TOLERANCE_RAD = Math.toRadians(1.5)",
+      "DriveToPose(Drive drive, Pose2d targetPose)",
+      "DriveToPose(",
+      "void initialize()",
+      "void execute()",
+      "boolean atGoal()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "PreMatchCalibrator",
+    "name": "PreMatchCalibrator.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/PreMatchCalibrator.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/PreMatchCalibrator.java",
+    "lines": 123,
+    "summary": "Passive pre-match calibrator executed during `disabledPeriodic()`.",
+    "methods": [
+      "double MAX_STATIONARY_OMEGA_RAD_PER_SEC = Math.toRadians(0.5)",
+      "PreMatchCalibrator(Drive drive, Vision vision)",
+      "void setExpectedStartPose(Pose2d expectedStartPose)",
+      "void updateDisabled()",
+      "void addObservation(Pose2d observation)",
+      "boolean isGyroSeeded()",
+      "boolean isReadyToPlay()",
+      "double getPoseErrorMeters()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest",
+      "Tier4ChaosMatchSimTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "PitSystemCheckCmd",
+    "name": "PitSystemCheckCmd.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
+    "lines": 111,
+    "summary": "20-Second \"One-Button Pre-Flight\" Pit System Check (`PitSystemCheckCmd`).",
+    "methods": [
+      "PitSystemCheckCmd(",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)",
+      "boolean hasPassed()",
+      "String getSummary()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "HardStopHomingCmd",
+    "name": "HardStopHomingCmd.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/HardStopHomingCmd.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/HardStopHomingCmd.java",
+    "lines": 104,
+    "summary": "Reusable current-stall homing command (`HardStopHomingCmd`) for any linear slide, elevator, arm pivot, hood, tilter, or climber.",
+    "methods": [
+      "HardStopHomingCmd(PositionMechanism mechanism)",
+      "HardStopHomingCmd(",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)",
+      "boolean isHomed()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "ZeroPriorBootstrapCmd",
+    "name": "ZeroPriorBootstrapCmd.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/ZeroPriorBootstrapCmd.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/ZeroPriorBootstrapCmd.java",
+    "lines": 256,
+    "summary": "25-Second Zero-Tape-Measure Camera &amp; Room SLAM Command (`ZeroPriorBootstrapCmd`).",
+    "methods": [
+      "Path CALIBRATED_CAMERAS_CSV_PATH = Path.of(\"/tmp/cameras-calibrated.csv\")",
+      "Path SHOP_ARENA_JSON_PATH = Path.of(\"/tmp/shop-5x3.json\")",
+      "ZeroPriorBootstrapCmd(Drive drive, BooleanSupplier deadManHeldSupplier)",
+      "void setCurrentCameraResidualMeters(double residualMeters)",
+      "void addObservedWallTag(Translation2d tagFieldMeters)",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "ShopStressSuiteCmd",
+    "name": "ShopStressSuiteCmd.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/ShopStressSuiteCmd.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/ShopStressSuiteCmd.java",
+    "lines": 122,
+    "summary": "Automated 4-Capsule High-Intensity Shop Floor Torture Suite (`ShopStressSuiteCmd`) executed inside the `5m x 3m` shop micro-arena ({@link FieldProfile#SHOP_5X3}) under VirtualGeofence protection:",
+    "methods": [
+      "ShopStressSuiteCmd(Drive drive, BooleanSupplier deadManHeldSupplier)",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)",
+      "int getWallBreachCount()",
+      "Capsule getActiveCapsule()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "Blitz15MinCmd",
+    "name": "Blitz15MinCmd.java",
+    "pkg": "frc.lib.commands",
+    "relPath": "src/main/java/frc/lib/commands/Blitz15MinCmd.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/Blitz15MinCmd.java",
+    "lines": 153,
+    "summary": "Stateful, Checkpoint-Resumable 15-Minute Floor Blitz Sequence (`Blitz15MinCmd`).",
+    "methods": [
+      "Path DEFAULT_CHECKPOINT_PATH = Path.of(\"/tmp/blitz-progress.json\")",
+      "Blitz15MinCmd(",
+      "Blitz15MinCmd(",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)",
+      "void resetCheckpoint()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 0
+  },
+  {
+    "id": "Drive",
+    "name": "Drive.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/Drive.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/Drive.java",
+    "lines": 620,
+    "summary": "Pure AdvantageKit 250 Hz Swerve Drive subsystem (`Drive` + `GyroIO` + 4x `ModuleIO`) with built-in VirtualGeofence enforcement in `SHOP_5X3` mode, dynamic CG anti-tipping acceleration scaling, and FaultSupervisor stator current throttling.",
+    "methods": [
+      "Drive(SwerveConfig config, GyroIO gyroIo, ModuleIO... moduleIos)",
+      "Command followPathCommand(String pathName)",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)",
+      "Optional<Pose2d> getPathStartingPose(String pathName)",
+      "void setLoopPeriodSeconds(double loopPeriodSec)"
+    ],
+    "testedBy": [
+      "StudentAutoSimExporter",
+      "StudentExercisesTest",
+      "Tier2DeterministicSolversTest",
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "Module",
+    "name": "Module.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/Module.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/Module.java",
+    "lines": 97,
+    "summary": "Per-corner swerve module wrapper handling angle optimization, cosine velocity scaling, 250 Hz odometry position array construction, and AdvantageKit logging.",
+    "methods": [
+      "Module(ModuleIO io, int index, double wheelRadiusMeters)",
+      "void periodic()",
+      "void runSetpoint(SwerveModuleState state)",
+      "void setDriveStatorCurrentLimit(double statorLimitAmps)",
+      "void stop()",
+      "Rotation2d getAngle()",
+      "double getPositionMeters()",
+      "double getVelocityMetersPerSec()"
+    ],
+    "testedBy": [
+      "Tier4ChaosMatchSimTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "SwerveConfig",
+    "name": "SwerveConfig.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/SwerveConfig.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/SwerveConfig.java",
+    "lines": 178,
+    "summary": "Immutable swerve drivetrain configuration record (chassis geometry, gear ratios, CAN bus, Pigeon 2 ID, 4 corner module definitions, and current limits) constructible from FluxFig (`parameters.csv`, `mechanisms.csv`, and `swerve_modules.csv`).",
+    "methods": [
+      "CornerConfig(",
+      "SwerveConfig fromFluxFig(FluxFig fig, String profileRobot)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest",
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "PhoenixOdometryThread",
+    "name": "PhoenixOdometryThread.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/PhoenixOdometryThread.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/PhoenixOdometryThread.java",
+    "lines": 183,
+    "summary": "250 Hz (4 ms) high-frequency swerve odometry thread supporting both roboRIO CANivore and SystemCore native SocketCAN (`can_s0` latency-compensated `refreshAll` + `getLatencyCompensatedValue`), plus deterministic {@link #sampleOnce(double)} stepping for tests.",
+    "methods": [
+      "Lock ODOMETRY_LOCK = new ReentrantLock()",
+      "synchronized PhoenixOdometryThread getInstance()",
+      "Queue<Double> registerLatencyCompensatedSignal(",
+      "Queue<Double> registerGenericSignal(DoubleSupplier supplier)",
+      "void sampleOnce(double timestampSeconds)",
+      "void sampleNow()",
+      "boolean hasRegisteredSignals()",
+      "void ensureSampleReady()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest",
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "Vision",
+    "name": "Vision.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/Vision.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/Vision.java",
+    "lines": 188,
+    "summary": "Multi-camera AprilTag vision subsystem that drains the entire unread frame queue from ALL cameras every cycle (zero round-robin), computes dynamic distance/tag-count covariance, checks FieldPositions field/shop bounds, and quarantines bent camera mounts via FaultSupervisor.",
+    "methods": [
+      "Vision(",
+      "void periodic()",
+      "int getTotalFramesDrained()",
+      "int getAcceptedObservationCount()",
+      "int getRejectedObservationCount()",
+      "double getLastTagSightTimestampSec()",
+      "void setRobotOrientation(",
+      "Optional<Pose2d> getLatestAcceptedPose()"
+    ],
+    "testedBy": [
+      "Tier1ArchitectureHygieneTest",
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 1
+  },
+  {
+    "id": "CameraConfig",
+    "name": "CameraConfig.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/CameraConfig.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/CameraConfig.java",
+    "lines": 39,
+    "summary": "Immutable camera configuration record wrapping camera name, physical USB/NT port index, 6-DOF `robotToCamera` transform, and covariance scalar.",
+    "methods": [
+      "CameraConfig fromFluxFig(CameraSpec spec)",
+      "CameraConfig[] fromFluxFigRobot(FluxFig fig, String profileRobot)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 1
   },
   {
     "id": "PositionMechanism",
@@ -327,19 +722,21 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/PositionMechanism.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/PositionMechanism.java",
-    "lines": 71,
-    "summary": "Generic config-driven position mechanism subsystem backed by MechanismIO.",
+    "lines": 120,
+    "summary": "Generic config-driven position mechanism subsystem backed by MechanismIO with LoggedTunableNumber PID/gravity gains.",
     "methods": [
       "PositionMechanism(MechanismIO io, MechanismSpec spec)",
       "PositionMechanism(MechanismIO io, MechanismSpec spec, double toleranceRot)",
       "void periodic()",
       "void setPosition(double positionRotations)",
+      "void setVoltage(double volts)",
       "void stop()",
       "boolean atTarget()",
-      "double getPosition()",
-      "double getStatorCurrentAmps()"
+      "double getPosition()"
     ],
-    "testedBy": [],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
     "col": 1
   },
   {
@@ -348,19 +745,21 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/VelocityMechanism.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/VelocityMechanism.java",
-    "lines": 66,
-    "summary": "Generic config-driven velocity mechanism subsystem backed by MechanismIO.",
+    "lines": 113,
+    "summary": "Generic config-driven velocity mechanism subsystem backed by MechanismIO with LoggedTunableNumber PID/feedforward gains.",
     "methods": [
       "VelocityMechanism(MechanismIO io, MechanismSpec spec)",
       "VelocityMechanism(MechanismIO io, MechanismSpec spec, double toleranceRps)",
       "void periodic()",
       "void setVelocity(double velocityRPS)",
+      "void setVoltage(double volts)",
       "void stop()",
       "boolean atTarget()",
-      "double getVelocity()",
-      "double getStatorCurrentAmps()"
+      "double getVelocity()"
     ],
-    "testedBy": [],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
     "col": 1
   },
   {
@@ -369,12 +768,15 @@
     "pkg": "frc.robot.mechanisms",
     "relPath": "src/main/java/frc/robot/mechanisms/ElevatorArmKinematics.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/mechanisms/ElevatorArmKinematics.java",
-    "lines": 46,
+    "lines": 57,
     "summary": "2027-specific 2-stage cascading elevator + arm forward kinematics, 2D crossbar keep-out interlocks, and dynamic CG anti-tipping swerve acceleration scaling.",
     "methods": [
-      "double stage1HeightMeters(double carriageHeightMeters)"
+      "double stage1HeightMeters(double carriageHeightMeters)",
+      "double maxAccelScaleFactor(double carriageHeightMeters)",
+      "boolean isArmSafe(double carriageHeightMeters, double desiredArmDeg)"
     ],
     "testedBy": [
+      "StudentExercisesTest",
       "Tier2DeterministicSolversTest"
     ],
     "col": 1
@@ -385,10 +787,11 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/VirtualGeofence.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/VirtualGeofence.java",
-    "lines": 49,
-    "summary": "Kinematic braking barrier and Dead-Man watchdog for the 5m x 3m shop micro-arena (safe robot center box: 3.3m x 1.3m).",
+    "lines": 125,
+    "summary": "Kinematic braking barrier and Dead-Man watchdog for confined shop/arena (`FieldProfile.SHOP_5X3`) and half-field practice (`HALF_FIELD_BLUE`, `HALF_FIELD_RED`).",
     "methods": [
-      "ChassisSpeeds clampFieldSpeeds("
+      "ChassisSpeeds clampFieldSpeeds(",
+      "ChassisSpeeds clampProfileSpeeds("
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -414,6 +817,7 @@
       "int dejamEventsTriggered()"
     ],
     "testedBy": [
+      "Tier2DeterministicSolversTest",
       "Tier4ChaosMatchSimTest",
       "Tier5NytrReplayGateTest"
     ],
@@ -437,12 +841,231 @@
     "col": 1
   },
   {
+    "id": "ModuleIO",
+    "name": "ModuleIO.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/ModuleIO.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/ModuleIO.java",
+    "lines": 101,
+    "summary": "Hardware abstraction for a single swerve corner module (drive motor, steer motor, absolute encoder, and 250 Hz odometry sample arrays).",
+    "methods": [
+      "void toLog(LogTable table)",
+      "void fromLog(LogTable table)",
+      "void updateInputs(ModuleIOInputs inputs)",
+      "void setDriveVelocity(double velocityRadPerSec)",
+      "void setTurnPosition(Rotation2d angle)",
+      "void setDriveOpenLoop(double volts)",
+      "void setTurnOpenLoop(double volts)",
+      "void setDriveStatorCurrentLimit(double statorLimitAmps)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "ModuleIOTalonFX",
+    "name": "ModuleIOTalonFX.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
+    "lines": 299,
+    "summary": "Real CTRE Kraken X60 + CANcoder implementation of ModuleIO. Enforces <= 60A Stator / <= 40A Supply / <= 60A Slip current limits (preventing the NYTR 120A SlipCurrent overwrite bug), reuses pre-allocated VelocityVoltage and MotionMagicExpoVoltage requests, and registers 250 Hz odometry signals with PhoenixOdometryThread.",
+    "methods": [
+      "ModuleIOTalonFX(SwerveConfig swerveConfig, CornerConfig corner)",
+      "TalonFXConfiguration readAppliedDriveConfig()",
+      "TalonFXConfiguration readAppliedTurnConfig()",
+      "TalonFX getDriveTalon()",
+      "TalonFX getTurnTalon()",
+      "CANcoder getCancoder()",
+      "void setDriveVelocity(double velocityRadPerSec)",
+      "void setTurnPosition(Rotation2d angle)"
+    ],
+    "testedBy": [
+      "Tier1ArchitectureHygieneTest",
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "ModuleIOSim",
+    "name": "ModuleIOSim.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/ModuleIOSim.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/ModuleIOSim.java",
+    "lines": 144,
+    "summary": "WPILib DCMotorSim drive + steer physics simulation of ModuleIO with 250 Hz sub-stepping (5 x 4 ms sub-steps per 20 ms cycle) to populate high-rate odometry queues.",
+    "methods": [
+      "ModuleIOSim(SwerveConfig config)",
+      "void setDriveVelocity(double velocityRadPerSec)",
+      "void setTurnPosition(Rotation2d angle)",
+      "void setDriveOpenLoop(double volts)",
+      "void setTurnOpenLoop(double volts)",
+      "void setDriveStatorCurrentLimit(double statorLimitAmps)",
+      "void stop()",
+      "void updateInputs(ModuleIOInputs inputs)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "GyroIO",
+    "name": "GyroIO.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/GyroIO.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/GyroIO.java",
+    "lines": 60,
+    "summary": "Hardware abstraction for the swerve IMU / gyroscope (Pigeon 2 + SystemCore onboard IMU fallback).",
+    "methods": [
+      "void toLog(LogTable table)",
+      "void fromLog(LogTable table)",
+      "void updateInputs(GyroIOInputs inputs)",
+      "void setYaw(Rotation2d yaw)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest",
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "GyroIOPigeon2",
+    "name": "GyroIOPigeon2.java",
+    "pkg": "frc.lib.drive",
+    "relPath": "src/main/java/frc/lib/drive/GyroIOPigeon2.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/drive/GyroIOPigeon2.java",
+    "lines": 105,
+    "summary": "Real CTRE Pigeon2 implementation of GyroIO with 250 Hz PhoenixOdometryThread registration and SystemCore onboard 6-axis IMU fallback hook.",
+    "methods": [
+      "GyroIOPigeon2(int pigeonId, String canBusName)",
+      "Pigeon2 getPigeon()",
+      "void setOnboardImuFallback(double yawRad, double yawRateRadPerSec)",
+      "void setYaw(Rotation2d yaw)",
+      "void updateInputs(GyroIOInputs inputs)",
+      "void close()"
+    ],
+    "testedBy": [
+      "Tier3CtreSimHardwareTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "VisionIO",
+    "name": "VisionIO.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VisionIO.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/VisionIO.java",
+    "lines": 126,
+    "summary": "Hardware abstraction for a single AprilTag camera draining the entire unread frame queue every cycle into PoseObservation and RawTagObservation arrays.",
+    "methods": [
+      "void toLog(LogTable table)",
+      "void fromLog(LogTable table)",
+      "void updateInputs(VisionIOInputs inputs)",
+      "void setTransform(Transform3d robotToCamera)",
+      "void setRobotOrientation("
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
+    "id": "VisionIOLimelightSystemCore",
+    "name": "VisionIOLimelightSystemCore.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VisionIOLimelightSystemCore.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/VisionIOLimelightSystemCore.java",
+    "lines": 146,
+    "summary": "Native SystemCore USB 3.0 Limelight OS (`limelightsc0`..`limelightsc3` on physical ports `USB 0..3`) implementation of VisionIO.",
+    "methods": [
+      "VisionIOLimelightSystemCore(CameraConfig config)",
+      "CameraConfig getConfig()",
+      "Transform3d getTransform()",
+      "void setTransform(Transform3d robotToCamera)",
+      "void injectObservationsForTest(PoseObservation... observations)",
+      "void updateInputs(VisionIOInputs inputs)"
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
+    "id": "VisionIOPhotonVision",
+    "name": "VisionIOPhotonVision.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VisionIOPhotonVision.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/VisionIOPhotonVision.java",
+    "lines": 106,
+    "summary": "Real PhotonVision hardware implementation of VisionIO that drains 100% of {@link PhotonCamera#getAllUnreadResults()} every cycle without dropping intermediate frames.",
+    "methods": [
+      "VisionIOPhotonVision(CameraConfig config, AprilTagFieldLayout fieldLayout)",
+      "void setTransform(Transform3d robotToCamera)",
+      "void updateInputs(VisionIOInputs inputs)"
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
+    "id": "VisionIOSim",
+    "name": "VisionIOSim.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VisionIOSim.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/VisionIOSim.java",
+    "lines": 128,
+    "summary": "Synthetic AprilTag raycaster implementation of VisionIO coupled to simulated robot pose (`Supplier<Pose2d>`). Supports configurable camera mount perturbations (for testing ZeroPriorBootstrapSolver and bent-mount quarantine) and multi-frame queue bursts per cycle.",
+    "methods": [
+      "VisionIOSim(CameraConfig config, Supplier<Pose2d> robotPoseSupplier)",
+      "void setTransform(Transform3d robotToCamera)",
+      "void setMountErrorPerturbation(Transform3d perturbation)",
+      "void setFramesPerCycle(int framesPerCycle)",
+      "void setVisibleTagSimulation(",
+      "void updateInputs(VisionIOInputs inputs)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest",
+      "Tier4ChaosMatchSimTest"
+    ],
+    "col": 2
+  },
+  {
+    "id": "ObjectDetectionIO",
+    "name": "ObjectDetectionIO.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/ObjectDetectionIO.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/ObjectDetectionIO.java",
+    "lines": 55,
+    "summary": "Plug-and-play AdvantageKit hardware abstraction for neural game-piece & robot object detection (SystemCore M.2 Hailo-8 NPU, PhotonVision RK3588, or Limelight neural detector).",
+    "methods": [
+      "void toLog(LogTable table)",
+      "void fromLog(LogTable table)",
+      "void updateInputs(ObjectDetectionIOInputs inputs)"
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
+    "id": "VSlamIO",
+    "name": "VSlamIO.java",
+    "pkg": "frc.lib.vision",
+    "relPath": "src/main/java/frc/lib/vision/VSlamIO.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/VSlamIO.java",
+    "lines": 47,
+    "summary": "Plug-and-play AdvantageKit hardware abstraction for 120 Hz visual-inertial SLAM dead-reckoning coprocessors (e.g., QuestNav VSLAM).",
+    "methods": [
+      "void toLog(LogTable table)",
+      "void fromLog(LogTable table)",
+      "void updateInputs(VSlamIOInputs inputs)",
+      "void resetPose(Pose2d newPose)"
+    ],
+    "testedBy": [],
+    "col": 2
+  },
+  {
     "id": "MechanismIO",
     "name": "MechanismIO.java",
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIO.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIO.java",
-    "lines": 56,
+    "lines": 62,
     "summary": "Hardware abstraction for a mechanism (single or dual motor).",
     "methods": [
       "void toLog(LogTable table)",
@@ -450,8 +1073,9 @@
       "void updateInputs(MechanismIOInputs inputs)",
       "void setPosition(double positionRotations)",
       "void setVelocity(double velocityRPS)",
-      "void stop()",
-      "void resetPosition()"
+      "void setVoltage(double volts)",
+      "void setPID(double kP, double kI, double kD, double kS, double kV, double kG)",
+      "void stop()"
     ],
     "testedBy": [
       "Tier3CtreSimHardwareTest"
@@ -464,7 +1088,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
-    "lines": 194,
+    "lines": 232,
     "summary": "Real CTRE TalonFX implementation of MechanismIO (supports single motor or leader + follower) configured directly from a MechanismSpec. Enforces <= 60A Stator and <= 40A Supply limits and registers 50 Hz status signals with PhoenixSignals.",
     "methods": [
       "MechanismIOTalonFX(MechanismSpec spec)",
@@ -472,9 +1096,9 @@
       "TalonFX getMotor()",
       "void setPosition(double positionRotations)",
       "void setVelocity(double velocityRPS)",
-      "void stop()",
-      "void resetPosition()",
-      "void updateInputs(MechanismIOInputs inputs)"
+      "void setVoltage(double volts)",
+      "void setPID(double kP, double kI, double kD, double kS, double kV, double kG)",
+      "void stop()"
     ],
     "testedBy": [
       "Tier3CtreSimHardwareTest"
@@ -487,31 +1111,41 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIOSim.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOSim.java",
-    "lines": 86,
-    "summary": "WPILib DCMotorSim physics implementation of MechanismIO for desktop simulation and Ghost Superstructure mode on bare chassis (`CORAL` / `CHASSIS_3`).",
+    "lines": 221,
+    "summary": "Physics simulation implementation of MechanismIO supporting ElevatorSim (`ELEVATOR_STATIC`), SingleJointedArmSim (`ARM_COSINE`), and DCMotorSim (`NONE`) for desktop simulation and Ghost Superstructure mode on bare chassis (`CORAL` / `CHASSIS_3`).",
     "methods": [
       "MechanismIOSim(MechanismSpec spec)",
+      "SimPlantType getPlantType()",
       "void setPosition(double positionRotations)",
       "void setVelocity(double velocityRPS)",
+      "void setVoltage(double volts)",
+      "void setPID(double kP, double kI, double kD, double kS, double kV, double kG)",
       "void stop()",
-      "void resetPosition()",
-      "void updateInputs(MechanismIOInputs inputs)"
+      "void resetPosition()"
     ],
-    "testedBy": [],
+    "testedBy": [
+      "StudentAutoSimExporter",
+      "Tier2DeterministicSolversTest"
+    ],
     "col": 2
   },
   {
-    "id": "FieldPositions",
-    "name": "FieldPositions.java",
-    "pkg": "frc.lib.util",
-    "relPath": "src/main/java/frc/lib/util/FieldPositions.java",
-    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/FieldPositions.java",
-    "lines": 71,
-    "summary": "Abstracts WPILib 2026 Wall/Blue vs. WPILib 2027 Center/Red coordinate origins and Full-Field, Half-Field, and 5m x 3m Shop Micro-Arena bounds.",
+    "id": "BatteryIO",
+    "name": "BatteryIO.java",
+    "pkg": "frc.lib.safety",
+    "relPath": "src/main/java/frc/lib/safety/BatteryIO.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/safety/BatteryIO.java",
+    "lines": 514,
+    "summary": "AdvantageKit CAN Battery Fuel Gauge (`Playing With Fusion BFG SEN-36005`) reader wired to `auxCanBus` (`\"rio\"` native 1 Mbps CAN 2.0 on roboRIO / `\"can_s4\"` on SystemCore).",
     "methods": [
-      "Pose2d wallBlueToCenterRed(Pose2d wallBlue)",
-      "Pose2d centerRedToWallBlue(Pose2d centerRed)",
-      "boolean isInsideField("
+      "void toLog(LogTable table)",
+      "void fromLog(LogTable table)",
+      "BatteryIO(FluxFig fluxFig, String auxCanBus)",
+      "BatteryIO(FluxFig fluxFig, String auxCanBus, int deviceId)",
+      "int buildArbitrationId(",
+      "int buildBfgArbitrationId(int apiId, int deviceId)",
+      "int extractDeviceType(int arbitrationId)",
+      "int extractManufacturer(int arbitrationId)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -533,8 +1167,121 @@
       "getConfigSha256()"
     ],
     "testedBy": [
+      "StudentExercisesTest",
       "Tier2DeterministicSolversTest",
       "Tier3CtreSimHardwareTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "FieldPositions",
+    "name": "FieldPositions.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/FieldPositions.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/FieldPositions.java",
+    "lines": 279,
+    "summary": "Abstracts WPILib 2026 Wall/Blue vs. WPILib 2027 Center/Red coordinate origins and Full-Field, Half-Field, and 5m x 3m Shop Micro-Arena bounds.",
+    "methods": [
+      "CoordinateSystem getCoordinateSystem()",
+      "void setCoordinateSystem(CoordinateSystem system)",
+      "FieldProfile getFieldProfile()",
+      "void setShopDimensions(double lengthMeters, double widthMeters)",
+      "void setCustomArenaBounds(double minX, double maxX, double minY, double maxY)",
+      "void resetShopDimensions()",
+      "double getShopMinX()",
+      "double getShopMaxX()"
+    ],
+    "testedBy": [
+      "StudentAutoSimExporter",
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "LoggedTunableNumber",
+    "name": "LoggedTunableNumber.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/LoggedTunableNumber.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/LoggedTunableNumber.java",
+    "lines": 102,
+    "summary": "Live-editable dashboard tunable number (Team 6328 pattern) backed by AdvantageKit LoggedNetworkNumber. Automatically locks to its default value when `tuningMode == false` or when connected to FMS at competition.",
+    "methods": [
+      "LoggedTunableNumber(String dashboardKey, double defaultValue)",
+      "void setTuningMode(boolean enabled)",
+      "boolean isTuningMode()",
+      "void initDefault(double defaultValue)",
+      "void setTestOverride(double value)",
+      "void clearTestOverride()",
+      "double get()",
+      "double getAsDouble()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "PiecewiseSensitivity",
+    "name": "PiecewiseSensitivity.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/PiecewiseSensitivity.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/PiecewiseSensitivity.java",
+    "lines": 95,
+    "summary": "Two-segment piecewise linear joystick sensitivity curve backed by LoggedTunableNumber with deadzone, fine low-speed control segment, high-speed segment, and sign preservation.",
+    "methods": [
+      "PiecewiseSensitivity(",
+      "PiecewiseSensitivity(",
+      "void set(",
+      "void pollTunables()",
+      "double transfer(double x)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "SafeAutoBuilder",
+    "name": "SafeAutoBuilder.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/SafeAutoBuilder.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/SafeAutoBuilder.java",
+    "lines": 198,
+    "summary": "Pre-flight and runtime autonomous path safety validator & command decorator using pure AdvantageKit `Logger.recordOutput(\"Auto/...\", ...)` telemetry (zero SmartDashboard).",
+    "methods": [
+      "Limits DEFAULT = new Limits(4.8, 1.5, 0.50, 0.25, 0.25, 10.0, 0.5, 5)",
+      "PreflightReport auditPath(",
+      "Command wrap(",
+      "void initialize()",
+      "void execute()",
+      "boolean isFinished()",
+      "void end(boolean interrupted)"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
+    "col": 3
+  },
+  {
+    "id": "VirtualBatterySim",
+    "name": "VirtualBatterySim.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/VirtualBatterySim.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/VirtualBatterySim.java",
+    "lines": 99,
+    "summary": "Simulates loaded battery terminal voltage `V_bat = V_oc - I_total * R_int` and regresses online internal resistance `R_int = -dV / dI` for desktop simulation and Ghost Superstructure brownout testing on bare chassis (`CORAL` / `CHASSIS_3`).",
+    "methods": [
+      "VirtualBatterySim(double openCircuitVoltageV, double internalResistanceOhms)",
+      "double update(double realDriveSupplyAmps, double ghostMechSupplyAmps)",
+      "double terminalVoltageV()",
+      "double minVoltageV()",
+      "double peakSupplyCurrentAmps()",
+      "int brownoutCount()",
+      "double estimatedRintOhms()",
+      "double estimatedRintMilliOhms()"
+    ],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
     ],
     "col": 3
   },
@@ -564,7 +1311,7 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/PhoenixUtil.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/PhoenixUtil.java",
-    "lines": 28,
+    "lines": 34,
     "summary": "Utility methods for CTRE Phoenix 6 hardware configuration.",
     "methods": [
       "StatusCode tryUntilOk(Supplier<StatusCode> configCall, int maxAttempts)"
@@ -578,14 +1325,17 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/LogFileManager.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/LogFileManager.java",
-    "lines": 74,
-    "summary": "OS-agnostic AdvantageKit & CTRE log storage manager (`/U/logs` -> operating directory `logs`), recursively cleaning both old `.wpilog` and nested `.hoot` files to prevent flash exhaustion.",
+    "lines": 123,
+    "summary": "OS-agnostic AdvantageKit & CTRE log storage manager (`/U/logs` -> operating directory `logs`), recursively cleaning both old `.wpilog` and nested `.hoot` files to prevent flash exhaustion and writing `run-meta.json`.",
     "methods": [
       "String getLogPath()",
       "String getLogPath(File logDir, long maxBytes)",
+      "Path writeRunMetaJson(",
       "void cleanOldLogs(File logDir, long maxBytes)"
     ],
-    "testedBy": [],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
     "col": 3
   },
   {
@@ -609,26 +1359,45 @@
     "pkg": "frc.lib.wpilog",
     "relPath": "src/main/java/frc/lib/wpilog/WpiLogCodec.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/wpilog/WpiLogCodec.java",
-    "lines": 271,
-    "summary": "Zero-dependency binary WPILib DataLog (`.wpilog` v1.0) reader and writer for Tier 4 Headless Match Simulation and Tier 5 NYTR Competition Telemetry Replay gates.",
+    "lines": 207,
+    "summary": "Delegating binary WPILib DataLog (`.wpilog` v1.0) reader and writer for Tier 4 Headless Match Simulation and Tier 5 NYTR Competition Telemetry Replay gates, backed by the shared FluxWpiLogCodec implementation in `FluxFig`.",
     "methods": [
+      "ParsedLog(",
       "ParsedLog(",
       "String extraHeader()",
       "List<DoubleSample> getDoubleSeries(String name)",
+      "List<LongSample> getIntSeries(String name)",
+      "List<DoubleArraySample> getDoubleArraySeries(String name)",
       "List<BooleanSample> getBooleanSeries(String name)",
-      "List<StringSample> getStringSeries(String name)",
-      "double durationSeconds()",
-      "Writer(Path outputPath, String extraHeader) throws IOException",
-      "int startEntry(String name, String type, String metadata, long timestampUs)"
+      "List<StringSample> getStringSeries(String name)"
     ],
     "testedBy": [
       "Tier4ChaosMatchSimTest",
       "Tier5NytrReplayGateTest"
     ],
     "col": 3
+  },
+  {
+    "id": "BackTo2026Translator",
+    "name": "BackTo2026Translator.java",
+    "pkg": "frc.lib.util",
+    "relPath": "src/main/java/frc/lib/util/BackTo2026Translator.java",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/BackTo2026Translator.java",
+    "lines": 127,
+    "summary": "Deterministic source-to-source translator between WPILib 2027 SystemCore (`org.wpilib.*`, JDK 25) and WPILib 2026 roboRIO (`edu.wpi.first.*`, JDK 17) for the shared `frc.lib.*` core engine.",
+    "methods": [
+      "String translate2027To2026(String javaSource)",
+      "String translate2026To2027(String javaSource)",
+      "int translateDirectory2027To2026(Path sourceRoot, Path targetRoot)",
+      "void main(String[] args) throws IOException"
+    ],
+    "testedBy": [
+      "Tier1ArchitectureHygieneTest"
+    ],
+    "col": 3
   }
 ];
-    const EDGES = [["MechanismIOSim", "MechanismIO"], ["MechanismIOTalonFX", "MechanismIO"], ["MechanismIOTalonFX", "PhoenixSignals"], ["MechanismIOTalonFX", "PhoenixUtil"], ["PositionMechanism", "MechanismIO"], ["VelocityMechanism", "MechanismIO"], ["Main", "Robot"], ["Robot", "LogFileManager"], ["Robot", "LoggedTracer"], ["Robot", "PhoenixSignals"], ["Robot", "RobotContainer"], ["Robot", "RobotIdentity"], ["RobotContainer", "ElevatorArmKinematics"], ["RobotContainer", "FaultSupervisor"], ["RobotContainer", "FieldPositions"], ["RobotContainer", "MechanismIO"], ["RobotContainer", "MechanismIOSim"], ["RobotContainer", "MechanismIOTalonFX"], ["RobotContainer", "PositionMechanism"], ["RobotContainer", "RobotIdentity"], ["RobotContainer", "VelocityMechanism"], ["RobotContainer", "VirtualGeofence"], ["RobotContainer", "ZeroPriorBootstrapSolver"], ["MechanismIOSim", "FluxFig"], ["MechanismIOTalonFX", "FluxFig"], ["PositionMechanism", "FluxFig"], ["VelocityMechanism", "FluxFig"], ["Robot", "FluxFig"], ["RobotContainer", "FluxFig"], ["RobotIdentity", "FluxFig"]];
+    const EDGES = [["Blitz15MinCmd", "HardStopHomingCmd"], ["Blitz15MinCmd", "PitSystemCheckCmd"], ["Blitz15MinCmd", "ShopStressSuiteCmd"], ["Blitz15MinCmd", "ZeroPriorBootstrapCmd"], ["DriveCommands", "Drive"], ["DriveCommands", "FieldPositions"], ["DriveCommands", "PiecewiseSensitivity"], ["DriveToPose", "Drive"], ["HardStopHomingCmd", "PositionMechanism"], ["PitSystemCheckCmd", "Drive"], ["PitSystemCheckCmd", "PositionMechanism"], ["PitSystemCheckCmd", "VelocityMechanism"], ["PreMatchCalibrator", "Drive"], ["PreMatchCalibrator", "Vision"], ["ShopStressSuiteCmd", "Drive"], ["ShopStressSuiteCmd", "FieldPositions"], ["ShopStressSuiteCmd", "VirtualGeofence"], ["ZeroPriorBootstrapCmd", "Drive"], ["ZeroPriorBootstrapCmd", "FieldPositions"], ["ZeroPriorBootstrapCmd", "VirtualGeofence"], ["ZeroPriorBootstrapCmd", "Vision"], ["ZeroPriorBootstrapCmd", "ZeroPriorBootstrapSolver"], ["Drive", "FaultSupervisor"], ["Drive", "FieldPositions"], ["Drive", "GyroIO"], ["Drive", "Module"], ["Drive", "ModuleIO"], ["Drive", "PhoenixOdometryThread"], ["Drive", "SafeAutoBuilder"], ["Drive", "SwerveConfig"], ["Drive", "VirtualGeofence"], ["GyroIOPigeon2", "GyroIO"], ["GyroIOPigeon2", "PhoenixOdometryThread"], ["GyroIOPigeon2", "PhoenixSignals"], ["GyroIOPigeon2", "PhoenixUtil"], ["Module", "Drive"], ["Module", "ModuleIO"], ["ModuleIOSim", "ModuleIO"], ["ModuleIOSim", "SwerveConfig"], ["ModuleIOTalonFX", "Drive"], ["ModuleIOTalonFX", "ModuleIO"], ["ModuleIOTalonFX", "PhoenixOdometryThread"], ["ModuleIOTalonFX", "PhoenixSignals"], ["ModuleIOTalonFX", "PhoenixUtil"], ["ModuleIOTalonFX", "SwerveConfig"], ["PhoenixOdometryThread", "PhoenixUtil"], ["VirtualGeofence", "FieldPositions"], ["MechanismIOSim", "MechanismIO"], ["MechanismIOSim", "Superstructure"], ["MechanismIOTalonFX", "MechanismIO"], ["MechanismIOTalonFX", "PhoenixSignals"], ["MechanismIOTalonFX", "PhoenixUtil"], ["PositionMechanism", "LoggedTunableNumber"], ["PositionMechanism", "MechanismIO"], ["VelocityMechanism", "FaultSupervisor"], ["VelocityMechanism", "LoggedTunableNumber"], ["VelocityMechanism", "MechanismIO"], ["FieldPositions", "ZeroPriorBootstrapCmd"], ["PiecewiseSensitivity", "LoggedTunableNumber"], ["SafeAutoBuilder", "FieldPositions"], ["VirtualBatterySim", "Superstructure"], ["Vision", "CameraConfig"], ["Vision", "FaultSupervisor"], ["Vision", "FieldPositions"], ["Vision", "VisionIO"], ["VisionIO", "ZeroPriorBootstrapSolver"], ["VisionIOLimelightSystemCore", "CameraConfig"], ["VisionIOLimelightSystemCore", "FieldPositions"], ["VisionIOLimelightSystemCore", "VisionIO"], ["VisionIOPhotonVision", "CameraConfig"], ["VisionIOPhotonVision", "VisionIO"], ["VisionIOSim", "CameraConfig"], ["VisionIOSim", "VisionIO"], ["VisionIOSim", "ZeroPriorBootstrapSolver"], ["Main", "Robot"], ["Robot", "LogFileManager"], ["Robot", "LoggedTracer"], ["Robot", "PhoenixSignals"], ["Robot", "RobotContainer"], ["Robot", "RobotIdentity"], ["RobotContainer", "BackTo2026Translator"], ["RobotContainer", "BatteryIO"], ["RobotContainer", "Blitz15MinCmd"], ["RobotContainer", "CameraConfig"], ["RobotContainer", "Drive"], ["RobotContainer", "DriveCommands"], ["RobotContainer", "DriveToPose"], ["RobotContainer", "FaultSupervisor"], ["RobotContainer", "FieldPositions"], ["RobotContainer", "GyroIO"], ["RobotContainer", "GyroIOPigeon2"], ["RobotContainer", "HardStopHomingCmd"], ["RobotContainer", "LoggedTunableNumber"], ["RobotContainer", "MechanismIO"], ["RobotContainer", "MechanismIOSim"], ["RobotContainer", "MechanismIOTalonFX"], ["RobotContainer", "ModuleIO"], ["RobotContainer", "ModuleIOSim"], ["RobotContainer", "ModuleIOTalonFX"], ["RobotContainer", "ObjectDetectionIO"], ["RobotContainer", "PiecewiseSensitivity"], ["RobotContainer", "PitSystemCheckCmd"], ["RobotContainer", "PositionMechanism"], ["RobotContainer", "PreMatchCalibrator"], ["RobotContainer", "Robot"], ["RobotContainer", "RobotIdentity"], ["RobotContainer", "SafeAutoBuilder"], ["RobotContainer", "ShopStressSuiteCmd"], ["RobotContainer", "StudentAutoRoutines"], ["RobotContainer", "Superstructure"], ["RobotContainer", "SwerveConfig"], ["RobotContainer", "VSlamIO"], ["RobotContainer", "VelocityMechanism"], ["RobotContainer", "VirtualBatterySim"], ["RobotContainer", "VirtualGeofence"], ["RobotContainer", "Vision"], ["RobotContainer", "VisionIO"], ["RobotContainer", "VisionIOLimelightSystemCore"], ["RobotContainer", "VisionIOPhotonVision"], ["RobotContainer", "VisionIOSim"], ["RobotContainer", "ZeroPriorBootstrapCmd"], ["RobotContainer", "ZeroPriorBootstrapSolver"], ["Superstructure", "ElevatorArmKinematics"], ["Superstructure", "FaultSupervisor"], ["Superstructure", "MechanismIOSim"], ["Superstructure", "PositionMechanism"], ["Superstructure", "VelocityMechanism"], ["StudentAutoRoutines", "Drive"], ["StudentAutoRoutines", "DriveToPose"], ["StudentAutoRoutines", "Superstructure"], ["StudentExercises", "Drive"], ["StudentExercises", "DriveToPose"], ["StudentExercises", "ElevatorArmKinematics"], ["StudentExercises", "MechanismIOSim"], ["StudentExercises", "StudentAutoRoutines"], ["StudentExercises", "Superstructure"], ["SwerveConfig", "FluxFig"], ["MechanismIOSim", "FluxFig"], ["MechanismIOTalonFX", "FluxFig"], ["PositionMechanism", "FluxFig"], ["VelocityMechanism", "FluxFig"], ["BatteryIO", "FluxFig"], ["LoggedTunableNumber", "FluxFig"], ["CameraConfig", "FluxFig"], ["WpiLogCodec", "FluxFig"], ["Robot", "FluxFig"], ["RobotContainer", "FluxFig"], ["RobotIdentity", "FluxFig"], ["StudentExercises", "FluxFig"]];
     const TESTS = [
   {
     "id": "PrecisionReporter",
@@ -639,10 +1408,26 @@
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/PrecisionReporter.java"
   },
   {
+    "id": "StudentAutoSimExporter",
+    "name": "StudentAutoSimExporter.java",
+    "relPath": "src/test/java/frc/simharness/StudentAutoSimExporter.java",
+    "lines": 169,
+    "summary": "JUnit test-scope autonomous simulation harness that steps RobotContainer through a 15.0-second (750-loop at 20 ms) autonomous routine and exports `student-auto-frames.json` for the standalone `FluxProcessor` video renderer (`java -jar flux-processor.jar --render-auto`).",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/StudentAutoSimExporter.java"
+  },
+  {
+    "id": "StudentExercisesTest",
+    "name": "StudentExercisesTest.java",
+    "relPath": "src/test/java/frc/simharness/StudentExercisesTest.java",
+    "lines": 155,
+    "summary": "Automated Grader for the 4-Level Student Exercise Kit (StudentExercises).",
+    "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/StudentExercisesTest.java"
+  },
+  {
     "id": "Tier1ArchitectureHygieneTest",
     "name": "Tier1ArchitectureHygieneTest.java",
     "relPath": "src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java",
-    "lines": 123,
+    "lines": 313,
     "summary": "Tier 1 Verification Gate: Zero SmartDashboard/Preferences, Zero Per-Loop ControlRequest Allocations, strict frc.lib vs. frc.robot separation for BackTo2026, and STUDENTS.md / STUDENT-CHANGELOG.md synchronization.",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java"
   },
@@ -650,15 +1435,15 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 193,
-    "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection, 10,000-vector VirtualGeofence braking, AX=XB camera solver with synthetic Gaussian noise, and ElevatorArmKinematics keep-out interlocks.",
+    "lines": 852,
+    "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection &amp; profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, ElevatorArmKinematics keep-out interlocks, shared `frc.lib.commands.*` (`DriveCommands`, `DriveToPose`, `PreMatchCalibrator`, `PitSystemCheckCmd`, `HardStopHomingCmd`, `ZeroPriorBootstrapCmd`, `ShopStressSuiteCmd`, `Blitz15MinCmd`), BatteryIO (`BFG` on `auxCanBus`), and 2027 Pre-Kickoff Superstructure.",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },
   {
     "id": "Tier3CtreSimHardwareTest",
     "name": "Tier3CtreSimHardwareTest.java",
     "relPath": "src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java",
-    "lines": 196,
+    "lines": 333,
     "summary": "Tier 3 Verification Gate: Real CTRE Phoenix 6 C++ Hardware Simulation (libCTRE_SimProTalonFX.so) + WPILib DCMotorSim exercising MechanismIOTalonFX directly.",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java"
   },
@@ -666,7 +1451,7 @@
     "id": "Tier4ChaosMatchSimTest",
     "name": "Tier4ChaosMatchSimTest.java",
     "relPath": "src/test/java/frc/simharness/Tier4ChaosMatchSimTest.java",
-    "lines": 146,
+    "lines": 181,
     "summary": "Tier 4 Verification Gate: Headless 50x Fast-Forward 150-Second Full Match Simulation with 5-Scenario FaultSupervisor Chaos Fault Injection and Binary `.wpilog` Recording.",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier4ChaosMatchSimTest.java"
   },
@@ -709,6 +1494,8 @@
       const svg = document.getElementById("graph-svg");
       const cols = {0: [], 1: [], 2: [], 3: []};
       NODES.forEach(n => cols[n.col].push(n));
+      const maxRows = Math.max(...Object.values(cols).map(c => c.length));
+      svg.setAttribute("viewBox", "0 0 980 " + Math.max(480, 56 + maxRows * 66));
       const colX = [16, 260, 504, 748];
       const boxW = 216;
       const boxH = 50;
