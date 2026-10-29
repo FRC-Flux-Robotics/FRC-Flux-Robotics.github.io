@@ -273,7 +273,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/Robot.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/Robot.java",
-    "lines": 136,
+    "lines": 153,
     "summary": "LoggedRobot lifecycle supporting configurable 50 Hz (20 ms) and 200 Hz (5 ms) control loops via FluxFig, batched CAN status signal refresh, CommandScheduler execution, and per-section loop tracing.",
     "methods": [
       "Robot()",
@@ -298,7 +298,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotContainer.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/RobotContainer.java",
-    "lines": 577,
+    "lines": 581,
     "summary": "Unified 2026 roboRIO robot container configured dynamically by RobotIdentity and FluxFig CSVs (eliminating legacy `FuelRobotContainer` subclassing).",
     "methods": [
       "Translation2d HUB_TARGET_METERS = new Translation2d(4.63, 4.21)",
@@ -679,7 +679,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/PhoenixOdometryThread.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/PhoenixOdometryThread.java",
-    "lines": 178,
+    "lines": 180,
     "summary": "250 Hz (4 ms) high-frequency swerve odometry thread supporting both roboRIO CANivore and SystemCore native SocketCAN (`can_s0` latency-compensated `refreshAll` + `getLatencyCompensatedValue`), plus deterministic {@link #sampleOnce(double)} stepping for tests.",
     "methods": [
       "Lock ODOMETRY_LOCK = new ReentrantLock()",
@@ -1300,12 +1300,14 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/LogFileManager.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/util/LogFileManager.java",
-    "lines": 123,
+    "lines": 183,
     "summary": "OS-agnostic AdvantageKit & CTRE log storage manager (`/U/logs` -> operating directory `logs`), recursively cleaning both old `.wpilog` and nested `.hoot` files to prevent flash exhaustion and writing `run-meta.json`.",
     "methods": [
       "String getLogPath()",
       "String getLogPath(File logDir, long maxBytes)",
       "Path writeRunMetaJson(",
+      "Path writeRunMetaJson(",
+      "String readDeployedGitSha(Path deployDir)",
       "void cleanOldLogs(File logDir, long maxBytes)"
     ],
     "testedBy": [
