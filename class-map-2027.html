@@ -298,7 +298,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotContainer.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/RobotContainer.java",
-    "lines": 460,
+    "lines": 459,
     "summary": "Clean 2027 Pre-Kickoff robot container (zero 2026 shooting bloat) wiring 250 Hz Drive, full-queue Vision, BatteryIO (`Playing With Fusion BFG` on `auxCanBus`), PreMatchCalibrator, Superstructure (`Elevator` + `ArmPivot` + `IntakeRoller` with 2D keep-out &amp; CG anti-tipping), Ghost Superstructure hybrid mode, and shared `frc.lib.commands.*` bindings.",
     "methods": [
       "RobotContainer(RobotIdentity identity)",
@@ -344,7 +344,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/Superstructure.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/robot/Superstructure.java",
-    "lines": 176,
+    "lines": 177,
     "summary": "Clean 2027 Pre-Kickoff `Superstructure` state coordinator template (Zero 2026 shooting bloat).",
     "methods": [
       "Superstructure(",
@@ -411,12 +411,13 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/DriveCommands.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/DriveCommands.java",
-    "lines": 185,
+    "lines": 215,
     "summary": "Shared robot-agnostic swerve drive command factories: field-relative joystick drive with PiecewiseSensitivity and `SHOP_5X3` geofence protection, heading-locked drive, and automated wheel radius characterization.",
     "methods": [
       "Translation2d getLinearVelocityFromJoysticks(",
       "Command joystickDrive(",
       "Command joystickDrive(",
+      "Command joystickDriveAtAngle(",
       "Command joystickDriveAtAngle(",
       "Command wheelRadiusCharacterization(Drive drive)"
     ],
@@ -454,7 +455,7 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/PreMatchCalibrator.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/commands/PreMatchCalibrator.java",
-    "lines": 123,
+    "lines": 139,
     "summary": "Passive pre-match calibrator executed during `disabledPeriodic()`.",
     "methods": [
       "double MAX_STATIONARY_OMEGA_RAD_PER_SEC = Math.toRadians(0.5)",
@@ -810,7 +811,7 @@
     "pkg": "frc.lib.vision",
     "relPath": "src/main/java/frc/lib/vision/ZeroPriorBootstrapSolver.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/vision/ZeroPriorBootstrapSolver.java",
-    "lines": 85,
+    "lines": 95,
     "summary": "Solves unknown camera mount extrinsics (yaw & X/Y lever arm) and wall AprilTag poses from pure L-slide translations and in-place pivot pairs (AX = XB Hand-Eye Calibration).",
     "methods": [
       "double solveCameraYawRad(List<TranslationObservationPair> pairs)",
@@ -1312,7 +1313,7 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/BackTo2026Translator.java",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/main/java/frc/lib/util/BackTo2026Translator.java",
-    "lines": 123,
+    "lines": 128,
     "summary": "Deterministic source-to-source translator between WPILib 2027 SystemCore (`org.wpilib.*`, JDK 25) and WPILib 2026 roboRIO (`edu.wpi.first.*`, JDK 17) for the shared `frc.lib.*` core engine.",
     "methods": [
       "String translate2027To2026(String javaSource)",
@@ -1356,7 +1357,7 @@
     "id": "Tier1ArchitectureHygieneTest",
     "name": "Tier1ArchitectureHygieneTest.java",
     "relPath": "src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java",
-    "lines": 336,
+    "lines": 342,
     "summary": "Tier 1 Verification Gate: Zero SmartDashboard/Preferences, Zero Per-Loop ControlRequest Allocations, strict frc.lib vs. frc.robot separation for BackTo2026, and STUDENTS.md / STUDENT-CHANGELOG.md synchronization.",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java"
   },
@@ -1364,7 +1365,7 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 838,
+    "lines": 849,
     "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection &amp; profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, ElevatorArmKinematics keep-out interlocks, shared `frc.lib.commands.*` (`DriveCommands`, `DriveToPose`, `PreMatchCalibrator`, `PitSystemCheckCmd`, `HardStopHomingCmd`, `ZeroPriorBootstrapCmd`, `ShopStressSuiteCmd`, `Blitz15MinCmd`), BatteryIO (`BFG` on `auxCanBus`), and 2027 Pre-Kickoff Superstructure.",
     "ghUrl": "https://github.com/tvaroska/Flux-SystemCore-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },

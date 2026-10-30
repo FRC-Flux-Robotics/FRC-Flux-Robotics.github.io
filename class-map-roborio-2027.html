@@ -298,7 +298,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotContainer.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/RobotContainer.java",
-    "lines": 581,
+    "lines": 587,
     "summary": "Unified 2026 roboRIO robot container configured dynamically by RobotIdentity and FluxFig CSVs (eliminating legacy `FuelRobotContainer` subclassing).",
     "methods": [
       "Translation2d HUB_TARGET_METERS = new Translation2d(4.63, 4.21)",
@@ -433,12 +433,13 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/DriveCommands.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/DriveCommands.java",
-    "lines": 185,
+    "lines": 215,
     "summary": "Shared robot-agnostic swerve drive command factories: field-relative joystick drive with PiecewiseSensitivity and `SHOP_5X3` geofence protection, heading-locked drive, and automated wheel radius characterization.",
     "methods": [
       "Translation2d getLinearVelocityFromJoysticks(",
       "Command joystickDrive(",
       "Command joystickDrive(",
+      "Command joystickDriveAtAngle(",
       "Command joystickDriveAtAngle(",
       "Command wheelRadiusCharacterization(Drive drive)"
     ],
@@ -476,7 +477,7 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/PreMatchCalibrator.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/PreMatchCalibrator.java",
-    "lines": 123,
+    "lines": 139,
     "summary": "Passive pre-match calibrator executed during `disabledPeriodic()`.",
     "methods": [
       "double MAX_STATIONARY_OMEGA_RAD_PER_SEC = Math.toRadians(0.5)",
@@ -813,7 +814,7 @@
     "pkg": "frc.lib.vision",
     "relPath": "src/main/java/frc/lib/vision/ZeroPriorBootstrapSolver.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/vision/ZeroPriorBootstrapSolver.java",
-    "lines": 85,
+    "lines": 95,
     "summary": "Solves unknown camera mount extrinsics (yaw & X/Y lever arm) and wall AprilTag poses from pure L-slide translations and in-place pivot pairs (AX = XB Hand-Eye Calibration).",
     "methods": [
       "double solveCameraYawRad(List<TranslationObservationPair> pairs)",
@@ -1335,7 +1336,7 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/BackTo2026Translator.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/util/BackTo2026Translator.java",
-    "lines": 123,
+    "lines": 128,
     "summary": "Deterministic source-to-source translator between WPILib 2027 SystemCore (`org.wpilib.*`, JDK 25) and WPILib 2026 roboRIO (`edu.wpi.first.*`, JDK 17) for the shared `frc.lib.*` core engine.",
     "methods": [
       "String translate2027To2026(String javaSource)",
@@ -1379,7 +1380,7 @@
     "id": "Tier1ArchitectureHygieneTest",
     "name": "Tier1ArchitectureHygieneTest.java",
     "relPath": "src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java",
-    "lines": 350,
+    "lines": 356,
     "summary": "Tier 1 Verification Gate: Zero SmartDashboard/Preferences, Zero Per-Loop ControlRequest Allocations, strict frc.lib vs. frc.robot separation for BackTo2026, and STUDENTS.md / STUDENT-CHANGELOG.md synchronization.",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java"
   },
@@ -1387,7 +1388,7 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 793,
+    "lines": 799,
     "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection & profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, 2026 FUEL Superstructure state machine & shot interlocks, Task 1.4 utilities (LoggedTunableNumber, PiecewiseSensitivity, VirtualBatterySim, SafeAutoBuilder, ShotCalculator), and Task 2.1 subsystems (250 Hz Drive + ModuleIOSim, full-queue Vision + VisionIOSim, MechanismIOSim, and Ghost Superstructure hybrid mode on CORAL/CHASSIS_3).",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },
