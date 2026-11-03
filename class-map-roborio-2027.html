@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23212020' stroke='%232B7BFF' stroke-width='4'/%3E%3Cpolygon points='36,8 16,35 30,35 26,56 48,28 34,28' fill='%232B7BFF'/%3E%3C/svg%3E" />
   <title>FLUX Robotics (FRC 10413) — Flux-RoboRIO-2027 Interactive Class &amp; Dependency Map</title>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -298,7 +299,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotContainer.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/RobotContainer.java",
-    "lines": 587,
+    "lines": 617,
     "summary": "Unified 2026 roboRIO robot container configured dynamically by RobotIdentity and FluxFig CSVs (eliminating legacy `FuelRobotContainer` subclassing).",
     "methods": [
       "Translation2d HUB_TARGET_METERS = new Translation2d(4.63, 4.21)",
@@ -311,6 +312,7 @@
       "void disabledPeriodic()"
     ],
     "testedBy": [
+      "StudentAutoRenderTest",
       "StudentAutoSimExporter",
       "StudentExercisesTest",
       "Tier1ArchitectureHygieneTest",
@@ -358,6 +360,7 @@
       "RobotIdentity fromSerialOrComments(String serial, String comments)"
     ],
     "testedBy": [
+      "StudentAutoRenderTest",
       "StudentExercisesTest",
       "Tier2DeterministicSolversTest",
       "Tier4ChaosMatchSimTest"
@@ -391,16 +394,20 @@
     "pkg": "frc.robot.autos",
     "relPath": "src/main/java/frc/robot/autos/StudentAutoRoutines.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/autos/StudentAutoRoutines.java",
-    "lines": 206,
+    "lines": 295,
     "summary": "Pure WPILib Autonomous Command Definitions for `Flux-RoboRIO-2027` (`FUEL`).",
     "methods": [
       "Command createExampleSquareCircleAndShootAuto(",
       "Command createStudentDefaultAuto(",
+      "Command createHubToDepotAuto(",
+      "Command createLeftToDepotAuto(",
+      "Command createRightToDepotAuto(",
+      "Map<String, Command> createNamedAutos(",
       "Command createAimAndShootHubCommand(",
-      "Command createShootOnTheMoveCircleCommand(",
-      "Command withLoopTimeout(Command command, double timeoutSeconds)"
+      "Command createShootOnTheMoveCircleCommand("
     ],
     "testedBy": [
+      "StudentAutoRenderTest",
       "Tier2DeterministicSolversTest"
     ],
     "col": 0
@@ -1220,19 +1227,21 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/SafeAutoBuilder.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/util/SafeAutoBuilder.java",
-    "lines": 533,
+    "lines": 590,
     "summary": "Pre-flight and runtime autonomous path safety validator, deterministic PathPlanner `.path` follower, and command decorator using pure AdvantageKit `Logger.recordOutput(\"Auto/...\", ...)` telemetry (zero SmartDashboard).",
     "methods": [
+      "void clearLastDiagnostic()",
+      "String getLastStatus()",
+      "String getLastCancelReason()",
       "Limits DEFAULT = new Limits(4.8, 1.5, 0.50, 0.25, 0.25, 10.0, 0.5, 5)",
       "PreflightReport auditPath(",
       "Command wrap(",
       "void initialize()",
-      "void execute()",
-      "boolean isFinished()",
-      "void end(boolean interrupted)",
-      "Command followPathCommand("
+      "void execute()"
     ],
     "testedBy": [
+      "StudentAutoRenderTest",
+      "StudentAutoSimExporter",
       "Tier2DeterministicSolversTest"
     ],
     "col": 3
@@ -1361,10 +1370,18 @@
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/PrecisionReporter.java"
   },
   {
+    "id": "StudentAutoRenderTest",
+    "name": "StudentAutoRenderTest.java",
+    "relPath": "src/test/java/frc/simharness/StudentAutoRenderTest.java",
+    "lines": 108,
+    "summary": "Dedicated simulation entry point for `./gradlew renderAuto [-Pauto=\"<name>\"]`.",
+    "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/StudentAutoRenderTest.java"
+  },
+  {
     "id": "StudentAutoSimExporter",
     "name": "StudentAutoSimExporter.java",
     "relPath": "src/test/java/frc/simharness/StudentAutoSimExporter.java",
-    "lines": 318,
+    "lines": 342,
     "summary": "JUnit test-scope autonomous simulation harness that steps RobotContainer through a 15.0-second (750-loop at 20 ms) 2026 REBUILT field autonomous routine and exports `student-auto-frames.json` for the standalone `FluxProcessor` video renderer (`java -jar flux-processor.jar --render-auto`).",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/StudentAutoSimExporter.java"
   },
@@ -1388,7 +1405,7 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 799,
+    "lines": 811,
     "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection & profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, 2026 FUEL Superstructure state machine & shot interlocks, Task 1.4 utilities (LoggedTunableNumber, PiecewiseSensitivity, VirtualBatterySim, SafeAutoBuilder, ShotCalculator), and Task 2.1 subsystems (250 Hz Drive + ModuleIOSim, full-queue Vision + VisionIOSim, MechanismIOSim, and Ghost Superstructure hybrid mode on CORAL/CHASSIS_3).",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },
