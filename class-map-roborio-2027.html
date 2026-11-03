@@ -394,17 +394,17 @@
     "pkg": "frc.robot.autos",
     "relPath": "src/main/java/frc/robot/autos/StudentAutoRoutines.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/autos/StudentAutoRoutines.java",
-    "lines": 322,
+    "lines": 433,
     "summary": "Pure WPILib Autonomous Command Definitions for `Flux-RoboRIO-2027` (`FUEL`).",
     "methods": [
       "Command createStudentDefaultAuto(",
+      "Command createFixedMovesExampleAuto(",
+      "Command createFullCyclePathPlannerAuto(",
       "Command createHubToDepotShowcaseAuto(",
       "Command createHubToDepotAuto(",
       "Command createLeftToDepotAuto(",
       "Command createRightToDepotAuto(",
-      "Command createExampleSquareCircleAndShootAuto(",
-      "Map<String, Command> createNamedAutos(",
-      "Command createAimAndShootHubCommand("
+      "Command createExampleSquareCircleAndShootAuto("
     ],
     "testedBy": [
       "StudentAutoRenderTest",
@@ -1227,7 +1227,7 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/SafeAutoBuilder.java",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/util/SafeAutoBuilder.java",
-    "lines": 590,
+    "lines": 602,
     "summary": "Pre-flight and runtime autonomous path safety validator, deterministic PathPlanner `.path` follower, and command decorator using pure AdvantageKit `Logger.recordOutput(\"Auto/...\", ...)` telemetry (zero SmartDashboard).",
     "methods": [
       "void clearLastDiagnostic()",
@@ -1373,7 +1373,7 @@
     "id": "StudentAutoRenderTest",
     "name": "StudentAutoRenderTest.java",
     "relPath": "src/test/java/frc/simharness/StudentAutoRenderTest.java",
-    "lines": 113,
+    "lines": 134,
     "summary": "Dedicated simulation entry point for `./gradlew renderAuto [-Pauto=\"<name>\"]`.",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/StudentAutoRenderTest.java"
   },
@@ -1405,7 +1405,7 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 811,
+    "lines": 846,
     "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection & profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, 2026 FUEL Superstructure state machine & shot interlocks, Task 1.4 utilities (LoggedTunableNumber, PiecewiseSensitivity, VirtualBatterySim, SafeAutoBuilder, ShotCalculator), and Task 2.1 subsystems (250 Hz Drive + ModuleIOSim, full-queue Vision + VisionIOSim, MechanismIOSim, and Ghost Superstructure hybrid mode on CORAL/CHASSIS_3).",
     "ghUrl": "https://github.com/tvaroska/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },
