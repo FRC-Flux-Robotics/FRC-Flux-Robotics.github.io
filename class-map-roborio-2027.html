@@ -276,7 +276,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/Robot.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/Robot.java",
-    "lines": 274,
+    "lines": 307,
     "summary": "LoggedRobot lifecycle for `Flux-RoboRIO-2027` (`FUEL` / `CORAL`): 50 Hz control loop via FluxFig, `ConfigSHA256` metadata recorded before {@link Logger#start()}, `6.0 V` roboRIO brownout floor, LoggedPowerDistribution logging, atomic `/tmp/flux-robot-state` lockout heartbeat for `FluxTray`, batched CAN signal refresh, main-thread RT priority `1`, and isolated {@link #testInit()}.",
     "methods": [
       "Path DEFAULT_ROBOT_STATE_FILE = Path.of(\"/tmp/flux-robot-state\")",
@@ -302,17 +302,17 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotContainer.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/RobotContainer.java",
-    "lines": 730,
+    "lines": 804,
     "summary": "Unified 2026 roboRIO robot container configured dynamically by RobotIdentity and FluxFig CSVs (eliminating legacy `FuelRobotContainer` subclassing).",
     "methods": [
       "Translation2d HUB_TARGET_METERS = new Translation2d(4.626, 4.035)",
+      "Pose2d BLUE_HUB_ALIGN_POSE = new Pose2d(2.5, 4.1, Rotation2d.kZero)",
       "RobotContainer(RobotIdentity identity)",
       "RobotContainer(RobotIdentity identity, Path configDir, boolean forceSimIo)",
       "RobotContainer(",
       "boolean isPitTestAllowed()",
-      "PitSystemCheckCmd createPitSystemCheckCommand()",
-      "ShotCalibrationCmd createShotCalibrationCommand()",
-      "Blitz15MinCmd createBlitz15MinCommand(Path checkpointPath)"
+      "Pose2d getHubAlignTargetPose(boolean isRedAlliance)",
+      "void resetFieldHeading()"
     ],
     "testedBy": [
       "DesktopWpilogTelemetryTest",
@@ -331,7 +331,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/Superstructure.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/Superstructure.java",
-    "lines": 357,
+    "lines": 417,
     "summary": "2026 `FUEL` / `CORAL` Superstructure state machine coordinating all 6 mechanisms (`Intake`, `Tilter`, `Indexer`, `Feeder`, dual counter-rotating `Shooter`, and `Hood`) with safety interlocks, FaultSupervisor automatic reverse unjamming, and 3D Pose3d visualization for Ghost Superstructure mode.",
     "methods": [
       "double AIM_HEADING_TOLERANCE_RAD = Math.toRadians(5.0)",
@@ -358,8 +358,8 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotIdentity.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/RobotIdentity.java",
-    "lines": 272,
-    "summary": "Fleet robot identities for FRC Team 10413 (FLUX Robotics), resolving via NI roboRIO / SystemCore hardware hex serial map, HAL serial/comments, Linux device-tree serial, roboRIO/SystemCore persistent identity tag files, and deploy tag before falling back loudly to COMP_2027.",
+    "lines": 293,
+    "summary": "Fleet robot identities for FRC Team 10413 (FLUX Robotics), resolving via NI roboRIO / SystemCore hardware hex serial map, persistent identity tag files (`/home/lvuser/robot-identity.txt` and `/home/systemcore/robot-identity.txt`), deploy tag, Linux device-tree serial, and legacy HAL serial/comments before falling back loudly to the roboRIO-safe FUEL profile.",
     "methods": [
       "Map<String, RobotIdentity> getHardwareSerialMap()",
       "RobotIdentity fromSerialNumber(String serial)",
@@ -496,17 +496,17 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/PreMatchCalibrator.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/PreMatchCalibrator.java",
-    "lines": 139,
+    "lines": 162,
     "summary": "Passive pre-match calibrator executed during `disabledPeriodic()`.",
     "methods": [
       "double MAX_STATIONARY_OMEGA_RAD_PER_SEC = Math.toRadians(0.5)",
       "PreMatchCalibrator(Drive drive, Vision vision)",
       "void setExpectedStartPose(Pose2d expectedStartPose)",
+      "void onManualHeadingReset()",
+      "void clearManualHeadingReset()",
+      "boolean isManualHeadingOverrideActive()",
       "void updateDisabled()",
-      "void addObservation(Pose2d observation)",
-      "boolean isGyroSeeded()",
-      "boolean isReadyToPlay()",
-      "double getPoseErrorMeters()"
+      "void addObservation(Pose2d observation)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest",
@@ -520,16 +520,17 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
-    "lines": 111,
-    "summary": "20-Second \"One-Button Pre-Flight\" Pit System Check (`PitSystemCheckCmd`).",
+    "lines": 393,
+    "summary": "17-Second \"One-Button Pre-Flight\" Pit System Check (`PitSystemCheckCmd`).",
     "methods": [
+      "int TOTAL_LOOPS = 10 * (DEFAULT_STEP_LOOPS + DEFAULT_SETTLE_LOOPS)",
+      "PitSystemCheckCmd(",
+      "PitSystemCheckCmd(",
       "PitSystemCheckCmd(",
       "void initialize()",
       "void execute()",
       "boolean isFinished()",
-      "void end(boolean interrupted)",
-      "boolean hasPassed()",
-      "String getSummary()"
+      "void end(boolean interrupted)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -554,7 +555,8 @@
       "boolean isHomed()"
     ],
     "testedBy": [
-      "Tier2DeterministicSolversTest"
+      "Tier2DeterministicSolversTest",
+      "Tier3CtreSimHardwareTest"
     ],
     "col": 0
   },
@@ -632,7 +634,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/Drive.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/Drive.java",
-    "lines": 349,
+    "lines": 414,
     "summary": "Pure AdvantageKit 250 Hz Swerve Drive subsystem (`Drive` + `GyroIO` + 4x `ModuleIO`) with built-in VirtualGeofence enforcement in `SHOP_5X3` mode, dynamic CG anti-tipping acceleration scaling, and FaultSupervisor stator current throttling.",
     "methods": [
       "Drive(SwerveConfig config, GyroIO gyroIo, ModuleIO... moduleIos)",
@@ -659,7 +661,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/Module.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/Module.java",
-    "lines": 107,
+    "lines": 115,
     "summary": "Per-corner swerve module wrapper handling angle optimization, cosine velocity scaling, 250 Hz odometry position array construction, and AdvantageKit logging.",
     "methods": [
       "double STEER_ANGLE_DEADBAND_RAD = Math.toRadians(0.3)",
@@ -724,7 +726,7 @@
     "pkg": "frc.lib.vision",
     "relPath": "src/main/java/frc/lib/vision/Vision.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/vision/Vision.java",
-    "lines": 336,
+    "lines": 347,
     "summary": "Multi-camera AprilTag vision subsystem that drains the entire unread frame queue from ALL cameras every cycle (zero round-robin), computes quadratic `0.01 * d^2 / N^2` covariance, enforces finite-value, `0.30 s` peak yaw-rate (`1.6 rad/s`), `5 deg` tilt, `2.0 s` auto-start ignore, and timestamp freshness gates, checks FieldPositions bounds, and quarantines bent camera mounts via FaultSupervisor.",
     "methods": [
       "double MAX_VISION_TILT_RAD = Math.toRadians(5.0)",
@@ -749,7 +751,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/PositionMechanism.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/PositionMechanism.java",
-    "lines": 120,
+    "lines": 136,
     "summary": "Generic config-driven position mechanism subsystem backed by MechanismIO with LoggedTunableNumber PID/gravity gains.",
     "methods": [
       "PositionMechanism(MechanismIO io, MechanismSpec spec)",
@@ -757,12 +759,13 @@
       "void periodic()",
       "void setPosition(double positionRotations)",
       "void setVoltage(double volts)",
+      "void setHomingVoltage(double volts)",
       "void stop()",
-      "boolean atTarget()",
-      "double getPosition()"
+      "boolean atTarget()"
     ],
     "testedBy": [
-      "Tier2DeterministicSolversTest"
+      "Tier2DeterministicSolversTest",
+      "Tier3CtreSimHardwareTest"
     ],
     "col": 1
   },
@@ -772,7 +775,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/VelocityMechanism.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/VelocityMechanism.java",
-    "lines": 113,
+    "lines": 124,
     "summary": "Generic config-driven velocity mechanism subsystem backed by MechanismIO with LoggedTunableNumber PID/feedforward gains.",
     "methods": [
       "VelocityMechanism(MechanismIO io, MechanismSpec spec)",
@@ -812,7 +815,7 @@
     "pkg": "frc.lib.safety",
     "relPath": "src/main/java/frc/lib/safety/FaultSupervisor.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/safety/FaultSupervisor.java",
-    "lines": 206,
+    "lines": 217,
     "summary": "Real-time fault detection and graceful degradation supervisor for the 2027 robot fleet.",
     "methods": [
       "FaultSupervisor(int cameraCount)",
@@ -821,8 +824,8 @@
       "double filterMechanismCommandVoltage(",
       "double filterMechanismCommandVoltage(",
       "boolean isChannelUnjamming(int channel)",
-      "int dejamEventsTriggered(int channel)",
-      "boolean updateTagVisibility(int visibleTagCount)"
+      "int getChannelReverseCountdown(int channel)",
+      "int dejamEventsTriggered(int channel)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest",
@@ -854,7 +857,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/ModuleIO.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/ModuleIO.java",
-    "lines": 104,
+    "lines": 106,
     "summary": "Hardware abstraction for a single swerve corner module (drive motor, steer motor, absolute encoder, and 250 Hz odometry sample arrays).",
     "methods": [
       "void toLog(LogTable table)",
@@ -878,7 +881,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
-    "lines": 370,
+    "lines": 384,
     "summary": "Real CTRE Kraken X60 + CANcoder implementation of ModuleIO. Enforces <= 60A Stator / <= 40A Supply / <= 60A Slip current limits (preventing the NYTR 120A SlipCurrent overwrite bug), reuses pre-allocated VelocityVoltage and MotionMagicExpoVoltage requests, and registers 250 Hz odometry signals with PhoenixOdometryThread.",
     "methods": [
       "ModuleIOTalonFX(SwerveConfig swerveConfig, CornerConfig corner)",
@@ -902,7 +905,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/ModuleIOSim.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/ModuleIOSim.java",
-    "lines": 144,
+    "lines": 154,
     "summary": "WPILib DCMotorSim drive + steer physics simulation of ModuleIO with 250 Hz sub-stepping (5 x 4 ms sub-steps per 20 ms cycle) to populate high-rate odometry queues.",
     "methods": [
       "ModuleIOSim(SwerveConfig config)",
@@ -912,7 +915,7 @@
       "void setTurnOpenLoop(double volts)",
       "void setDriveStatorCurrentLimit(double statorLimitAmps)",
       "void stop()",
-      "void updateInputs(ModuleIOInputs inputs)"
+      "void warmup()"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -945,7 +948,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/GyroIOPigeon2.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/GyroIOPigeon2.java",
-    "lines": 125,
+    "lines": 120,
     "summary": "Real CTRE Pigeon2 implementation of GyroIO with 250 Hz PhoenixOdometryThread registration and SystemCore onboard 6-axis IMU fallback hook.",
     "methods": [
       "GyroIOPigeon2(int pigeonId, String canBusName)",
@@ -1005,14 +1008,17 @@
     "pkg": "frc.lib.vision",
     "relPath": "src/main/java/frc/lib/vision/VisionIOPhotonVision.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/vision/VisionIOPhotonVision.java",
-    "lines": 107,
+    "lines": 129,
     "summary": "Real PhotonVision hardware implementation of VisionIO that drains 100% of {@link PhotonCamera#getAllUnreadResults()} every cycle without dropping intermediate frames.",
     "methods": [
       "VisionIOPhotonVision(CameraSpec config, AprilTagFieldLayout fieldLayout)",
       "void setTransform(Transform3d robotToCamera)",
-      "void updateInputs(VisionIOInputs inputs)"
+      "void updateInputs(VisionIOInputs inputs)",
+      "Optional<PoseObservation> buildPoseObservation(EstimatedRobotPose est)"
     ],
-    "testedBy": [],
+    "testedBy": [
+      "Tier2DeterministicSolversTest"
+    ],
     "col": 2
   },
   {
@@ -1044,7 +1050,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIO.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIO.java",
-    "lines": 54,
+    "lines": 64,
     "summary": "Hardware abstraction for a mechanism (single or dual motor).",
     "methods": [
       "void toLog(LogTable table)",
@@ -1053,8 +1059,8 @@
       "void setPosition(double positionRotations)",
       "void setVelocity(double velocityRPS)",
       "void setVoltage(double volts)",
-      "void setPID(double kP, double kI, double kD, double kS, double kV, double kG)",
-      "void stop()"
+      "void setHomingVoltage(double volts)",
+      "void setPID(double kP, double kI, double kD, double kS, double kV, double kG)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest",
@@ -1068,7 +1074,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
-    "lines": 297,
+    "lines": 316,
     "summary": "Real CTRE TalonFX implementation of MechanismIO (supports single motor or leader + follower) configured directly from a MechanismSpec. Enforces <= 60A Stator and <= 40A Supply limits, supports {@link NeutralModeValue#Coast} on flywheel mechanisms (`Shooter`), and registers 50 Hz status signals with PhoenixSignals.",
     "methods": [
       "MechanismIOTalonFX(MechanismSpec spec)",
@@ -1092,7 +1098,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIOSim.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOSim.java",
-    "lines": 221,
+    "lines": 224,
     "summary": "Physics simulation implementation of MechanismIO supporting ElevatorSim (`ELEVATOR_STATIC`), SingleJointedArmSim (`ARM_COSINE`), and DCMotorSim (`NONE`) for desktop simulation and Ghost Superstructure mode on bare chassis (`CORAL` / `CHASSIS_3`).",
     "methods": [
       "MechanismIOSim(MechanismSpec spec)",
@@ -1341,17 +1347,17 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/LogFileManager.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/util/LogFileManager.java",
-    "lines": 339,
+    "lines": 387,
     "summary": "OS-agnostic AdvantageKit & CTRE log storage manager (`/U/logs` -> operating directory `logs`), verifying that `/U` is a real mounted writable filesystem before writing, recursively cleaning old `.wpilog` / `.hoot` files and empty directories, and atomically writing `run-meta.json` and `/tmp/flux-robot-state`.",
     "methods": [
+      "long MAX_EXTERNAL_STORAGE_BYTES = 500L * 1024 * 1024; // 500 MB (/U/logs)",
+      "long MAX_INTERNAL_STORAGE_BYTES = 120L * 1024 * 1024; // 120 MB (internal)",
       "String getLogPath()",
+      "String resolveLogPath(",
       "boolean isMountedWritableDirectory(Path mountPoint, Path rootPath)",
       "boolean isMountedWritableDirectory(",
-      "String getLogPath(File logDir, long maxBytes)",
-      "Path writeRunMetaJson(",
-      "Path writeRunMetaJson(",
-      "Path writeRobotStateFile(",
-      "String readDeployedGitSha(Path deployDir)"
+      "boolean probeDirectoryWritable(Path dir)",
+      "String getLogPath(File logDir, long maxBytes)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -1393,13 +1399,13 @@
     "col": 3
   }
 ];
-    const EDGES = [["Blitz15MinCmd", "HardStopHomingCmd"], ["Blitz15MinCmd", "PitSystemCheckCmd"], ["Blitz15MinCmd", "ShopStressSuiteCmd"], ["Blitz15MinCmd", "ZeroPriorBootstrapCmd"], ["DriveCommands", "Drive"], ["DriveCommands", "FieldPositions"], ["DriveCommands", "PiecewiseSensitivity"], ["DriveToPose", "Drive"], ["HardStopHomingCmd", "PositionMechanism"], ["PitSystemCheckCmd", "Drive"], ["PitSystemCheckCmd", "PositionMechanism"], ["PitSystemCheckCmd", "VelocityMechanism"], ["PreMatchCalibrator", "Drive"], ["PreMatchCalibrator", "Vision"], ["ShopStressSuiteCmd", "Drive"], ["ShopStressSuiteCmd", "FieldPositions"], ["ShopStressSuiteCmd", "VirtualGeofence"], ["ZeroPriorBootstrapCmd", "Drive"], ["ZeroPriorBootstrapCmd", "FieldPositions"], ["ZeroPriorBootstrapCmd", "VirtualGeofence"], ["ZeroPriorBootstrapCmd", "Vision"], ["ZeroPriorBootstrapCmd", "ZeroPriorBootstrapSolver"], ["Drive", "FaultSupervisor"], ["Drive", "FieldPositions"], ["Drive", "GyroIO"], ["Drive", "Module"], ["Drive", "ModuleIO"], ["Drive", "PhoenixOdometryThread"], ["Drive", "SafeAutoBuilder"], ["Drive", "SwerveConfig"], ["Drive", "VirtualGeofence"], ["GyroIOPigeon2", "GyroIO"], ["GyroIOPigeon2", "PhoenixOdometryThread"], ["GyroIOPigeon2", "PhoenixSignals"], ["GyroIOPigeon2", "PhoenixUtil"], ["Module", "Drive"], ["Module", "ModuleIO"], ["ModuleIOSim", "ModuleIO"], ["ModuleIOSim", "SwerveConfig"], ["ModuleIOTalonFX", "Drive"], ["ModuleIOTalonFX", "Module"], ["ModuleIOTalonFX", "ModuleIO"], ["ModuleIOTalonFX", "PhoenixOdometryThread"], ["ModuleIOTalonFX", "PhoenixSignals"], ["ModuleIOTalonFX", "PhoenixUtil"], ["ModuleIOTalonFX", "SwerveConfig"], ["PhoenixOdometryThread", "GyroIOPigeon2"], ["PhoenixOdometryThread", "ModuleIOTalonFX"], ["PhoenixOdometryThread", "PhoenixUtil"], ["VirtualGeofence", "FieldPositions"], ["MechanismIOSim", "MechanismIO"], ["MechanismIOSim", "Superstructure"], ["MechanismIOTalonFX", "MechanismIO"], ["MechanismIOTalonFX", "PhoenixSignals"], ["MechanismIOTalonFX", "PhoenixUtil"], ["PositionMechanism", "LoggedTunableNumber"], ["PositionMechanism", "MechanismIO"], ["VelocityMechanism", "FaultSupervisor"], ["VelocityMechanism", "LoggedTunableNumber"], ["VelocityMechanism", "MechanismIO"], ["FieldPositions", "ZeroPriorBootstrapCmd"], ["PiecewiseSensitivity", "LoggedTunableNumber"], ["SafeAutoBuilder", "FieldPositions"], ["VirtualBatterySim", "Superstructure"], ["Vision", "FaultSupervisor"], ["Vision", "FieldPositions"], ["Vision", "VisionIO"], ["VisionIO", "ZeroPriorBootstrapSolver"], ["VisionIOLimelightSystemCore", "FieldPositions"], ["VisionIOLimelightSystemCore", "VisionIO"], ["VisionIOPhotonVision", "VisionIO"], ["VisionIOSim", "VisionIO"], ["VisionIOSim", "ZeroPriorBootstrapSolver"], ["Main", "Robot"], ["Robot", "LogFileManager"], ["Robot", "LoggedTracer"], ["Robot", "PhoenixSignals"], ["Robot", "PhoenixUtil"], ["Robot", "RobotContainer"], ["Robot", "RobotIdentity"], ["RobotContainer", "BatteryIO"], ["RobotContainer", "Blitz15MinCmd"], ["RobotContainer", "Drive"], ["RobotContainer", "DriveCommands"], ["RobotContainer", "DriveToPose"], ["RobotContainer", "FaultSupervisor"], ["RobotContainer", "FieldPositions"], ["RobotContainer", "GyroIO"], ["RobotContainer", "GyroIOPigeon2"], ["RobotContainer", "HardStopHomingCmd"], ["RobotContainer", "LoggedTunableNumber"], ["RobotContainer", "MechanismIO"], ["RobotContainer", "MechanismIOSim"], ["RobotContainer", "MechanismIOTalonFX"], ["RobotContainer", "ModuleIO"], ["RobotContainer", "ModuleIOSim"], ["RobotContainer", "ModuleIOTalonFX"], ["RobotContainer", "PhoenixUtil"], ["RobotContainer", "PiecewiseSensitivity"], ["RobotContainer", "PitSystemCheckCmd"], ["RobotContainer", "PositionMechanism"], ["RobotContainer", "PreMatchCalibrator"], ["RobotContainer", "Robot"], ["RobotContainer", "RobotIdentity"], ["RobotContainer", "ShopStressSuiteCmd"], ["RobotContainer", "ShotCalculator"], ["RobotContainer", "ShotCalibrationCmd"], ["RobotContainer", "StudentAutoRoutines"], ["RobotContainer", "Superstructure"], ["RobotContainer", "SwerveConfig"], ["RobotContainer", "VelocityMechanism"], ["RobotContainer", "VirtualBatterySim"], ["RobotContainer", "Vision"], ["RobotContainer", "VisionIO"], ["RobotContainer", "VisionIOLimelightSystemCore"], ["RobotContainer", "VisionIOPhotonVision"], ["RobotContainer", "VisionIOSim"], ["RobotContainer", "ZeroPriorBootstrapCmd"], ["Superstructure", "FaultSupervisor"], ["Superstructure", "LoggedTunableNumber"], ["Superstructure", "PositionMechanism"], ["Superstructure", "ShotCalculator"], ["Superstructure", "VelocityMechanism"], ["Superstructure", "VirtualBatterySim"], ["StudentAutoRoutines", "Drive"], ["StudentAutoRoutines", "DriveToPose"], ["StudentAutoRoutines", "FieldPositions"], ["StudentAutoRoutines", "RobotContainer"], ["StudentAutoRoutines", "SafeAutoBuilder"], ["StudentAutoRoutines", "ShotCalculator"], ["StudentAutoRoutines", "Superstructure"], ["ShotCalibrationCmd", "Drive"], ["ShotCalibrationCmd", "ShotCalculator"], ["ShotCalibrationCmd", "Superstructure"], ["StudentExercises", "Drive"], ["StudentExercises", "DriveToPose"], ["StudentExercises", "ShotCalculator"], ["StudentExercises", "StudentAutoRoutines"], ["StudentExercises", "Superstructure"], ["SwerveConfig", "FluxFig"], ["MechanismIOSim", "FluxFig"], ["MechanismIOTalonFX", "FluxFig"], ["PositionMechanism", "FluxFig"], ["VelocityMechanism", "FluxFig"], ["BatteryIO", "FluxFig"], ["Vision", "FluxFig"], ["VisionIO", "FluxFig"], ["VisionIOLimelightSystemCore", "FluxFig"], ["VisionIOPhotonVision", "FluxFig"], ["VisionIOSim", "FluxFig"], ["Robot", "FluxFig"], ["RobotContainer", "FluxFig"], ["ShotCalibrationCmd", "FluxFig"], ["StudentExercises", "FluxFig"], ["ShotCalculator", "FluxFig"]];
+    const EDGES = [["Blitz15MinCmd", "HardStopHomingCmd"], ["Blitz15MinCmd", "PitSystemCheckCmd"], ["Blitz15MinCmd", "ShopStressSuiteCmd"], ["Blitz15MinCmd", "ZeroPriorBootstrapCmd"], ["DriveCommands", "Drive"], ["DriveCommands", "FieldPositions"], ["DriveCommands", "PiecewiseSensitivity"], ["DriveToPose", "Drive"], ["HardStopHomingCmd", "PositionMechanism"], ["PitSystemCheckCmd", "Drive"], ["PitSystemCheckCmd", "PositionMechanism"], ["PitSystemCheckCmd", "VelocityMechanism"], ["PreMatchCalibrator", "Drive"], ["PreMatchCalibrator", "Vision"], ["ShopStressSuiteCmd", "Drive"], ["ShopStressSuiteCmd", "FieldPositions"], ["ShopStressSuiteCmd", "VirtualGeofence"], ["ZeroPriorBootstrapCmd", "Drive"], ["ZeroPriorBootstrapCmd", "FieldPositions"], ["ZeroPriorBootstrapCmd", "VirtualGeofence"], ["ZeroPriorBootstrapCmd", "Vision"], ["ZeroPriorBootstrapCmd", "ZeroPriorBootstrapSolver"], ["Drive", "FaultSupervisor"], ["Drive", "FieldPositions"], ["Drive", "GyroIO"], ["Drive", "Module"], ["Drive", "ModuleIO"], ["Drive", "PhoenixOdometryThread"], ["Drive", "SafeAutoBuilder"], ["Drive", "SwerveConfig"], ["Drive", "VirtualGeofence"], ["GyroIOPigeon2", "GyroIO"], ["GyroIOPigeon2", "PhoenixOdometryThread"], ["GyroIOPigeon2", "PhoenixSignals"], ["GyroIOPigeon2", "PhoenixUtil"], ["Module", "Drive"], ["Module", "ModuleIO"], ["ModuleIOSim", "ModuleIO"], ["ModuleIOSim", "SwerveConfig"], ["ModuleIOTalonFX", "Drive"], ["ModuleIOTalonFX", "Module"], ["ModuleIOTalonFX", "ModuleIO"], ["ModuleIOTalonFX", "PhoenixOdometryThread"], ["ModuleIOTalonFX", "PhoenixSignals"], ["ModuleIOTalonFX", "PhoenixUtil"], ["ModuleIOTalonFX", "SwerveConfig"], ["PhoenixOdometryThread", "GyroIOPigeon2"], ["PhoenixOdometryThread", "ModuleIOTalonFX"], ["PhoenixOdometryThread", "PhoenixUtil"], ["VirtualGeofence", "FieldPositions"], ["MechanismIOSim", "MechanismIO"], ["MechanismIOSim", "Superstructure"], ["MechanismIOTalonFX", "MechanismIO"], ["MechanismIOTalonFX", "PhoenixSignals"], ["MechanismIOTalonFX", "PhoenixUtil"], ["PositionMechanism", "LoggedTunableNumber"], ["PositionMechanism", "MechanismIO"], ["VelocityMechanism", "FaultSupervisor"], ["VelocityMechanism", "LoggedTunableNumber"], ["VelocityMechanism", "MechanismIO"], ["FieldPositions", "ZeroPriorBootstrapCmd"], ["PiecewiseSensitivity", "LoggedTunableNumber"], ["SafeAutoBuilder", "FieldPositions"], ["VirtualBatterySim", "Superstructure"], ["Vision", "FaultSupervisor"], ["Vision", "FieldPositions"], ["Vision", "VisionIO"], ["VisionIO", "ZeroPriorBootstrapSolver"], ["VisionIOLimelightSystemCore", "FieldPositions"], ["VisionIOLimelightSystemCore", "VisionIO"], ["VisionIOPhotonVision", "VisionIO"], ["VisionIOSim", "VisionIO"], ["VisionIOSim", "ZeroPriorBootstrapSolver"], ["Main", "Robot"], ["Robot", "LogFileManager"], ["Robot", "LoggedTracer"], ["Robot", "PhoenixSignals"], ["Robot", "PhoenixUtil"], ["Robot", "RobotContainer"], ["Robot", "RobotIdentity"], ["RobotContainer", "BatteryIO"], ["RobotContainer", "Blitz15MinCmd"], ["RobotContainer", "Drive"], ["RobotContainer", "DriveCommands"], ["RobotContainer", "DriveToPose"], ["RobotContainer", "FaultSupervisor"], ["RobotContainer", "FieldPositions"], ["RobotContainer", "GyroIO"], ["RobotContainer", "GyroIOPigeon2"], ["RobotContainer", "HardStopHomingCmd"], ["RobotContainer", "LoggedTunableNumber"], ["RobotContainer", "MechanismIO"], ["RobotContainer", "MechanismIOSim"], ["RobotContainer", "MechanismIOTalonFX"], ["RobotContainer", "ModuleIO"], ["RobotContainer", "ModuleIOSim"], ["RobotContainer", "ModuleIOTalonFX"], ["RobotContainer", "PhoenixUtil"], ["RobotContainer", "PiecewiseSensitivity"], ["RobotContainer", "PitSystemCheckCmd"], ["RobotContainer", "PositionMechanism"], ["RobotContainer", "PreMatchCalibrator"], ["RobotContainer", "Robot"], ["RobotContainer", "RobotIdentity"], ["RobotContainer", "ShopStressSuiteCmd"], ["RobotContainer", "ShotCalculator"], ["RobotContainer", "ShotCalibrationCmd"], ["RobotContainer", "StudentAutoRoutines"], ["RobotContainer", "Superstructure"], ["RobotContainer", "SwerveConfig"], ["RobotContainer", "VelocityMechanism"], ["RobotContainer", "VirtualBatterySim"], ["RobotContainer", "Vision"], ["RobotContainer", "VisionIO"], ["RobotContainer", "VisionIOLimelightSystemCore"], ["RobotContainer", "VisionIOPhotonVision"], ["RobotContainer", "VisionIOSim"], ["RobotContainer", "ZeroPriorBootstrapCmd"], ["Superstructure", "FaultSupervisor"], ["Superstructure", "LoggedTunableNumber"], ["Superstructure", "PositionMechanism"], ["Superstructure", "ShotCalculator"], ["Superstructure", "VelocityMechanism"], ["Superstructure", "VirtualBatterySim"], ["StudentAutoRoutines", "Drive"], ["StudentAutoRoutines", "DriveToPose"], ["StudentAutoRoutines", "FieldPositions"], ["StudentAutoRoutines", "RobotContainer"], ["StudentAutoRoutines", "SafeAutoBuilder"], ["StudentAutoRoutines", "ShotCalculator"], ["StudentAutoRoutines", "Superstructure"], ["ShotCalibrationCmd", "Drive"], ["ShotCalibrationCmd", "ShotCalculator"], ["ShotCalibrationCmd", "Superstructure"], ["StudentExercises", "Drive"], ["StudentExercises", "DriveToPose"], ["StudentExercises", "ShotCalculator"], ["StudentExercises", "StudentAutoRoutines"], ["StudentExercises", "Superstructure"], ["PitSystemCheckCmd", "FluxFig"], ["SwerveConfig", "FluxFig"], ["MechanismIOSim", "FluxFig"], ["MechanismIOTalonFX", "FluxFig"], ["PositionMechanism", "FluxFig"], ["VelocityMechanism", "FluxFig"], ["BatteryIO", "FluxFig"], ["Vision", "FluxFig"], ["VisionIO", "FluxFig"], ["VisionIOLimelightSystemCore", "FluxFig"], ["VisionIOPhotonVision", "FluxFig"], ["VisionIOSim", "FluxFig"], ["Robot", "FluxFig"], ["RobotContainer", "FluxFig"], ["ShotCalibrationCmd", "FluxFig"], ["StudentExercises", "FluxFig"], ["ShotCalculator", "FluxFig"]];
     const TESTS = [
   {
     "id": "DesktopWpilogTelemetryTest",
     "name": "DesktopWpilogTelemetryTest.java",
     "relPath": "src/test/java/frc/simharness/DesktopWpilogTelemetryTest.java",
-    "lines": 294,
+    "lines": 342,
     "summary": "Dedicated isolated-JVM verification for M1.3 (`./gradlew verifyWpilog`): executes a real 30-second {@link Robot#startCompetition()} desktop simulation, shuts down cleanly so AdvantageKit flushes `WPILOGWriter`, and parses the resulting binary `.wpilog` to prove non-empty `OdometryTimestamps`, `ConfigSHA256`, `PowerDistribution`, and motor voltage/velocity/position channels with zero `.hoot` files.",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/DesktopWpilogTelemetryTest.java"
   },
@@ -1439,7 +1445,7 @@
     "id": "Tier1ArchitectureHygieneTest",
     "name": "Tier1ArchitectureHygieneTest.java",
     "relPath": "src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java",
-    "lines": 585,
+    "lines": 586,
     "summary": "Tier 1 Verification Gate: Zero SmartDashboard/Preferences, Zero Per-Loop ControlRequest Allocations, strict frc.lib vs. frc.robot separation for BackTo2026, and STUDENTS.md / STUDENT-CHANGELOG.md synchronization.",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier1ArchitectureHygieneTest.java"
   },
@@ -1447,7 +1453,7 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 1392,
+    "lines": 2493,
     "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection & profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, 2026 FUEL Superstructure state machine & shot interlocks, Task 1.4 utilities (LoggedTunableNumber, PiecewiseSensitivity, VirtualBatterySim, SafeAutoBuilder, ShotCalculator), and Task 2.1 subsystems (250 Hz Drive + ModuleIOSim, full-queue Vision + VisionIOSim, MechanismIOSim, and Ghost Superstructure hybrid mode on CORAL/CHASSIS_3).",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },
@@ -1455,7 +1461,7 @@
     "id": "Tier3CtreSimHardwareTest",
     "name": "Tier3CtreSimHardwareTest.java",
     "relPath": "src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java",
-    "lines": 401,
+    "lines": 731,
     "summary": "Tier 3 Verification Gate: Real CTRE Phoenix 6 C++ Hardware Simulation (libCTRE_SimProTalonFX.so) + WPILib DCMotorSim exercising MechanismIOTalonFX directly.",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java"
   },
