@@ -331,7 +331,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/Superstructure.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/Superstructure.java",
-    "lines": 419,
+    "lines": 433,
     "summary": "2026 `FUEL` / `CORAL` Superstructure state machine coordinating all 6 mechanisms (`Intake`, `Tilter`, `Indexer`, `Feeder`, dual counter-rotating `Shooter`, and `Hood`) with safety interlocks, FaultSupervisor automatic reverse unjamming, and 3D Pose3d visualization for Ghost Superstructure mode.",
     "methods": [
       "double AIM_HEADING_TOLERANCE_RAD = Math.toRadians(5.0)",
@@ -520,7 +520,7 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
-    "lines": 410,
+    "lines": 433,
     "summary": "17-Second \"One-Button Pre-Flight\" Pit System Check (`PitSystemCheckCmd`).",
     "methods": [
       "int TOTAL_LOOPS = 10 * (DEFAULT_STEP_LOOPS + DEFAULT_SETTLE_LOOPS)",
@@ -882,7 +882,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
-    "lines": 375,
+    "lines": 382,
     "summary": "Real CTRE Kraken X60 + CANcoder implementation of ModuleIO. Enforces <= 60A Stator / <= 40A Supply / <= 60A Slip current limits (preventing the NYTR 120A SlipCurrent overwrite bug), reuses pre-allocated VelocityVoltage and MotionMagicExpoVoltage requests, and registers 250 Hz odometry signals with PhoenixOdometryThread.",
     "methods": [
       "ModuleIOTalonFX(SwerveConfig swerveConfig, CornerConfig corner)",
@@ -1455,7 +1455,7 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 3378,
+    "lines": 3411,
     "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection & profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, 2026 FUEL Superstructure state machine & shot interlocks, Task 1.4 utilities (LoggedTunableNumber, PiecewiseSensitivity, VirtualBatterySim, SafeAutoBuilder, ShotCalculator), and Task 2.1 subsystems (250 Hz Drive + ModuleIOSim, full-queue Vision + VisionIOSim, MechanismIOSim, and Ghost Superstructure hybrid mode on CORAL/CHASSIS_3).",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },
