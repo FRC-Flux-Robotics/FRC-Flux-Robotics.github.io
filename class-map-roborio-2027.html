@@ -302,17 +302,17 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/RobotContainer.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/RobotContainer.java",
-    "lines": 810,
+    "lines": 868,
     "summary": "Unified 2026 roboRIO robot container configured dynamically by RobotIdentity and FluxFig CSVs (eliminating legacy `FuelRobotContainer` subclassing).",
     "methods": [
       "Translation2d HUB_TARGET_METERS = new Translation2d(4.626, 4.035)",
       "Pose2d BLUE_HUB_ALIGN_POSE = new Pose2d(2.5, 4.1, Rotation2d.kZero)",
+      "String SAFE_DEFAULT_AUTO_NAME = \"Do Nothing (Safe Default)\"",
       "RobotContainer(RobotIdentity identity)",
       "RobotContainer(RobotIdentity identity, Path configDir, boolean forceSimIo)",
       "RobotContainer(",
       "boolean isPitTestAllowed()",
-      "Pose2d getHubAlignTargetPose(boolean isRedAlliance)",
-      "void resetFieldHeading()"
+      "Pose2d getHubAlignTargetPose(boolean isRedAlliance)"
     ],
     "testedBy": [
       "DesktopWpilogTelemetryTest",
@@ -331,7 +331,7 @@
     "pkg": "frc.robot",
     "relPath": "src/main/java/frc/robot/Superstructure.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/Superstructure.java",
-    "lines": 417,
+    "lines": 419,
     "summary": "2026 `FUEL` / `CORAL` Superstructure state machine coordinating all 6 mechanisms (`Intake`, `Tilter`, `Indexer`, `Feeder`, dual counter-rotating `Shooter`, and `Hood`) with safety interlocks, FaultSupervisor automatic reverse unjamming, and 3D Pose3d visualization for Ghost Superstructure mode.",
     "methods": [
       "double AIM_HEADING_TOLERANCE_RAD = Math.toRadians(5.0)",
@@ -406,7 +406,7 @@
     "pkg": "frc.robot.autos",
     "relPath": "src/main/java/frc/robot/autos/StudentAutoRoutines.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/robot/autos/StudentAutoRoutines.java",
-    "lines": 461,
+    "lines": 465,
     "summary": "Pure WPILib Autonomous Command Definitions for `Flux-RoboRIO-2027` (`FUEL`).",
     "methods": [
       "Command createStudentDefaultAuto(",
@@ -452,7 +452,7 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/DriveCommands.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/DriveCommands.java",
-    "lines": 215,
+    "lines": 216,
     "summary": "Shared robot-agnostic swerve drive command factories: field-relative joystick drive with PiecewiseSensitivity and `SHOP_5X3` geofence protection, heading-locked drive, and automated wheel radius characterization.",
     "methods": [
       "Translation2d getLinearVelocityFromJoysticks(",
@@ -496,7 +496,7 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/PreMatchCalibrator.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/PreMatchCalibrator.java",
-    "lines": 162,
+    "lines": 175,
     "summary": "Passive pre-match calibrator executed during `disabledPeriodic()`.",
     "methods": [
       "double MAX_STATIONARY_OMEGA_RAD_PER_SEC = Math.toRadians(0.5)",
@@ -520,7 +520,7 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/PitSystemCheckCmd.java",
-    "lines": 393,
+    "lines": 410,
     "summary": "17-Second \"One-Button Pre-Flight\" Pit System Check (`PitSystemCheckCmd`).",
     "methods": [
       "int TOTAL_LOOPS = 10 * (DEFAULT_STEP_LOOPS + DEFAULT_SETTLE_LOOPS)",
@@ -543,10 +543,11 @@
     "pkg": "frc.lib.commands",
     "relPath": "src/main/java/frc/lib/commands/HardStopHomingCmd.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/commands/HardStopHomingCmd.java",
-    "lines": 104,
+    "lines": 136,
     "summary": "Reusable current-stall homing command (`HardStopHomingCmd`) for any linear slide, elevator, arm pivot, hood, tilter, or climber.",
     "methods": [
       "HardStopHomingCmd(PositionMechanism mechanism)",
+      "HardStopHomingCmd(",
       "HardStopHomingCmd(",
       "void initialize()",
       "void execute()",
@@ -634,7 +635,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/Drive.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/Drive.java",
-    "lines": 414,
+    "lines": 421,
     "summary": "Pure AdvantageKit 250 Hz Swerve Drive subsystem (`Drive` + `GyroIO` + 4x `ModuleIO`) with built-in VirtualGeofence enforcement in `SHOP_5X3` mode, dynamic CG anti-tipping acceleration scaling, and FaultSupervisor stator current throttling.",
     "methods": [
       "Drive(SwerveConfig config, GyroIO gyroIo, ModuleIO... moduleIos)",
@@ -661,17 +662,17 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/Module.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/Module.java",
-    "lines": 115,
+    "lines": 111,
     "summary": "Per-corner swerve module wrapper handling angle optimization, cosine velocity scaling, 250 Hz odometry position array construction, and AdvantageKit logging.",
     "methods": [
       "double STEER_ANGLE_DEADBAND_RAD = Math.toRadians(0.3)",
       "Module(ModuleIO io, int index, double wheelRadiusMeters)",
       "void periodic()",
       "void runSetpoint(SwerveModuleState state)",
-      "void setDriveStatorCurrentLimit(double statorLimitAmps)",
       "void stop()",
       "Rotation2d getAngle()",
-      "double getPositionMeters()"
+      "double getPositionMeters()",
+      "double getVelocityMetersPerSec()"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -702,7 +703,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/PhoenixOdometryThread.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/PhoenixOdometryThread.java",
-    "lines": 212,
+    "lines": 222,
     "summary": "250 Hz (4 ms) high-frequency swerve odometry thread supporting both roboRIO CANivore and SystemCore native SocketCAN (`can_s0` latency-compensated `refreshAll` + `getLatencyCompensatedValue`), plus deterministic {@link #sampleOnce(double)} stepping for tests.",
     "methods": [
       "Lock ODOMETRY_LOCK = new ReentrantLock()",
@@ -726,17 +727,17 @@
     "pkg": "frc.lib.vision",
     "relPath": "src/main/java/frc/lib/vision/Vision.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/vision/Vision.java",
-    "lines": 347,
+    "lines": 418,
     "summary": "Multi-camera AprilTag vision subsystem that drains the entire unread frame queue from ALL cameras every cycle (zero round-robin), computes quadratic `0.01 * d^2 / N^2` covariance, enforces finite-value, `0.30 s` peak yaw-rate (`1.6 rad/s`), `5 deg` tilt, `2.0 s` auto-start ignore, and timestamp freshness gates, checks FieldPositions bounds, and quarantines bent camera mounts via FaultSupervisor.",
     "methods": [
       "double MAX_VISION_TILT_RAD = Math.toRadians(5.0)",
       "double MAX_ODOMETRY_TILT_RAD = Math.toRadians(25.0)",
       "Vision(",
+      "void setVisionEnabled(boolean enabled)",
+      "boolean isVisionEnabled()",
       "void periodic()",
       "boolean isFinitePoseObservation(PoseObservation obs)",
-      "double computeOdometryTiltTrustScale(double maxTiltRad)",
-      "int getTotalFramesDrained()",
-      "int getAcceptedObservationCount()"
+      "double computeOdometryTiltTrustScale(double maxTiltRad)"
     ],
     "testedBy": [
       "DesktopWpilogTelemetryTest",
@@ -751,7 +752,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/PositionMechanism.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/PositionMechanism.java",
-    "lines": 136,
+    "lines": 179,
     "summary": "Generic config-driven position mechanism subsystem backed by MechanismIO with LoggedTunableNumber PID/gravity gains.",
     "methods": [
       "PositionMechanism(MechanismIO io, MechanismSpec spec)",
@@ -760,8 +761,8 @@
       "void setPosition(double positionRotations)",
       "void setVoltage(double volts)",
       "void setHomingVoltage(double volts)",
-      "void stop()",
-      "boolean atTarget()"
+      "void jogVoltage(double volts)",
+      "void stop()"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest",
@@ -815,17 +816,17 @@
     "pkg": "frc.lib.safety",
     "relPath": "src/main/java/frc/lib/safety/FaultSupervisor.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/safety/FaultSupervisor.java",
-    "lines": 217,
+    "lines": 294,
     "summary": "Real-time fault detection and graceful degradation supervisor for the 2027 robot fleet.",
     "methods": [
       "FaultSupervisor(int cameraCount)",
+      "double updateBatteryProtection(",
+      "double getFilteredBatteryVoltageV()",
       "void auditCameraDiscrepancy(int camIndex, double discrepancyMeters)",
       "boolean isCameraQuarantined(int camIndex)",
       "double filterMechanismCommandVoltage(",
       "double filterMechanismCommandVoltage(",
-      "boolean isChannelUnjamming(int channel)",
-      "int getChannelReverseCountdown(int channel)",
-      "int dejamEventsTriggered(int channel)"
+      "boolean isChannelUnjamming(int channel)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest",
@@ -857,7 +858,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/ModuleIO.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/ModuleIO.java",
-    "lines": 106,
+    "lines": 104,
     "summary": "Hardware abstraction for a single swerve corner module (drive motor, steer motor, absolute encoder, and 250 Hz odometry sample arrays).",
     "methods": [
       "void toLog(LogTable table)",
@@ -867,7 +868,7 @@
       "void setTurnPosition(Rotation2d angle)",
       "void setDriveOpenLoop(double volts)",
       "void setTurnOpenLoop(double volts)",
-      "void setDriveStatorCurrentLimit(double statorLimitAmps)"
+      "void stop()"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest",
@@ -881,7 +882,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/ModuleIOTalonFX.java",
-    "lines": 384,
+    "lines": 375,
     "summary": "Real CTRE Kraken X60 + CANcoder implementation of ModuleIO. Enforces <= 60A Stator / <= 40A Supply / <= 60A Slip current limits (preventing the NYTR 120A SlipCurrent overwrite bug), reuses pre-allocated VelocityVoltage and MotionMagicExpoVoltage requests, and registers 250 Hz odometry signals with PhoenixOdometryThread.",
     "methods": [
       "ModuleIOTalonFX(SwerveConfig swerveConfig, CornerConfig corner)",
@@ -905,7 +906,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/ModuleIOSim.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/ModuleIOSim.java",
-    "lines": 154,
+    "lines": 149,
     "summary": "WPILib DCMotorSim drive + steer physics simulation of ModuleIO with 250 Hz sub-stepping (5 x 4 ms sub-steps per 20 ms cycle) to populate high-rate odometry queues.",
     "methods": [
       "ModuleIOSim(SwerveConfig config)",
@@ -913,9 +914,9 @@
       "void setTurnPosition(Rotation2d angle)",
       "void setDriveOpenLoop(double volts)",
       "void setTurnOpenLoop(double volts)",
-      "void setDriveStatorCurrentLimit(double statorLimitAmps)",
       "void stop()",
-      "void warmup()"
+      "void warmup()",
+      "void updateInputs(ModuleIOInputs inputs)"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -948,7 +949,7 @@
     "pkg": "frc.lib.drive",
     "relPath": "src/main/java/frc/lib/drive/GyroIOPigeon2.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/drive/GyroIOPigeon2.java",
-    "lines": 120,
+    "lines": 122,
     "summary": "Real CTRE Pigeon2 implementation of GyroIO with 250 Hz PhoenixOdometryThread registration and SystemCore onboard 6-axis IMU fallback hook.",
     "methods": [
       "GyroIOPigeon2(int pigeonId, String canBusName)",
@@ -1050,7 +1051,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIO.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIO.java",
-    "lines": 64,
+    "lines": 66,
     "summary": "Hardware abstraction for a mechanism (single or dual motor).",
     "methods": [
       "void toLog(LogTable table)",
@@ -1074,7 +1075,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOTalonFX.java",
-    "lines": 316,
+    "lines": 350,
     "summary": "Real CTRE TalonFX implementation of MechanismIO (supports single motor or leader + follower) configured directly from a MechanismSpec. Enforces <= 60A Stator and <= 40A Supply limits, supports {@link NeutralModeValue#Coast} on flywheel mechanisms (`Shooter`), and registers 50 Hz status signals with PhoenixSignals.",
     "methods": [
       "MechanismIOTalonFX(MechanismSpec spec)",
@@ -1082,9 +1083,9 @@
       "NeutralModeValue defaultNeutralModeFor(MechanismSpec spec)",
       "NeutralModeValue getNeutralMode()",
       "TalonFXConfiguration readAppliedConfig()",
+      "TalonFXConfiguration readAppliedFollowerConfig()",
       "TalonFX getMotor()",
-      "void setPosition(double positionRotations)",
-      "void setVelocity(double velocityRPS)"
+      "void setPosition(double positionRotations)"
     ],
     "testedBy": [
       "Tier1ArchitectureHygieneTest",
@@ -1098,7 +1099,7 @@
     "pkg": "frc.lib.mechanism",
     "relPath": "src/main/java/frc/lib/mechanism/MechanismIOSim.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/mechanism/MechanismIOSim.java",
-    "lines": 224,
+    "lines": 225,
     "summary": "Physics simulation implementation of MechanismIO supporting ElevatorSim (`ELEVATOR_STATIC`), SingleJointedArmSim (`ARM_COSINE`), and DCMotorSim (`NONE`) for desktop simulation and Ghost Superstructure mode on bare chassis (`CORAL` / `CHASSIS_3`).",
     "methods": [
       "MechanismIOSim(MechanismSpec spec)",
@@ -1108,7 +1109,7 @@
       "void setVoltage(double volts)",
       "void setPID(double kP, double kI, double kD, double kS, double kV, double kG)",
       "void stop()",
-      "void resetPosition()"
+      "boolean resetPosition()"
     ],
     "testedBy": [
       "Tier2DeterministicSolversTest"
@@ -1121,7 +1122,7 @@
     "pkg": "frc.lib.safety",
     "relPath": "src/main/java/frc/lib/safety/BatteryIO.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/safety/BatteryIO.java",
-    "lines": 616,
+    "lines": 657,
     "summary": "AdvantageKit CAN Battery Fuel Gauge (`Playing With Fusion ROB-70001`) reader wired to `auxCanBus` (`\"rio\"` native 1 Mbps CAN 2.0 on roboRIO / `\"can_s4\"` on SystemCore).",
     "methods": [
       "void toLog(LogTable table)",
@@ -1255,7 +1256,7 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/SafeAutoBuilder.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/util/SafeAutoBuilder.java",
-    "lines": 646,
+    "lines": 669,
     "summary": "Pre-flight and runtime autonomous path safety validator, deterministic PathPlanner `.path` follower, and command decorator using pure AdvantageKit `Logger.recordOutput(\"Auto/...\", ...)` telemetry (zero SmartDashboard).",
     "methods": [
       "void clearLastDiagnostic()",
@@ -1303,13 +1304,14 @@
     "pkg": "frc.lib.util",
     "relPath": "src/main/java/frc/lib/util/PhoenixSignals.java",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/main/java/frc/lib/util/PhoenixSignals.java",
-    "lines": 100,
+    "lines": 109,
     "summary": "Centralized CAN signal registry \u2014 collects all StatusSignals across subsystems and refreshes them in a single `BaseStatusSignal.refreshAll()` call per bus, reducing CAN round-trips.",
     "methods": [
       "int register(String busName, BaseStatusSignal... signals)",
       "void refreshAll()",
       "boolean isOK(int groupId)",
       "int signalCount()",
+      "List<BaseStatusSignal> getRegisteredSignals()",
       "void reset()"
     ],
     "testedBy": [
@@ -1429,7 +1431,7 @@
     "id": "StudentAutoSimExporter",
     "name": "StudentAutoSimExporter.java",
     "relPath": "src/test/java/frc/simharness/StudentAutoSimExporter.java",
-    "lines": 342,
+    "lines": 343,
     "summary": "JUnit test-scope autonomous simulation harness that steps RobotContainer through a 15.0-second (750-loop at 20 ms) 2026 REBUILT field autonomous routine and exports `student-auto-frames.json` for the standalone `FluxProcessor` video renderer (`java -jar flux-processor.jar --render-auto`).",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/StudentAutoSimExporter.java"
   },
@@ -1437,7 +1439,7 @@
     "id": "StudentExercisesTest",
     "name": "StudentExercisesTest.java",
     "relPath": "src/test/java/frc/simharness/StudentExercisesTest.java",
-    "lines": 162,
+    "lines": 163,
     "summary": "Automated Grader for the 4-Level Student Exercise Kit (StudentExercises) in `Flux-RoboRIO-2027`.",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/StudentExercisesTest.java"
   },
@@ -1453,7 +1455,7 @@
     "id": "Tier2DeterministicSolversTest",
     "name": "Tier2DeterministicSolversTest.java",
     "relPath": "src/test/java/frc/simharness/Tier2DeterministicSolversTest.java",
-    "lines": 2493,
+    "lines": 3378,
     "summary": "Tier 2 Verification Gate: Deterministic math, FluxFig 1-cell SystemCore/roboRIO fallback, FieldPositions bijection & profiles, 10,000-vector VirtualGeofence braking, AX=XB camera solver, 2026 FUEL Superstructure state machine & shot interlocks, Task 1.4 utilities (LoggedTunableNumber, PiecewiseSensitivity, VirtualBatterySim, SafeAutoBuilder, ShotCalculator), and Task 2.1 subsystems (250 Hz Drive + ModuleIOSim, full-queue Vision + VisionIOSim, MechanismIOSim, and Ghost Superstructure hybrid mode on CORAL/CHASSIS_3).",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier2DeterministicSolversTest.java"
   },
@@ -1461,7 +1463,7 @@
     "id": "Tier3CtreSimHardwareTest",
     "name": "Tier3CtreSimHardwareTest.java",
     "relPath": "src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java",
-    "lines": 731,
+    "lines": 785,
     "summary": "Tier 3 Verification Gate: Real CTRE Phoenix 6 C++ Hardware Simulation (libCTRE_SimProTalonFX.so) + WPILib DCMotorSim exercising MechanismIOTalonFX directly.",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier3CtreSimHardwareTest.java"
   },
@@ -1469,7 +1471,7 @@
     "id": "Tier4ChaosMatchSimTest",
     "name": "Tier4ChaosMatchSimTest.java",
     "relPath": "src/test/java/frc/simharness/Tier4ChaosMatchSimTest.java",
-    "lines": 181,
+    "lines": 185,
     "summary": "Tier 4 Verification Gate: Headless 50x Fast-Forward 150-Second Full Match Simulation with 5-Scenario FaultSupervisor Chaos Fault Injection and Binary `.wpilog` Recording.",
     "ghUrl": "https://github.com/FRC-Flux-Robotics/Flux-RoboRIO-2027/blob/main/src/test/java/frc/simharness/Tier4ChaosMatchSimTest.java"
   },

@@ -77,31 +77,42 @@
         <h3>Buttons</h3>
         <table>
             <tr><th>Button</th><th>Action</th></tr>
-            <tr><td><strong>X</strong> (hold)</td><td>Brake - locks wheels in X pattern</td></tr>
-            <tr><td><strong>B</strong> (hold)</td><td>Point wheels - aims all wheels in left stick direction</td></tr>
-            <tr><td><strong>Right Bumper</strong> (press)</td><td>Reset field-centric heading (use when facing away from driver station)</td></tr>
+            <tr><td><strong>B</strong> (hold)</td><td>Brake - locks wheels in X pattern</td></tr>
+            <tr><td><strong>Y</strong> (press)</td><td>Reset field-centric heading (point robot away from driver station; works Disabled or Enabled)</td></tr>
+            <tr><td><strong>Right Trigger (RT)</strong> (hold)</td><td>Auto-aim at Hub &amp; shoot (FUEL; release to stop)</td></tr>
+            <tr><td><strong>A</strong> (hold)</td><td>Auto-drive &amp; align to Hub shooting spot (alliance-mirrored)</td></tr>
+        </table>
+
+        <h2>Operator Controller: Xbox (Port 1 — FUEL)</h2>
+        <table>
+            <tr><th>Button</th><th>Action</th></tr>
+            <tr><td><strong>LB</strong> (hold)</td><td>Run Intake (release to stop)</td></tr>
+            <tr><td><strong>RB</strong> (hold)</td><td>Reverse / Outtake to clear a jam (release to stop)</td></tr>
+            <tr><td><strong>RT</strong> (hold)</td><td>Manual close-range shoot (33.33 RPS / hood 0.0, no AprilTags needed)</td></tr>
+            <tr><td><strong>Back</strong> (press)</td><td>Re-zero stowed Tilter &amp; Hood encoders (required once after every boot before mechanisms move; works in Teleop &amp; Test)</td></tr>
+            <tr><td><strong>D-Pad Up / Down</strong> (hold)</td><td>Manual Hood jog up / down (Teleop &amp; Test)</td></tr>
+            <tr><td><strong>D-Pad Left / Right</strong> (hold)</td><td>Manual Tilter jog deploy / stow (Teleop &amp; Test)</td></tr>
         </table>
 
         <h2>Autonomous Mode</h2>
         <table>
             <tr><th>Parameter</th><th>Value</th></tr>
-            <tr><td><strong>Action</strong></td><td>Drives backward toward driver station</td></tr>
-            <tr><td><strong>Speed</strong></td><td>80%</td></tr>
-            <tr><td><strong>Duration</strong></td><td>2.2 seconds</td></tr>
+            <tr><td><strong>Default Auto</strong></td><td>Do Nothing (Safe Default — never overwrites pose or moves)</td></tr>
+            <tr><td><strong>Named Options</strong></td><td>Select explicit autonomous routines in the Elastic Auto Chooser</td></tr>
         </table>
 
         <h2>Specs</h2>
         <table>
             <tr><th>Parameter</th><th>Value</th></tr>
-            <tr><td><strong>Max Speed</strong></td><td>~5 m/s (~11 mph)</td></tr>
-            <tr><td><strong>Max Rotation</strong></td><td>0.75 rotations/second</td></tr>
+            <tr><td><strong>Max Teleop Speed</strong></td><td>3.60 m/s (0.80 &times; 4.5 m/s configured chassis cap)</td></tr>
+            <tr><td><strong>Max Rotation</strong></td><td>0.75 rotations/second (4.71 rad/s)</td></tr>
         </table>
 
         <h2>Quick Troubleshooting</h2>
         <ol>
             <li><strong>Robot won't drive:</strong> Check if disabled, verify controller connected</li>
-            <li><strong>Driving feels weird:</strong> Press Right Bumper to reset heading</li>
-            <li><strong>Need to stop fast:</strong> Hold X button for brake mode</li>
+            <li><strong>Driving feels weird:</strong> Press <strong>Y</strong> to reset field-centric heading</li>
+            <li><strong>Need to stop fast:</strong> Hold <strong>B</strong> button for X-brake mode (or press <code>Enter</code> on Driver Station to Disable)</li>
         </ol>
 
         <h2>Post-Run Procedures</h2>
